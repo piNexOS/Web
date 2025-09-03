@@ -1,0 +1,25 @@
+﻿@page
+@model Web.Pages.ImpExpServicos.IndexModel
+@{
+}
+<form method="post" enctype="multipart/form-data" asp-page-handler="Upload">
+    <div class="container">
+        <div class="row">
+            <div class="col-auto">
+                <h4>Imp.Exp. Arquivos</h4>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-auto">
+                <h5>Importar Serviços</h5>
+                <input type="file" asp-for="ListFiles" multiple />
+                <div class="mt-2 row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-dark">Upload </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

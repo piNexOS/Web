@@ -1,0 +1,169 @@
+﻿@page
+@model Web.Pages.CadOS.EditModel
+
+<h4>OrdensServicos</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="OrdensServicos.IdOrdemServico" />
+            <div class="form-group">
+                <label asp-for="OrdensServicos.NumeroOS" class="control-label"></label>
+                <input asp-for="OrdensServicos.NumeroOS" class="form-control" />
+                <span asp-validation-for="OrdensServicos.NumeroOS" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.Matricula" class="control-label"></label>
+                <input asp-for="OrdensServicos.Matricula" class="form-control" />
+                <span asp-validation-for="OrdensServicos.Matricula" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.IdTabServico" class="control-label"></label>
+                <select asp-for="OrdensServicos.IdTabServico" class="form-control" asp-items="ViewBag.IdTabServico"></select>
+                <span asp-validation-for="OrdensServicos.IdTabServico" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.IdTabBairro" class="control-label"></label>
+                <select asp-for="OrdensServicos.IdTabBairro" class="form-control" asp-items="ViewBag.IdTabBairro"></select>
+                <span asp-validation-for="OrdensServicos.IdTabBairro" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.IdTabMunicipio" class="control-label"></label>
+                <select asp-for="OrdensServicos.IdTabMunicipio" class="form-control" asp-items="ViewBag.IdTabMunicipio"></select>
+                <span asp-validation-for="OrdensServicos.IdTabMunicipio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.Informacoes" class="control-label"></label>
+                <input asp-for="OrdensServicos.Informacoes" class="form-control" />
+                <span asp-validation-for="OrdensServicos.Informacoes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.Referencia" class="control-label"></label>
+                <input asp-for="OrdensServicos.Referencia" class="form-control" />
+                <span asp-validation-for="OrdensServicos.Referencia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.Endereco" class="control-label"></label>
+                <input asp-for="OrdensServicos.Endereco" class="form-control" />
+                <span asp-validation-for="OrdensServicos.Endereco" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.NumeroCasa" class="control-label"></label>
+                <input asp-for="OrdensServicos.NumeroCasa" class="form-control" />
+                <span asp-validation-for="OrdensServicos.NumeroCasa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.Complemento" class="control-label"></label>
+                <input asp-for="OrdensServicos.Complemento" class="form-control" />
+                <span asp-validation-for="OrdensServicos.Complemento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.NomeSolicitante" class="control-label"></label>
+                <input asp-for="OrdensServicos.NomeSolicitante" class="form-control" />
+                <span asp-validation-for="OrdensServicos.NomeSolicitante" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.TelSolicitante" class="control-label"></label>
+                <input asp-for="OrdensServicos.TelSolicitante" class="form-control" />
+                <span asp-validation-for="OrdensServicos.TelSolicitante" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.NomeCliente" class="control-label"></label>
+                <input asp-for="OrdensServicos.NomeCliente" class="form-control" />
+                <span asp-validation-for="OrdensServicos.NomeCliente" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.CPF" class="control-label"></label>
+                <input asp-for="OrdensServicos.CPF" class="form-control" />
+                <span asp-validation-for="OrdensServicos.CPF" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.CNPJ" class="control-label"></label>
+                <input asp-for="OrdensServicos.CNPJ" class="form-control" />
+                <span asp-validation-for="OrdensServicos.CNPJ" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.TelCliente" class="control-label"></label>
+                <input asp-for="OrdensServicos.TelCliente" class="form-control" />
+                <span asp-validation-for="OrdensServicos.TelCliente" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.NumHD" class="control-label"></label>
+                <input asp-for="OrdensServicos.NumHD" class="form-control" />
+                <span asp-validation-for="OrdensServicos.NumHD" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.UltimaLeitura" class="control-label"></label>
+                <input asp-for="OrdensServicos.UltimaLeitura" class="form-control" />
+                <span asp-validation-for="OrdensServicos.UltimaLeitura" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.TipoPadrao" class="control-label"></label>
+                <input asp-for="OrdensServicos.TipoPadrao" class="form-control" />
+                <span asp-validation-for="OrdensServicos.TipoPadrao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.LocalizacaoPadrao" class="control-label"></label>
+                <input asp-for="OrdensServicos.LocalizacaoPadrao" class="form-control" />
+                <span asp-validation-for="OrdensServicos.LocalizacaoPadrao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.Ciclo" class="control-label"></label>
+                <input asp-for="OrdensServicos.Ciclo" class="form-control" />
+                <span asp-validation-for="OrdensServicos.Ciclo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.Classificacao" class="control-label"></label>
+                <input asp-for="OrdensServicos.Classificacao" class="form-control" />
+                <span asp-validation-for="OrdensServicos.Classificacao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.DataRegistro" class="control-label"></label>
+                <input asp-for="OrdensServicos.DataRegistro" class="form-control" />
+                <span asp-validation-for="OrdensServicos.DataRegistro" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.DataRecepcao" class="control-label"></label>
+                <input asp-for="OrdensServicos.DataRecepcao" class="form-control" />
+                <span asp-validation-for="OrdensServicos.DataRecepcao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.DataLimite" class="control-label"></label>
+                <input asp-for="OrdensServicos.DataLimite" class="form-control" />
+                <span asp-validation-for="OrdensServicos.DataLimite" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.DataImportacao" class="control-label"></label>
+                <input asp-for="OrdensServicos.DataImportacao" class="form-control" />
+                <span asp-validation-for="OrdensServicos.DataImportacao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.IdContrato" class="control-label"></label>
+                <input asp-for="OrdensServicos.IdContrato" class="form-control" />
+                <span asp-validation-for="OrdensServicos.IdContrato" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.Status" class="control-label"></label>
+                <input asp-for="OrdensServicos.Status" class="form-control" />
+                <span asp-validation-for="OrdensServicos.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrdensServicos.DataBaixa" class="control-label"></label>
+                <input asp-for="OrdensServicos.DataBaixa" class="form-control" />
+                <span asp-validation-for="OrdensServicos.DataBaixa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

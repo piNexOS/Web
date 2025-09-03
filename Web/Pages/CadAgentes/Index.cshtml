@@ -1,0 +1,53 @@
+﻿@page
+@model Web.Pages.CadAgentes.IndexModel
+
+@{
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TabAgentes[0].Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TabAgentes[0].Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TabAgentes[0].Matricula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TabAgentes[0].Cargo)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.TabAgentes) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Matricula)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Cargo)
+            </td>
+          
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.IdTabAgente">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.IdTabAgente">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.IdTabAgente">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

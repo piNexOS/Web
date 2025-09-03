@@ -1,0 +1,93 @@
+﻿@page
+@model Web.Pages.CadOS.IndexModel
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <p>NumeroOS</p>
+            </th>
+            <th>
+                <p>Matrícula</p>
+            </th>
+            <th>
+                <p>Informações</p>
+            </th>
+            
+            <th>
+                <p>Endereço</p>
+            </th>
+
+            <th>
+                <p>Nome Cliente</p>
+            </th>
+            
+            <th>
+                <p>Data Limite</p>
+            </th>
+
+            <th>
+                <p>Status</p>
+            </th>
+            
+            <th>
+                <p>Bairro</p>
+            </th>
+            <th>
+                <p>Município</p>
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.OrdensServicos) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumeroOS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Matricula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Informacoes)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Endereco)
+            </td>
+           
+   
+            <td>
+                @Html.DisplayFor(modelItem => item.NomeCliente)
+            </td>
+      
+           
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.DataLimite)
+            </td>
+            
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.IdTabBairroNavigation.Descricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdTabMunicipioNavigation.Descricao)
+            </td>
+            
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.IdOrdemServico">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.IdOrdemServico">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.IdOrdemServico">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
