@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebApp</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/newglyphicons.css" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: white;
+            text-align: left;
+        }
+
+        .dropdown-submenu {
+            position: relative;
+        }
+
+            .dropdown-submenu .dropdown-menu {
+                top: 0;
+                left: 100%;
+                margin-top: -1px;
+            }
+
+        .navbar-nav li:hover > ul.dropdown-menu {
+            display: block;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        }
+
+        .alertify {
+            font-size: large;
+        }
+
+    </style>
+    <script>
+        function alertifyReset() {
+
+            alertify.set({
+                labels: {
+                    ok: "Sim",
+                    cancel: "Não"
+                },
+                delay: 5000,
+                buttonReverse: false,
+                buttonFocus: "cancel"
+
+            });
+        }
+    </script>
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="~/">NexOs</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a href="#" id="menu" data-bs-toggle="dropdown" class="nav-link" data-bs-display="static">Cadastros</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="~/CadAgentes" class="dropdown-item">Agentes</a>
+                                </li>
+                                <li>
+                                    <a href="~/CadOS" class="dropdown-item">Ordens de Serviço</a>
+                                </li>
+                            </ul>
+
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" id="menu" data-bs-toggle="dropdown" class="nav-link" data-bs-display="static">Operação</a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-submenu">
+                                    <a href="#" data-bs-toggle="dropdown" class="dropdown-item">Programação</a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="~/progservicos/progservicos" class="dropdown-item">Programar</a>
+                                            <a href="~/progservicos/progmanutencao" class="dropdown-item">Alterar</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-submenu">
+                                    <a href="#" data-bs-toggle="dropdown" class="dropdown-item">Consultas</a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="~/viewlotes/" class="dropdown-item">Lotes</a>
+                                            <a href="~/consultamatricula/" class="dropdown-item">Ordem de Serviço</a>
+                                            <a href="~/analiseservicos/listaanaliseservico" class="dropdown-item">Analise de Serviços</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-submenu">
+                                    <a href="#" data-bs-toggle="dropdown" class="dropdown-item">Estoque</a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="~/hidrometros/entradaestoque" class="dropdown-item">Entrada Estoque</a>
+                                            <a href="~/hidrometros/consulta" class="dropdown-item">Alterar</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="~/viewroteiros/" class="dropdown-item">Roteiros</a>
+                                    <a href="~/impexpservicos/" class="dropdown-item">Imp/Exp Arquivos</a>
+                                </li>
+                            </ul>
+
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="~/Relatorios" class="nav-link">Relatórios</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    @* <footer class="border-top footer text-muted"> *@
+    <footer>
+        <div class="container-fluid">
+            &copy; Serviços NexOs
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

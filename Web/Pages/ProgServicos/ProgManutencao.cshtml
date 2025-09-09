@@ -1,0 +1,242 @@
+﻿@page
+@model Web.Pages.ProgServicos.ProgManutencaoModel
+@{
+}
+
+<script type="text/javascript">
+    // const { each } = require("jquery");
+
+    // function selectAll(ele) {
+    //     var cbs = document.getElementsByTagName('input');
+    //     for (var i = 0; i < cbs.length; i++) {
+    //         if (cbs[i].type == 'checkbox') {
+    //             cbs[i].checked = ele.checked;
+    //         }
+    //     }
+    // }
+    function checkAll(elem) {
+        checkboxes = document.getElementsByName('chkSel');
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+            checkboxes[i].checked = elem.checked;
+        }
+    }
+    function desprogramar() {
+        if ($("#txtData").val() != $("#txtDataConfirma").val()) return;
+        if ($("#ddlAgentes").val() != $("#ddlAgenteConfirma").val()) return;
+        
+        var list = '';
+        $("#tabSelecao input[type=checkbox]:checked").each(function () {
+            var row = $(this).closest("tr")[0];
+            if (parseInt(row.cells[0].innerText) != 0) {
+                list += parseInt(row.cells[0].innerText) + ',';
+            }
+        });
+        var data = $("#txtData").val();
+        var idAgente = $("#ddlAgentes").val();
+        $.getJSON(`?handler=Desprogramar&pData=${data}&pIdAgente=${idAgente}&pIdLista=${list}`, (data) => {
+            $("#btnVer").click();
+        });
+
+        $('#ddlAgenteConfirma').prop('selectedIndex', 0);
+        $("#txtDataConfirma").val("");
+        $('#myModal').modal('toggle');
+    }
+    function transferir() {
+        var list = '';
+        $("#tabSelecao input[type=checkbox]:checked").each(function () {
+            var row = $(this).closest("tr")[0];
+            if (parseInt(row.cells[0].innerText) != 0) {
+                list += parseInt(row.cells[0].innerText) + ',';
+            }
+        });
+        var data = $("#txtDataTransf").val();
+        var idAgente = $("#ddlAgenteTransf").val();
+        $.getJSON(`?handler=Transferir&pData=${data}&pIdAgente=${idAgente}&pIdLista=${list}`, (data) => {
+            $("#btnVer").click();
+        });
+        $('#ddlAgenteTransf').prop('selectedIndex', 0);
+        $("#txtDataTransf").val("");
+        $('#myModal').modal('toggle');
+    }
+</script>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-auto">
+            Data
+            <input id="txtData" asp-for="Data" class="form-control" type="date" />
+        </div>
+        <div class="col-2">
+            Agente
+            @*@Html.DropDownListFor(x => Model.AgenteSelected, new SelectList(Model.ListAgentes,"Value","Text"), htmlAttributes: new { @class = "form-control", id = "ddlAgentes" })*@
+            @Html.DropDownListFor(x => Model.Agente, Model.ListAgentes, "", htmlAttributes: new { @class = "form-control", id = "ddlAgentes" })
+        </div>
+        <div class="col-1 align-baseline">
+            <br />
+            <input type="submit" id="btnVer" class="btn-dark" style="width:100%;" asp-page-handler="GetRoteiro" value="Ver" />
+        </div>
+        <div class="col-1 align-baseline">
+            <br />
+            <input type="button" class="btn-dark" style="width:100%;" data-bs-toggle="modal" data-bs-target="#myModal" value="Apagar" />
+        </div>
+        <div class="col-1 align-baseline">
+            <br />
+            <input type="button" class="btn-dark" style="width:100%;" data-bs-toggle="modal" data-bs-target="#myModalTransf" value="Transferir" />
+        </div>
+    </div>
+    <div class="row" style="margin-top:10px;">
+        <table id="tabSelecao" class="table">
+            <thead>
+                <tr>
+                    <th style="width:0px;visibility:hidden;display:none">0</th>
+                    <th style="text-align:center">
+                        @if (Model.OrdensServico != null)
+                        {
+                            @Model.OrdensServico.Count()
+                        }
+                    </th>
+                    <th style="text-align:center">
+                        <input type="checkbox" id="chkCheckAll" onclick="checkAll(this)">
+                    </th>
+                    <th style="text-align:center">
+                        Matricula
+                    </th>
+                    <th style="text-align:center">
+                        HD
+                    </th>
+                    
+                    <th style="text-align:center">
+                        Ciclo
+                    </th>
+                    
+                    <th style="text-align:center">
+                        Venc.
+                    </th>
+                    <th style ="text-align:center">
+                        Serviço
+                    </th>
+                    
+                    <th style="text-align:center">
+                        Status
+                    </th>
+                    <th style="text-align:center">
+                        Hora
+                    </th>
+                    <th style="text-align:center">
+                        Cidade
+                    </th>
+                    <th style="text-align:center">
+                        Bairro
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int Count = 0;
+                }
+                @if (Model.OrdensServico == null) return;
+                @foreach (var item in Model.OrdensServico)
+                {
+                    Count++;
+                    <tr>
+                        <td style="width:0px; visibility:hidden;display:none">
+                            @item.IdRoteiroDet
+                        </td>
+                        <td style="text-align:center">
+                            @Count
+                        </td>
+                        <td style="text-align:center">
+                            <input type="checkbox" name="chkSel">
+                        </td>
+                        
+                        <td style="text-align:center">
+                            @item.Matricula
+                        </td>
+                        <td style="text-align:center">
+                            @item.NumHidrometro
+                        </td>
+                        
+                        <td style="text-align:center">
+                            @item.Ciclo
+                        </td>
+                        
+                        <td style="text-align:center">
+                            @string.Format("{0:dd/MM/yy}", item.DataVencimento)
+                        </td>
+                        <td style="text-align:center">
+                            @item.Servico
+                        </td>
+
+                        <td style="text-align:center">
+                            @item.Status
+                        </td>
+                        <td style="text-align:center">
+                            @string.Format("{0:HH:mm}", item.DataIniAtendimento)
+                        </td>
+                        <td style="text-align:center">
+                            @item.Cidade
+                        </td>
+                        <td style="text-align:center">
+                            @item.Bairro
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal" id="myModal">
+        <div id="myModalDialog" class="modal-dialog">
+            <div id="myModalContent" class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Apagar Roteiro</h4>
+                    @*<button type="button" class="btn-close" data-bs-dismiss="modal"></button>*@
+                </div>
+                <div id="myModalBody" class="modal-body" tabindex="-1">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Data
+                            <input id="txtDataConfirma" class="form-control" type="date" />
+                        </div>
+                        <div class="col-md-8">
+                            Agente
+                            @Html.DropDownListFor(x => Model.AgenteConfirma, Model.ListAgentes, "", htmlAttributes: new { @class = "form-control", id = "ddlAgenteConfirma" })
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-dark mr-auto" onclick="desprogramar()" value="Apagar" />
+                    <input type="button" class="btn btn-dark mr-auto" data-bs-dismiss="modal" value="Cancelar" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="myModalTransf">
+        <div id="myModalDialog" class="modal-dialog">
+            <div id="myModalContent" class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Transferir Roteiro</h4>
+                    @*<button type="button" class="btn-close" data-bs-dismiss="modal"></button>*@
+                </div>
+                <div id="myModalBody" class="modal-body" tabindex="-1">
+                    <div class="row">
+                        <div class="col-md-4">
+                            Data
+                            <input id="txtDataTransf" class="form-control" type="date" />
+                        </div>
+                        <div class="col-md-8">
+                            Agente
+                            @Html.DropDownListFor(x => Model.AgenteConfirma, Model.ListAgentes, "", htmlAttributes: new { @class = "form-control", id = "ddlAgenteTransf" })
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-dark mr-auto" onclick="transferir()" value="Transferir" />
+                    <input type="button" class="btn btn-dark mr-auto" data-bs-dismiss="modal" value="Cancelar" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

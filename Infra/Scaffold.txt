@@ -1,0 +1,1 @@
+﻿Scaffold-DbContext "Server=sistemas.vixmobile.com.br;Initial Catalog=Darwin_STC_2025;Integrated Security=false;User ID=sa;Password=@And#Siller;Persist Security Info=True;Encrypt=True;TrustServerCertificate=yes" Microsoft.EntityFrameworkCore.SqlServer -outputdir DataBase -force -Context STC_Context -UseDatabaseNames -NoPluralize

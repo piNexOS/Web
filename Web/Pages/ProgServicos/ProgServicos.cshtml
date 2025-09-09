@@ -1,0 +1,114 @@
+﻿@page
+@model Web.Pages.ProgServicos.ProgServicosModel
+@{ }
+@* <link rel="stylesheet" href="~/css/smallfont.css" /> *@
+
+<script type="text/javascript">
+    function atualizarBairros() {
+
+        var idMunicipio = $("#ddlMunicipios").val();
+        $("#ddlBairros").empty();
+        $.getJSON(`?handler=ListBairros&id=${idMunicipio}`, (data) => {
+            $("#ddlBairros").append(`<option value="">${''}</option>`)
+            $.each(data, function (i, item) {
+                $("#ddlBairros").append(`<option value="${item.value}">${item.text}</option>`)
+            })
+        })
+
+    }
+
+    function atualizaPartialView() {
+
+        var idMunicipio = $("#ddlMunicipios").val();
+        var idBairro = $("#ddlBairros").val();
+        var idServico = $("#ddlServicos").val();
+        var numCiclo = $("#txtCiclo").val();
+        var dataVenc = $("#txtDataVencimento").val();
+        $('#divPartialView').load(`?handler=PartialView&idMunicipio=${idMunicipio}&idBairro=${idBairro}&idServico=${idServico}&numCiclo=${numCiclo}&dataVencimento=${dataVenc}`);
+    };
+
+    function programar() {
+        var list = '';
+
+        $("#tabSelecao input[type=checkbox]:checked").each(function () {
+            var row = $(this).closest("tr")[0];
+            debugger;
+            var val = row.cells[0].innerText
+
+            if (parseInt(row.cells[0].innerText) != 0) {
+                list += parseInt(row.cells[0].innerText) + ',';
+            }
+        });
+
+        var data = $("#txtDataRoteiro").val();
+        var idAgente = $("#ddlAgentes").val();
+        $.getJSON(`?handler=Programar&dataRoteiro=${data}&idAgente=${idAgente}&idLista=${list}`, (data) => {
+            $("#btnFiltrar").click();
+        })
+        //$.load(`?handler=Programar&dataRoteiro=${data}&idAgente=${idAgente}&idLista=${list}`);
+        //atualizaPartialView();
+        //$.get('/OnGetProgramar', $.param({ data: JSON.stringify(list)}, true), function (data) { });
+
+    }
+
+    function checkAll(elem) {
+        checkboxes = document.getElementsByName('chkSel');
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+            checkboxes[i].checked = elem.checked;
+        }
+    }
+</script>
+
+<style>
+   
+</style>
+
+<form style="height:100%">
+    <div class="row">
+        <div class="col-1">
+            Município
+            @Html.DropDownListFor(x => Model.MunicipioSelected, Model.ListMunicipios, "", htmlAttributes: new { @class = "form-control", id = "ddlMunicipios", onchange = "atualizarBairros()" })
+        </div>
+        <div class="col-2">
+            Bairro
+            @Html.DropDownListFor(x => Model.BairroSelected, Model.ListBairros, "", htmlAttributes: new { @class = "form-control", id = "ddlBairros" }) 
+        </div>
+        <div class="col-2">
+            Serviço
+            @Html.DropDownListFor(x => Model.ServicoSelected, Model.ListServicos, "", htmlAttributes: new { @class = "form-control", id = "ddlServicos" })
+        </div>
+     
+        <div class="col-1">
+            Data Venc.
+            <input id="txtDataVencimento" class="form-control" type="date" />
+        </div>
+        <div class="col-1">
+            Ciclo
+            <input id="txtCiclo" class="form-control" type="text" value="" maxlength="2" />
+        </div>
+
+        <div class="col-1 align-self-end">
+            <input type="button" id="btnFiltrar" style="width:100px;" class="btn-dark" onclick="atualizaPartialView()" value="Filtrar" />
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-1">
+            Data
+            <input id="txtDataRoteiro" class="form-control" type="date" />
+        </div>
+        <div class="col-2">
+            Agente
+            @Html.DropDownListFor(x => Model.AgenteSelected, Model.ListAgentes, "", htmlAttributes: new { @class = "form-control", id = "ddlAgentes" }) 
+        </div>
+        <div class="col-1 align-self-end">
+            <input type="button" class="btn-dark" style="width:100px;" onclick="programar()" value="Programar" />
+        </div>
+    </div>
+
+    <div id="divPartialView">
+        @*<partial name="_partialview1.cshtml" model="Model.PartialViewModel" />*@
+    </div>
+</form>
+
+
