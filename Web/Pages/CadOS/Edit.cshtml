@@ -18,20 +18,27 @@
                 <input asp-for="OrdensServicos.Matricula" class="form-control" />
                 <span asp-validation-for="OrdensServicos.Matricula" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="OrdensServicos.IdTabServico" class="control-label"></label>
-                <select asp-for="OrdensServicos.IdTabServico" class="form-control" asp-items="ViewBag.IdTabServico"></select>
-                <span asp-validation-for="OrdensServicos.IdTabServico" class="text-danger"></span>
+                <label asp-for="OrdensServicos.Matricula" class="control-label"></label>
+                <input asp-for="OrdensServicos.Matricula" class="form-control" />
+                <span asp-validation-for="OrdensServicos.Matricula" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="ServicoDigitado" class="control-label">Serviço</label>
+                <input id="ServicoDigitado" name="ServicoDigitado" class="form-control" />
+                <span class="text-danger" asp-validation-for="ServicoDigitado"></span>
             </div>
             <div class="form-group">
-                <label asp-for="OrdensServicos.IdTabBairro" class="control-label"></label>
-                <select asp-for="OrdensServicos.IdTabBairro" class="form-control" asp-items="ViewBag.IdTabBairro"></select>
-                <span asp-validation-for="OrdensServicos.IdTabBairro" class="text-danger"></span>
+                <label for="BairroDigitado" class="control-label">Bairro</label>
+                <input id="BairroDigitado" name="BairroDigitado" class="form-control" />
+                <span class="text-danger" asp-validation-for="BairroDigitado"></span>
             </div>
             <div class="form-group">
-                <label asp-for="OrdensServicos.IdTabMunicipio" class="control-label"></label>
-                <select asp-for="OrdensServicos.IdTabMunicipio" class="form-control" asp-items="ViewBag.IdTabMunicipio"></select>
-                <span asp-validation-for="OrdensServicos.IdTabMunicipio" class="text-danger"></span>
+                <label for="MunicipioDigitado" class="control-label">Município</label>
+                <input id="MunicipioDigitado" name="MunicipioDigitado" class="form-control" />
+                <span class="text-danger" asp-validation-for="MunicipioDigitado"></span>
             </div>
             <div class="form-group">
                 <label asp-for="OrdensServicos.Informacoes" class="control-label"></label>
@@ -154,7 +161,7 @@
                 <span asp-validation-for="OrdensServicos.DataBaixa" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>

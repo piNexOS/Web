@@ -47,10 +47,14 @@ namespace Web.Pages.CadAgentes
                 return Page();
             }
 
-            _context.Attach(TabAgentes).State = EntityState.Modified;
+            var agenteDb = await _context.TabAgentes
+         .FirstOrDefaultAsync(a => a.IdTabAgente == TabAgentes.IdTabAgente);
 
             try
             {
+                agenteDb.Nome = TabAgentes.Nome;
+                agenteDb.Matricula = TabAgentes.Matricula;
+                agenteDb.Cargo = TabAgentes.Cargo;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
