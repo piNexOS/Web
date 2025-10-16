@@ -1,0 +1,308 @@
+﻿@page
+@model Web.Pages.NovaPasta.IndexModel
+@{
+    <!DOCTYPE html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login - NexOS</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body, html {
+                width: 100%;
+                height: 100%;
+                font-family: 'Poppins', sans-serif;
+                background-color: #2D3748;
+                color: #E2E8F0;
+                overflow: hidden;
+            }
+
+            .login-page {
+                display: flex;
+                width: 100vw;
+                height: 100vh;
+                background-image: url('data:image/svg+xml;utf8,<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1920 0H0V1080H1920V0Z" fill="%232D3748"/><path d="M2060 1080C2060 1080 1668 911 1515 540C1362 169 1106 -123 1106 -123L1784 -123L2060 1080Z" fill="%234A5568"/></svg>');
+                background-size: cover;
+                background-position: center;
+            }
+
+            .brand-side, .form-side {
+                flex: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .brand-side {
+                justify-content: flex-end;
+                padding-right: 5%;
+                opacity: 0;
+                transform: translateX(-100%);
+                animation: slide-in 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+                animation-delay: 0.5s;
+            }
+
+            .brand-wrapper {
+                text-align: left;
+            }
+
+            .brand-name {
+                font-size: 4rem;
+                font-weight: 700;
+                color: #FFF;
+                margin-left: -8px;
+                line-height: 1;
+            }
+
+            .logo-svg {
+                width: 150px;
+                height: auto;
+                display: none;
+            }
+
+            .tagline {
+                font-size: 1.1rem;
+                font-weight: 400;
+                color: #A0AEC0;
+            }
+
+
+            .form-side {
+                justify-content: flex-start;
+                padding-left: 5%;
+            }
+
+            .login-box {
+                width: 400px;
+                background-color: #2D3748;
+                border-radius: 20px;
+                padding: 40px;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                opacity: 0;
+                transform-origin: center;
+                animation: expand-box 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+                animation-delay: 2s;
+            }
+
+            .login-content {
+                opacity: 0;
+                animation: fade-in 0.8s ease-out forwards;
+                animation-delay: 3.5s;
+            }
+
+            h2 {
+                font-size: 1.75rem;
+                font-weight: 600;
+                margin-bottom: 25px;
+                text-align: left;
+            }
+
+            .input-group {
+                position: relative;
+                margin-bottom: 20px;
+            }
+
+                .input-group label {
+                    display: block;
+                    font-size: 0.9rem;
+                    color: #A0AEC0;
+                    margin-bottom: 8px;
+                }
+
+                .input-group input {
+                    width: 100%;
+                    background-color: #1A202C;
+                    border: 1px solid #4A5568;
+                    border-radius: 8px;
+                    padding: 12px;
+                    color: #E2E8F0;
+                    font-size: 1rem;
+                }
+
+                    .input-group input:focus {
+                        outline: none;
+                        border-color: #3B82F6;
+                        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+                    }
+
+            .forgot-link {
+                display: block;
+                color: #3B82F6;
+                text-decoration: none;
+                font-size: 0.85rem;
+                margin-top: -10px;
+                margin-bottom: 20px;
+                text-align: left;
+            }
+
+                .forgot-link:hover {
+                    text-decoration: underline;
+                }
+
+            .remember-me {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 25px;
+            }
+
+            button {
+                width: 100%;
+                padding: 12px;
+                background-color: #CBD5E0;
+                color: #1A202C;
+                border: none;
+                border-radius: 8px;
+                font-size: 1rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+                button:hover {
+                    background-color: #E2E8F0;
+                }
+
+
+            .placeholder-text {
+                position: absolute;
+                top: 37px;
+                left: 12px;
+                color: #718096;
+                pointer-events: none;
+                white-space: nowrap;
+                overflow: hidden;
+                opacity: 0;
+            }
+
+            input:not(:placeholder-shown) + .placeholder-text,
+            input:focus + .placeholder-text {
+                display: none;
+            }
+
+            #id-placeholder {
+                animation: typing 2s steps(20, end) forwards, blink-caret .75s step-end infinite;
+                animation-delay: 4.5s;
+            }
+
+            #password-placeholder {
+                animation: typing 2s steps(21, end) forwards, blink-caret .75s step-end infinite;
+                animation-delay: 6.7s;
+            }
+
+            @@keyframes slide-in {
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+
+            }
+
+            @@keyframes expand-box {
+                0% {
+                    opacity: 0.5;
+                    transform: scale(0, 0.1);
+                }
+
+                50% {
+                    opacity: 1;
+                    transform: scale(1, 0.1);
+                }
+
+                100% {
+                    opacity: 1;
+                    transform: scale(1, 1);
+                }
+
+            }
+
+            @@keyframes fade-in {
+                to {
+                opacity: 1;
+                }
+
+            }
+
+            @@keyframes typing {
+                from {
+                    opacity: 1;
+                    width: 0;
+                }
+
+                to {
+                    opacity: 1;
+                    width: 100%;
+                }
+
+            }
+
+            @@keyframes blink-caret {
+                from, to {
+                    border-color: transparent;
+                }
+
+                50% {
+                    border-color: #718096;
+                }
+
+            }
+
+            .placeholder-text {
+                border-right: 2px solid #718096;
+            }</style>
+    </head>
+    <body>
+        <main class="login-page">
+            <div class="brand-side">
+                <div class="brand-wrapper">
+                    <svg class="logo-svg" viewBox="0 0 206 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M42.2393 25.5413C50.3117 25.5413 56.8402 32.2275 56.8402 40.4931C56.8402 48.7587 50.3117 55.445 42.2393 55.445C34.1668 55.445 27.6384 48.7587 27.6384 40.4931C27.6384 32.2275 34.1668 25.5413 42.2393 25.5413ZM42.2393 30.775C37.2479 30.775 33.159 35.0163 33.159 40.4931C33.159 45.9699 37.2479 50.2113 42.2393 50.2113C47.2307 50.2113 51.3196 45.9699 51.3196 40.4931C51.3196 35.0163 47.2307 30.775 42.2393 30.775Z" fill="white" />
+                        <path d="M84.707 55.1013L72.2969 36.195L71.9531 36.195V55.1013H66.9617V25.885H73.0481L85.1148 44.4475L85.4586 44.4475V25.885H90.45V55.1013H84.707Z" fill="white" />
+                        <path d="M118.815 55.1013H113.823V36.0231L107.295 55.1013H102.303L95.775 36.0231V55.1013H90.7836V25.885H98.6743L104.8 40.245L110.925 25.885H118.815V55.1013Z" fill="#3B82F6" />
+                        <path d="M125.109 55.1013V25.885H144.187V30.5263H130.63V38.4063H142.61V43.0475H130.63V50.335H144.531V55.1013H125.109Z" fill="white" />
+                        <path d="M165.719 55.445C158.435 55.445 152.41 50.0962 152.41 42.6931V25.885H157.906V42.2313C157.906 47.2225 161.207 50.2113 165.719 50.2113C170.231 50.2113 173.531 47.2225 173.531 42.2313V25.885H179.027V42.6931C179.027 50.0962 173.002 55.445 165.719 55.445Z" fill="white" />
+                        <path d="M200.062 25.885L191.148 55.1013H185.309L194.223 25.885H200.062Z" fill="#3B82F6" />
+                        <path d="M18.832 30.6277C18.832 18.2702 11.216 -0.730331 0 5.63698V17.0673C7.30405 13.0453 9.42403 18.774 9.42403 30.6277C9.42403 44.5714 5.37612 55.1652 0 61.2062V61.2062C13.4082 54.1534 18.832 43.8373 18.832 30.6277Z" fill="#3B82F6" />
+                    </svg>
+                    <h1 class="brand-name">NexOS</h1>
+                    <p class="tagline">Conectando tarefas, entregando resultados.</p>
+                </div>
+            </div>
+
+            <div class="form-side">
+                <div class="login-box">
+                    <div class="login-content">
+                        <h2>Entrar</h2>
+                        <div class="input-group">
+                            <label for="id">Email ou ID</label>
+                            <input type="text" id="id">
+                            <span class="placeholder-text" id="id-placeholder"></span>
+                        </div>
+                        <div class="input-group">
+                            <label for="password">Senha</label>
+                            <input type="password-input-placeholder" id="password">
+                            <span class="placeholder-text" id="password-placeholder"></span>
+                        </div>
+                        <a href="#" class="forgot-link">Esqueci a senha ou não consigo entrar</a>
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember" checked>
+                            <label for="remember">Lembrar-me</label>
+                        </div>
+                        <button type="submit">Entrar</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </body>
+    </html>
+}

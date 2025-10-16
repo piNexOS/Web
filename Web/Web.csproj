@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\NovaPasta\" />
     <Folder Include="temp\" />
     <Folder Include="wwwroot\css\" />
   </ItemGroup>
