@@ -1,0 +1,48 @@
+﻿@page
+@model Web.Pages.CadUsuarios.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TabUsuarios[0].Matricula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TabUsuarios[0].Cargo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TabUsuarios[0].Senha)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.TabUsuarios) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Matricula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cargo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Senha)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.IdTabUsuarios">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.IdTabUsuarios">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.IdTabUsuarios">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

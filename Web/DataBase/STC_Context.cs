@@ -33,6 +33,8 @@ public partial class STC_Context : DbContext
 
     public virtual DbSet<TabServicos> TabServicos { get; set; }
 
+    public virtual DbSet<TabUsuarios> TabUsuarios { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=192.168.0.2;Initial Catalog=Darwin_STC_2025;Integrated Security=false;User ID=sa;Password=@And#Siller;Persist Security Info=True;Encrypt=True;TrustServerCertificate=yes");
@@ -293,6 +295,21 @@ public partial class STC_Context : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Descricao)
                 .HasMaxLength(60)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<TabUsuarios>(entity =>
+        {
+            entity.HasKey(e => e.IdTabUsuarios);
+
+            entity.Property(e => e.Cargo)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Matricula)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Senha)
+                .HasMaxLength(50)
                 .IsUnicode(false);
         });
 

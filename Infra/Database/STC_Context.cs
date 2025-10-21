@@ -25,11 +25,15 @@ public partial class STC_Context : DbContext
 
     public virtual DbSet<TabBairros> TabBairros { get; set; }
 
+    public virtual DbSet<TabClientes> TabClientes { get; set; }
+
     public virtual DbSet<TabContratos> TabContratos { get; set; }
 
     public virtual DbSet<TabMunicipios> TabMunicipios { get; set; }
 
     public virtual DbSet<TabServicos> TabServicos { get; set; }
+
+    public virtual DbSet<TabUsuarios> TabUsuarios { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -159,12 +163,13 @@ public partial class STC_Context : DbContext
 
             entity.HasOne(d => d.IdOrdemServicoNavigation).WithMany(p => p.RoteiroDetalhes)
                 .HasForeignKey(d => d.IdOrdemServico)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_RoteiroDetalhes_OrdensServicos");
 
             entity.HasOne(d => d.IdRoteiroNavigation).WithMany(p => p.RoteiroDetalhes)
                 .HasForeignKey(d => d.IdRoteiro)
-                .HasConstraintName("FK_RoteiroDetalhes_Roteiros")
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_RoteiroDetalhes_Roteiros");
         });
 
         modelBuilder.Entity<Roteiros>(entity =>
@@ -184,8 +189,8 @@ public partial class STC_Context : DbContext
 
             entity.HasOne(d => d.IdTabAgenteNavigation).WithMany(p => p.Roteiros)
                 .HasForeignKey(d => d.IdTabAgente)
-                .HasConstraintName("FK_Roteiros_TabAgentes")
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_Roteiros_TabAgentes");
         });
 
         modelBuilder.Entity<TabAgentes>(entity =>
@@ -200,7 +205,9 @@ public partial class STC_Context : DbContext
 
             entity.HasIndex(e => e.Cargo, "IX_TabAgentes_3");
 
-
+            entity.Property(e => e.Cargo)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.IdContrato)
                 .HasMaxLength(5)
                 .IsUnicode(false);
@@ -210,13 +217,9 @@ public partial class STC_Context : DbContext
             entity.Property(e => e.Nome)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.Cargo)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.Status)
-                .HasMaxLength(1)
+                .HasMaxLength(20)
                 .IsUnicode(false);
-
         });
 
         modelBuilder.Entity<TabBairros>(entity =>
@@ -235,6 +238,25 @@ public partial class STC_Context : DbContext
                 .HasForeignKey(d => d.IdTabMunicipio)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TabBairros_TabMunicipios");
+        });
+
+        modelBuilder.Entity<TabClientes>(entity =>
+        {
+            entity.HasKey(e => e.IdTableCliente);
+
+            entity.Property(e => e.IdTableCliente).ValueGeneratedNever();
+            entity.Property(e => e.CNPJ)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.CPF)
+                .HasMaxLength(12)
+                .IsUnicode(false);
+            entity.Property(e => e.Nome)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.Telefone)
+                .HasMaxLength(15)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<TabContratos>(entity =>
@@ -273,6 +295,21 @@ public partial class STC_Context : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Descricao)
                 .HasMaxLength(60)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<TabUsuarios>(entity =>
+        {
+            entity.HasKey(e => e.IdTabUsuarios);
+
+            entity.Property(e => e.Cargo)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Matricula)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Senha)
+                .HasMaxLength(50)
                 .IsUnicode(false);
         });
 
