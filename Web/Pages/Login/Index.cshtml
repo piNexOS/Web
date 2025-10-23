@@ -280,18 +280,23 @@
 
             <div class="form-side">
                 <div class="login-box">
+                    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
                     <div class="login-content">
                         <h2>Entrar</h2>
                         <div class="input-group">
-                            <label for="id">Email ou ID</label>
-                            <input type="text" id="id">
+                            <label asp-for="Usuario.Matricula"></label>
+                            <input type="text" asp-for="Usuario.Matricula" id="id">
                             <span class="placeholder-text" id="id-placeholder"></span>
                         </div>
+                        <span class="text-danger" asp-validation-for="Usuario.Matricula"></span>
+
                         <div class="input-group">
-                            <label for="password">Senha</label>
-                            <input type="password-input-placeholder" id="password">
+                            <label asp-for="Usuario.Matricula">Senha</label>
+                            <input type="password" asp-for="Usuario.Senha" id="password">
                             <span class="placeholder-text" id="password-placeholder"></span>
                         </div>
+                        <span class="text-danger" asp-validation-for="Usuario.Senha"></span>
+
                         <a href="#" class="forgot-link">Esqueci a senha ou não consigo entrar</a>
                         <div class="remember-me">
                             <input type="checkbox" id="remember" checked>
