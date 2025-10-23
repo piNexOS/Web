@@ -24,7 +24,7 @@ namespace Infra.Services
 
                 foreach (var item in pLista)
                 {
-                    var os = ctx.OrdensServicos.Where(x => x.IdOrdemServico == int.Parse(item) && x.Status == "" && x.DataBaixa == null).FirstOrDefault();
+                    var os = ctx.OrdensServicos.Where(x => x.IdOrdemServico == int.Parse(item) && x.Status == "NÃO PROGRAMADA" && x.DataBaixa == null).FirstOrDefault();
                     if (os == null) continue;
 
                     var det = new DataBase.RoteiroDetalhes();
@@ -33,7 +33,7 @@ namespace Infra.Services
                     det.Status = "";
                     ctx.Add(det);
 
-                    os.Status = "PROGRAMADO";
+                    os.Status = "PROGRAMADA";
                     ctx.SaveChanges();
                 }
             }
@@ -83,7 +83,7 @@ namespace Infra.Services
                     if (det == null) continue;
                     idOS = (int)det.IdOrdemServico;
                     idRoteiro = (int)det.IdRoteiro;
-                    var os = ctx.OrdensServicos.Where(x => x.IdOrdemServico == idOS && x.Status == "PROGRAMADO").FirstOrDefault();
+                    var os = ctx.OrdensServicos.Where(x => x.IdOrdemServico == idOS && x.Status == "PROGRAMADA").FirstOrDefault();
                     if (os != null)
                     {
                         os.Status = "";

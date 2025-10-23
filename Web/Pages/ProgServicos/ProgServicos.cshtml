@@ -45,9 +45,9 @@
         $.getJSON(`?handler=Programar&dataRoteiro=${data}&idAgente=${idAgente}&idLista=${list}`, (data) => {
             $("#btnFiltrar").click();
         })
-        //$.load(`?handler=Programar&dataRoteiro=${data}&idAgente=${idAgente}&idLista=${list}`);
-        //atualizaPartialView();
-        //$.get('/OnGetProgramar', $.param({ data: JSON.stringify(list)}, true), function (data) { });
+        $.load(`?handler=Programar&dataRoteiro=${data}&idAgente=${idAgente}&idLista=${list}`);
+        atualizaPartialView();
+        $.get('/OnGetProgramar', $.param({ data: JSON.stringify(list)}, true), function (data) { });
 
     }
 
