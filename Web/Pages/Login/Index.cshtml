@@ -25,7 +25,9 @@
                 color: #E2E8F0;
                 overflow: hidden;
             }
-
+            header {
+                display: none;
+            }
             .login-page {
                 display: flex;
                 width: 100vw;
@@ -280,9 +282,12 @@
 
             <div class="form-side">
                 <div class="login-box">
+
                     <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
                     <div class="login-content">
                         <h2>Entrar</h2>
+
                         <div class="input-group">
                             <label asp-for="Usuario.Matricula"></label>
                             <input type="text" asp-for="Usuario.Matricula" id="id">

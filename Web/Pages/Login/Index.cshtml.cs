@@ -11,5 +11,10 @@ namespace Web.Pages.NovaPasta
         public void OnGet()
         {
         }
+
+        public void OnPost()
+        {
+
+        }
     }
 }

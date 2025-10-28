@@ -11,17 +11,230 @@
     <script src="~/lib/jquery/dist/jquery.js"></script>
 
     <style>
+        :root {
+            --cor-fundo: #373F46;
+            --cor-header: #272C2F;
+            --cor-nexos: #26a5ee;
+            --cor-nexosdark: rgb(17, 136, 206);
+            --cor-texto: #fff;
+        }
         html, body {
             height: 100%;
         }
 
-        footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
+       
+
+        @@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;500&display=swap');
+
+        :root {
+            --cor-fundo: #373F46;
+            --cor-header: #272C2F;
+            --cor-nexos: #26a5ee;
+            --cor-nexosdark: rgb(17, 136, 206);
+            --cor-texto: #fff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "League Spartan", sans-serif;
+            font-weight: 500;
+            box-sizing: border-box;
+        }
+
+        ::-webkit-scrollbar {
+            background-color: var(--cor-header);
+            color: #000000;
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-corner {
+            background-color: #181a1b;
+        }
+
+        ::-webkit-scrollbar-thumb:active {
+            background-color: #000000;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: var(--cor-nexos);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--cor-nexosdark);
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(15deg, rgba(41, 41, 41, 1) -100%, rgba(58, 66, 72, 1) 70%);
+            color: var(--cor-texto);
+            overflow-x: hidden;
+        }
+
+        hr {
             width: 100%;
-            background-color: white;
-            text-align: left;
+            height: 1px;
+            border: 0;
+            border-top: 1px solid var(--cor-nexos);
+            margin-top: 3px;
+        }
+
+        header {
+            background-color: var(--cor-header);
+            box-shadow: 0 -2px 8px var(--cor-nexosdark);
+            height: 5em;
+            padding-left: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 1em;
+            position: relative;
+            z-index: 4;
+        }
+
+        .foto_perfil {
+            position: absolute;
+            right: 1.5em;
+        }
+
+        .img_logo {
+            margin-left: -20px;
+            width: 135px;
+        }
+
+        .comandos {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 3em;
+            z-index: 9999;
+            background-color: var(--cor-header);
+        }
+
+        .comandos a {
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            transition: 1s;
+            font-weight: bold;
+            padding: 10px 10px 7px;
+        }
+
+        .active {
+            background-color: rgb(78, 78, 78);
+            border-radius: 10px;
+        }
+
+        .icon_usuario {
+            width: 30px;
+        }
+
+
+        main {
+            position: relative;
+            width: 100%;
+            min-height: calc(100vh - 4em);
+            background: transparent;
+            overflow: hidden;
+        }
+
+        #particlesCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            display: block;
+        }
+
+    
+        .content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-flow: column nowrap;
+            gap: 5em;
+            text-align: center;
+            padding: 2em 2em;
+            transition: 1s;
+        }
+
+        .span_header {
+            font-size: 1.22rem;
+        }
+
+        .icone_lista {
+            background-color: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: none;
+        }
+
+        @@keyframes mostraSideBar {
+            from
+
+        {
+            left: -35vw;
+        }
+
+        to {
+            left: 0;
+        }
+
+        }
+
+        @@media screen and (max-width: 768px) {
+            .icone_lista
+
+        {
+            display: block;
+        }
+
+        .comandos {
+            display: none;
+        }
+
+        .fechar {
+            display: none;
+        }
+
+        }
+
+        @@media screen and (min-width: 769px) {
+            .comandos
+
+        {
+            display: flex;
+            flex-direction: row;
+        }
+
+        }
+
+        .comandos.sidebar-ativa {
+            display: flex;
+            position: absolute;
+            left: 0;
+            top: 0;
+            flex-direction: column;
+            background-color: #222629;
+            height: 100%;
+            width: 30vw;
+            padding: 1em;
+            animation: mostraSideBar 0.4s;
+            transition: 0.4s;
+        }
+
+            .comandos.sidebar-ativa .fechar {
+                display: block;
+            }
+
+        .content.blur {
+            filter: blur(2px);
+        }
+
+        .conteiner-fluid {
+            background-color: var(--cor-header)
         }
 
         .dropdown-submenu {
@@ -42,7 +255,6 @@
         .alertify {
             font-size: large;
         }
-
     </style>
     <script>
         function alertifyReset() {
@@ -62,7 +274,7 @@
 
 </head>
 <body>
-    <header>
+    @* <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light ">
             <div class="container-fluid">
                 <a class="navbar-brand" href="~/">NexOs</a>
@@ -131,12 +343,95 @@
                 </div>
             </div>
         </nav>
+    </header> *@
+    <header id="header">
+        <button class="icone_lista" id="abrir" aria-label="Abrir menu">
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                      d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+            </svg>
+        </button>
+        <div class="logo">
+            <a href="~/"><img src="~/LogoNexos.png" class="img_logo" alt="Logo NexOS" /></a>
+        </div>
+        <div class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+        
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a href="#" id="menu" data-bs-toggle="dropdown" class="nav-link" data-bs-display="static">Cadastros</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="~/CadAgentes" class="dropdown-item">Agentes</a>
+                                </li>
+                                <li>
+                                    <a href="~/CadOS" class="dropdown-item">Ordens de Serviço</a>
+                                </li>
+                                <li>
+                                    <a href="~/CadUsuarios" class="dropdown-item">Usuarios</a>
+                                </li>
+                            </ul>
+
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" id="menu" data-bs-toggle="dropdown" class="nav-link" data-bs-display="static">Operação</a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-submenu">
+                                    <a href="#" data-bs-toggle="dropdown" class="dropdown-item">Programação</a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="~/progservicos/progservicos" class="dropdown-item">Programar</a>
+                                            <a href="~/progservicos/progmanutencao" class="dropdown-item">Alterar</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-submenu">
+                                    <a href="#" data-bs-toggle="dropdown" class="dropdown-item">Consultas</a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="~/viewlotes/" class="dropdown-item">Lotes</a>
+                                            <a href="~/consultamatricula/" class="dropdown-item">Ordem de Serviço</a>
+                                            <a href="~/analiseservicos/listaanaliseservico" class="dropdown-item">Analise de Serviços</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-submenu">
+                                    <a href="#" data-bs-toggle="dropdown" class="dropdown-item">Estoque</a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="~/hidrometros/entradaestoque" class="dropdown-item">Entrada Estoque</a>
+                                            <a href="~/hidrometros/consulta" class="dropdown-item">Alterar</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="~/roteiros/" class="dropdown-item">Roteiros</a>
+                                    <a href="~/impexpservicos/" class="dropdown-item">Imp/Exp Arquivos</a>
+                                </li>
+                            </ul>
+
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="~/Relatorios" class="nav-link">Relatórios</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="foto_perfil">
+            <a href="#"><img src="~/icone_usuario.png" alt="usuario" class="icon_usuario" /></a>
+        </div>
     </header>
-    <div class="container-fluid">
-        <main role="main" class="pb-3">
+    <main class="container-fluid">
+        <div role="main" class="pb-3">
             @RenderBody()
-        </main>
-    </div>
+        </div>
+    </main>
 
     @* <footer class="border-top footer text-muted"> *@
     <footer>
