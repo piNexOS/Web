@@ -86,7 +86,7 @@ namespace Infra.Services
                     var os = ctx.OrdensServicos.Where(x => x.IdOrdemServico == idOS && x.Status == "PROGRAMADA").FirstOrDefault();
                     if (os != null)
                     {
-                        os.Status = "";
+                        os.Status = "NÃO PROGRAMADA";
                         ctx.OrdensServicos.Update(os);
                         ctx.RoteiroDetalhes.Remove(det);
                     }
