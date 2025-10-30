@@ -21,16 +21,21 @@ namespace Web.Pages.NovaPasta
         {
             _context = context;
         }
+        public class LoginViewModel
+        {
+            public string Matricula { get; set; }
+            public string Senha { get; set; }
+        }
 
         [BindProperty]
-        public TabUsuarios Usuario { get; set; }
+        public LoginViewModel Usuario { get; set; }
 
 
         public void OnPost()
         {
-            if (!ModelState.IsValid)
+            if(!ModelState.IsValid)
                 return;
-
+            
             var usuarios = _context.TabUsuarios.ToList();
 
             
