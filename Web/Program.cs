@@ -6,6 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<STC_Context>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("")));
 builder.Services.AddRazorPages();
+builder.Services.AddMvc().AddRazorPagesOptions(options =>
+{
+    options.Conventions.AddPageRoute("/Login/Index", "");
+});
 
 var app = builder.Build();
 
