@@ -59,8 +59,6 @@ public partial class OrdensServicos
 
     public DateTime? DataImportacao { get; set; }
 
-    public string? IdContrato { get; set; }
-
     public string? Status { get; set; }
 
     public DateTime? DataBaixa { get; set; }
