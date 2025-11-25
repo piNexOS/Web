@@ -31,14 +31,26 @@ namespace Web.Pages.NovaPasta
         public LoginViewModel Usuario { get; set; }
 
 
-        public void OnPost()
+        public IActionResult OnPost()
         {
-            if(!ModelState.IsValid)
-                return;
-            
-            var usuarios = _context.TabUsuarios.ToList();
+            if (!ModelState.IsValid)
+                return Page();
 
-            
+            var usuario = _context.TabUsuarios
+                .FirstOrDefault(u => u.Matricula == Usuario.Matricula
+                                  && u.Senha == Usuario.Senha);
+
+            if (usuario != null)
+            {
+                // Login OK
+                // redireciona ou seta sessão
+                return RedirectToPage("/Home/Index");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Matrícula ou senha inválida.");
+                return Page();
+            }
         }
     }
 }
