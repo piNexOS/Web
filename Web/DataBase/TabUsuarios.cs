@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Web.DataBase;
 
@@ -12,6 +11,7 @@ public partial class TabUsuarios
 
     public string Cargo { get; set; } = null!;
 
-    [DataType(DataType.Password)]
     public string Senha { get; set; } = null!;
+
+    public string Nome { get; set; } = null!;
 }

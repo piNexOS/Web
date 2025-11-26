@@ -13,8 +13,6 @@ public partial class Roteiros
 
     public DateTime? DataUltComunicacao { get; set; }
 
-    public string? idContrato { get; set; }
-
     public virtual TabAgentes? IdTabAgenteNavigation { get; set; }
 
     public virtual ICollection<RoteiroDetalhes> RoteiroDetalhes { get; set; } = new List<RoteiroDetalhes>();

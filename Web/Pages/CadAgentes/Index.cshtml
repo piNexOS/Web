@@ -21,9 +21,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.TabAgentes[0].Matricula)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TabAgentes[0].Cargo)
-            </th>
+            
         </tr>
     </thead>
     <tbody>
@@ -38,9 +36,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Matricula)
             </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.Cargo)
-            </td>
+            
           
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.IdTabAgente">Edit</a> |

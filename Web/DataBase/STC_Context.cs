@@ -27,8 +27,6 @@ public partial class STC_Context : DbContext
 
     public virtual DbSet<TabClientes> TabClientes { get; set; }
 
-    public virtual DbSet<TabContratos> TabContratos { get; set; }
-
     public virtual DbSet<TabMunicipios> TabMunicipios { get; set; }
 
     public virtual DbSet<TabServicos> TabServicos { get; set; }
@@ -53,8 +51,6 @@ public partial class STC_Context : DbContext
 
             entity.HasIndex(e => e.Matricula, "IX_OrdensServicoes_3");
 
-            entity.HasIndex(e => e.IdContrato, "IX_OrdensServicos");
-
             entity.Property(e => e.CNPJ)
                 .HasMaxLength(20)
                 .IsUnicode(false);
@@ -77,9 +73,6 @@ public partial class STC_Context : DbContext
             entity.Property(e => e.DataRegistro).HasColumnType("datetime");
             entity.Property(e => e.Endereco)
                 .HasMaxLength(100)
-                .IsUnicode(false);
-            entity.Property(e => e.IdContrato)
-                .HasMaxLength(5)
                 .IsUnicode(false);
             entity.Property(e => e.Informacoes)
                 .HasMaxLength(200)
@@ -180,12 +173,7 @@ public partial class STC_Context : DbContext
 
             entity.HasIndex(e => e.IdTabAgente, "IX_Roteiros_1");
 
-            entity.HasIndex(e => e.idContrato, "IX_Roteiros_2");
-
             entity.Property(e => e.DataUltComunicacao).HasColumnType("datetime");
-            entity.Property(e => e.idContrato)
-                .HasMaxLength(5)
-                .IsUnicode(false);
 
             entity.HasOne(d => d.IdTabAgenteNavigation).WithMany(p => p.Roteiros)
                 .HasForeignKey(d => d.IdTabAgente)
@@ -201,16 +189,6 @@ public partial class STC_Context : DbContext
 
             entity.HasIndex(e => e.Matricula, "IX_TabAgentes_1");
 
-            entity.HasIndex(e => e.IdContrato, "IX_TabAgentes_2");
-
-            entity.HasIndex(e => e.Cargo, "IX_TabAgentes_3");
-
-            entity.Property(e => e.Cargo)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.IdContrato)
-                .HasMaxLength(5)
-                .IsUnicode(false);
             entity.Property(e => e.Matricula)
                 .HasMaxLength(10)
                 .IsUnicode(false);
@@ -259,18 +237,6 @@ public partial class STC_Context : DbContext
                 .IsUnicode(false);
         });
 
-        modelBuilder.Entity<TabContratos>(entity =>
-        {
-            entity.HasNoKey();
-
-            entity.Property(e => e.Descricao)
-                .HasMaxLength(30)
-                .IsUnicode(false);
-            entity.Property(e => e.IdContrato)
-                .HasMaxLength(5)
-                .IsUnicode(false);
-        });
-
         modelBuilder.Entity<TabMunicipios>(entity =>
         {
             entity.HasKey(e => e.IdTabMunicipio);
@@ -306,6 +272,9 @@ public partial class STC_Context : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.Matricula)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Nome)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Senha)
