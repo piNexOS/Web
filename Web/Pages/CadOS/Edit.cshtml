@@ -19,17 +19,17 @@
                 <span asp-validation-for="OrdensServicos.Matricula" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="OrdensServicos.IdTabServico" class="control-label"></label>
+                <label asp-for="OrdensServicos.IdTabServico" class="control-label">Serviço</label>
                 <select asp-for="OrdensServicos.IdTabServico" class="form-control" asp-items="ViewBag.IdTabServico"></select>
-                <span asp-validation-for="OrdensServicos.IdTabServico" class="text-danger"></span>
+                <span asp-validation-for="OrdensServicos.IdTabServicoNavigation.Descricao" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="OrdensServicos.IdTabBairro" class="control-label"></label>
+                <label asp-for="OrdensServicos.IdTabBairro" class="control-label">Bairro</label>
                 <select asp-for="OrdensServicos.IdTabBairro" class="form-control" asp-items="ViewBag.IdTabBairro"></select>
                 <span asp-validation-for="OrdensServicos.IdTabBairro" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="OrdensServicos.IdTabMunicipio" class="control-label"></label>
+                <label asp-for="OrdensServicos.IdTabMunicipio" class="control-label">Municipio</label>
                 <select asp-for="OrdensServicos.IdTabMunicipio" class="form-control" asp-items="ViewBag.IdTabMunicipio"></select>
                 <span asp-validation-for="OrdensServicos.IdTabMunicipio" class="text-danger"></span>
             </div>

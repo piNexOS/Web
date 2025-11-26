@@ -37,7 +37,7 @@ namespace Web.Pages.CadOS
             OrdensServicos = ordensservicos;
            ViewData["IdTabBairro"] = new SelectList(_context.TabBairros, "IdTabBairro", "Descricao");
            ViewData["IdTabMunicipio"] = new SelectList(_context.TabMunicipios, "IdTabMunicipio", "Descricao");
-           ViewData["IdTabServico"] = new SelectList(_context.TabServicos, "IdTabServico", "IdTabServico");
+           ViewData["IdTabServico"] = new SelectList(_context.TabServicos, "IdTabServico", "Descricao");
             return Page();
         }
 

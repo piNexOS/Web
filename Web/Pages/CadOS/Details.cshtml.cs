@@ -27,7 +27,12 @@ namespace Web.Pages.CadOS
                 return NotFound();
             }
 
-            var ordensservicos = await _context.OrdensServicos.FirstOrDefaultAsync(m => m.IdOrdemServico == id);
+            var ordensservicos = await _context.OrdensServicos
+                .Include(o => o.IdTabBairroNavigation)
+                .Include(o => o.IdTabMunicipioNavigation)
+                .Include(o => o.IdTabServicoNavigation)
+                .FirstOrDefaultAsync(m => m.IdOrdemServico == id);
+
             if (ordensservicos == null)
             {
                 return NotFound();
