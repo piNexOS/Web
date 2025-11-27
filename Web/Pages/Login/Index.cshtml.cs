@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Infra.DataBase;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Infra.DataBase;
-using System.Net.Mail;
+using System.Security.Claims;
 namespace Web.Pages.NovaPasta
 {
     public class IndexModel : PageModel
@@ -31,7 +27,7 @@ namespace Web.Pages.NovaPasta
         public LoginViewModel Usuario { get; set; }
 
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
                 return Page();
@@ -43,7 +39,11 @@ namespace Web.Pages.NovaPasta
             if (usuario != null)
             {
                 // Login OK
+                // gera cookie e autenticação de cargo
                 // redireciona ou seta sessão
+
+                await SignInUser(usuario, false);
+
                 return RedirectToPage("/Home/Index");
             }
             else
@@ -52,5 +52,27 @@ namespace Web.Pages.NovaPasta
                 return Page();
             }
         }
+
+        private async Task SignInUser(TabUsuarios user, bool rememberMe)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.Matricula),
+                new Claim(ClaimTypes.Role, user.Cargo) 
+            };
+
+            var identity = new ClaimsIdentity(claims, "Cookies");
+
+            var props = new AuthenticationProperties
+            {
+                IsPersistent = rememberMe,
+                ExpiresUtc = rememberMe
+                    ? DateTimeOffset.UtcNow.AddDays(5)
+                    : DateTimeOffset.UtcNow.AddHours(1)
+            };
+
+            await HttpContext.SignInAsync("Cookies", new ClaimsPrincipal(identity));
+        }
+
     }
 }

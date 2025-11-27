@@ -9,9 +9,11 @@ using Infra.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Web.DataBase;
 using OrdensServicos = Infra.DataBase.OrdensServicos;
+using System.Web.Mvc;
 
 namespace Web.Pages.CadOS
 {
+    [Authorize(Roles = "Programador,Gerente,Administrador")]
     public class CreateModel : PageModel
     {
         private readonly Infra.DataBase.STC_Context _context;
@@ -24,9 +26,9 @@ namespace Web.Pages.CadOS
 
         public IActionResult OnGet()
         {
-            ViewData["IdTabBairro"] = new SelectList(_context.TabBairros, "IdTabBairro", "Descricao");
-            ViewData["IdTabMunicipio"] = new SelectList(_context.TabMunicipios, "IdTabMunicipio", "Descricao");
-            ViewData["IdTabServico"] = new SelectList(_context.TabServicos, "IdTabServico", "Descricao");
+            ViewData["IdTabBairro"] = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(_context.TabBairros, "IdTabBairro", "Descricao");
+            ViewData["IdTabMunicipio"] = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(_context.TabMunicipios, "IdTabMunicipio", "Descricao");
+            ViewData["IdTabServico"] = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(_context.TabServicos, "IdTabServico", "Descricao");
             return Page();
         }
 
