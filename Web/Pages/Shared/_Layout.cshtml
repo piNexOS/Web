@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/newglyphicons.css" />
-    <script src="~/lib/jquery/dist/jquery.js"></script>
 
     <style>
         @@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;500&display=swap');
@@ -21,15 +20,12 @@
             --cor-texto: #fff;
         }
 
-        /*-----------------------------------------------------
-          RESET + BASE
-        -----------------------------------------------------*/
         * {
             margin: 0;
             padding: 0;
-            font-family: "League Spartan", sans-serif;
-            font-weight: 500;
             box-sizing: border-box;
+            font-family: "League Spartan", sans-serif;
+            font-weight: 400;
         }
 
         html, body {
@@ -43,9 +39,6 @@
             overflow-x: hidden;
         }
 
-        /*-----------------------------------------------------
-          SCROLLBAR
-        -----------------------------------------------------*/
         ::-webkit-scrollbar {
             width: 10px;
             background-color: var(--cor-header);
@@ -67,9 +60,6 @@
             background-color: #181a1b;
         }
 
-        /*-----------------------------------------------------
-          HEADER
-        -----------------------------------------------------*/
         header {
             background-color: var(--cor-header);
             height: 5em;
@@ -79,12 +69,16 @@
             gap: 1em;
             box-shadow: 0 -2px 8px var(--cor-nexosdark);
             position: relative;
-            z-index: 4;
+            z-index: 1040;
         }
 
         .img_logo {
             width: 135px;
             margin-left: -20px;
+        }
+
+        .logo {
+            overflow: hidden;
         }
 
         .foto_perfil {
@@ -96,14 +90,11 @@
             width: 30px;
         }
 
-        /*-----------------------------------------------------
-          NAV (comandos)
-        -----------------------------------------------------*/
         .comandos {
-            display: flex;
+            background-color: var(--cor-header);
+            display: none;
             gap: 3em;
             align-items: center;
-            background-color: var(--cor-header);
         }
 
             .comandos a {
@@ -111,104 +102,83 @@
                 font-weight: bold;
                 text-decoration: none;
                 padding: 10px 10px 7px;
-                transition: 0.2s;
+                transition: 0.15s;
             }
 
                 .comandos a:hover {
                     color: var(--cor-nexos);
-                    transform: scale(1.1);
                 }
 
-        /*-----------------------------------------------------
-          HOVER REAL DOS DROPDOWNS
-        -----------------------------------------------------*/
-        .nav-item:hover > .dropdown-menu {
-            display: block !important;
-        }
-
-        .dropdown-menu {
-            background-color: var(--cor-header);
-            border: 1px solid var(--cor-nexosdark);
-        }
-
-            .dropdown-menu .dropdown-item {
-                color: var(--cor-texto);
+        @@media (min-width: 768px) {
+            .comandos {
+                display: flex;
             }
 
-                .dropdown-menu .dropdown-item:hover {
-                    background-color: rgb(78, 78, 78);
+                .comandos .nav-item:hover > .dropdown-menu {
+                    display: block;
                 }
 
-        /* Submenu lateral */
-        .dropdown-submenu {
-            position: relative;
+            .dropdown-menu {
+                z-index: 2000;
+            }
         }
 
-            .dropdown-submenu .dropdown-menu {
-                left: 100%;
-                top: 0;
-                margin-left: .2rem;
-            }
-
-        /*-----------------------------------------------------
-          MOBILE MENU
-        -----------------------------------------------------*/
-        .icone_lista {
+        .btn-menu-toggle {
             background: transparent;
             border: none;
-            color: white;
-            cursor: pointer;
-            display: none;
+            color: var(--cor-texto);
+            padding: .6rem;
         }
 
-        @@media screen and (max-width: 768px) {
-            .icone_lista
-
-        {
-            display: block;
+        .offcanvas-custom {
+            width: 220px;
+            overflow-x: hidden;
         }
 
-        .comandos {
-            display: none;
-        }
-
-            .comandos.sidebar-ativa {
-                display: flex;
-                flex-direction: column;
-                position: absolute;
-                left: 0;
-                top: 0;
-                height: 100%;
-                width: 30vw;
-                background-color: #222629;
-                padding: 1em;
-                animation: mostraSideBar 0.4s;
+            .offcanvas-custom .offcanvas-body {
+                padding: 0;
+                overflow-y: auto;
             }
 
+        .sidebar-nav {
+            list-style: none;
+            margin: 0;
+            padding: .6rem 0;
         }
 
-        /* Sidebar animation */
-        @@keyframes mostraSideBar {
-            from
+            .sidebar-nav .nav-item {
+                width: 100%;
+                position: relative;
+            }
 
-        {
-            left: -35vw;
-        }
+            .sidebar-nav .nav-link {
+                color: var(--cor-texto);
+                font-size: 1.05rem;
+                padding: .8rem 1rem;
+                display: block;
+                text-decoration: none;
+            }
 
-        to {
-            left: 0;
-        }
+                .sidebar-nav .nav-link:hover {
+                    background: rgba(255,255,255,0.03);
+                    color: var(--cor-nexos);
+                }
 
+        .dropdown-toggle::after {
+            display: none !important;
         }
 
         .content.blur {
             filter: blur(2px);
+            pointer-events: none;
+            user-select: none;
         }
 
         main {
             width: 100%;
             min-height: calc(100vh - 4em);
             position: relative;
+            z-index: 1;
         }
 
         .content {
@@ -228,41 +198,100 @@
             padding: 1em;
         }
 
-        .comandos li,
-        .dropdown-menu li {
+        .comandos li, .dropdown-menu li {
             list-style: none !important;
         }
 
-       
-        .comandos a,
-        .dropdown-menu .dropdown-item {
-            font-size: 1.22rem; 
-        }
-
-        .comandos a:hover {
+        .comandos a, .dropdown-menu .dropdown-item, .sidebar-nav .nav-link {
             font-size: 1.25rem;
         }
-    </style>
-    <script>
-        function alertifyReset() {
 
-            alertify.set({
-                labels: {
-                    ok: "Sim",
-                    cancel: "Não"
-                },
-                delay: 5000,
-                buttonReverse: false,
-                buttonFocus: "cancel"
-
-            });
+        .dropdown-menu {
+            background-color: var(--cor-header);
+            border: 1px solid #545454;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.35);
         }
-    </script>
 
+            .dropdown-menu .dropdown-item {
+                color: var(--cor-texto);
+            }
+
+                .dropdown-menu .dropdown-item:hover {
+                    background-color: rgb(78,78,78);
+                    color: var(--cor-nexos);
+                }
+
+        .offcanvas-custom,
+        .offcanvas-custom .offcanvas-body,
+        .offcanvas-custom .offcanvas-header {
+            background-color: var(--cor-header) !important;
+            color: var(--cor-texto) !important;
+        }
+
+        .dropdown-menu .dropdown-item {
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding: 0.85rem 1rem;
+            color: var(--cor-texto) !important;
+        }
+
+        #offcanvasSidebar .dropdown-menu {
+            min-width: 200px;
+            z-index: 1060;
+        }
+
+        #offcanvasSidebar .nav-link {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--cor-texto);
+            padding: .8rem 1rem;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 240px;
+            height: 100%;
+            background: #23282E;
+            overflow-y: auto;
+            overflow-x: hidden;
+            z-index: 999;
+        }
+
+            .sidebar .nav-item {
+                position: relative;
+            }
+
+            .sidebar .dropdown-menu {
+                position: absolute !important;
+                top: 0;
+                left: 100%;
+                margin-left: 4px;
+                background: #2E343A;
+                border: none;
+                box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+                padding: 6px 0;
+                display: none;
+                min-width: 180px;
+            }
+
+            .sidebar .nav-item.show > .dropdown-menu {
+                display: block !important;
+            }
+
+            .sidebar .dropdown-toggle::after {
+                display: none;
+            }
+
+        .nav-link:hover, .nav-link:focus {
+            color: var(--cor-nexos);
+        }
+    </style>
 </head>
 <body>
     <header id="header">
-        <button class="icone_lista" id="abrir" aria-label="Abrir menu">
+        <button class="btn-menu-toggle d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar" aria-label="Abrir menu">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
                       d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
@@ -273,79 +302,270 @@
             <a href="~/home"><img src="~/LogoNexos.png" class="img_logo" alt="Logo NexOS" /></a>
         </div>
 
-        <nav class="comandos" id="comandos">
-            <button class="icone_lista fechar" id="fechar" aria-label="Fechar menu">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708 .708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
-                </svg>
-            </button>
+        <nav class="comandos ms-3 d-none d-md-flex" id="desktopMenu" aria-label="Menu principal">
+            <ul class="nav align-items-center">
+                <li class="nav-item"><a href="~/home" class="nav-link px-4">Home</a></li>
 
-           
-            <li class="nav-item">
-                <a href="~/home" class="span_header">Home</a>
-            </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle px-4" href="#" id="importarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Importar</a>
+                    <ul class="dropdown-menu" aria-labelledby="importarDropdown">
+                        <li><a class="dropdown-item" href="~/impexpservicos/">Arquivo de Texto</a></li>
+                        <li><a class="dropdown-item" href="~/CadOS">Inserir Manualmente</a></li>
+                    </ul>
+                </li>
 
-            
-            <li class="nav-item dropdown">
-                <a href="#" id="menu" data-bs-toggle="dropdown" class="span_header" data-bs-display="static">Importar</a>
-                <ul class="dropdown-menu">
-                    <li><a href="~/impexpservicos/" class="dropdown-item">Arquivo de Texto</a></li>
-                    <li><a href="~/CadOS/Create" class="dropdown-item">Inserir Manualmente</a></li>
-                </ul>
-            </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle px-4" href="#" id="programacaoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Programação</a>
+                    <ul class="dropdown-menu" aria-labelledby="programacaoDropdown">
+                        <li><a class="dropdown-item" href="~/progservicos/progservicos">Programar OS</a></li>
+                        <li><a class="dropdown-item" href="~/progservicos/progmanutencao">Alterar OS</a></li>
+                    </ul>
+                </li>
 
-            
-            <li class="nav-item dropdown">
-                <a href="#" id="menu" data-bs-toggle="dropdown" class="span_header" data-bs-display="static">Programação</a>
-                <ul class="dropdown-menu">
-                    <li><a href="~/progservicos/progservicos" class="dropdown-item">Programar OS</a></li>
-                    <li><a href="~/progservicos/progmanutencao" class="dropdown-item">Alterar OS</a></li>
-                </ul>
-            </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle px-4" href="#" id="gerenciamentoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Gerenciamento</a>
+                    <ul class="dropdown-menu" aria-labelledby="gerenciamentoDropdown">
+                        <li><a class="dropdown-item" href="~/gerenciamento/funcionarios">Funcionários</a></li>
+                        <li><a class="dropdown-item" href="~/gerenciamento/os">Ordens de Serviço</a></li>
+                        <li><a class="dropdown-item" href="~/gerenciamento/analiseservicos">Análise de Serviços</a></li>
+                    </ul>
+                </li>
 
-            
-            <li class="nav-item dropdown">
-                <a href="#" id="menu" data-bs-toggle="dropdown" class="span_header" data-bs-display="static">Gerenciamento</a>
-                <ul class="dropdown-menu">
-                    <li><a href="~/gerenciamento/funcionarios" class="dropdown-item">Funcionários</a></li>
-                    <li><a href="~/gerenciamento/os" class="dropdown-item">Ordens de Serviço</a></li>
-                    <li><a href="~/gerenciamento/analiseservicos" class="dropdown-item">Análise de Serviços</a></li>
-                </ul>
-            </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle px-4" href="#" id="cadastrosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Cadastros</a>
+                    <ul class="dropdown-menu" aria-labelledby="cadastrosDropdown">
+                        <li><a class="dropdown-item" href="~/CadAgentes">Agente de Campo</a></li>
+                        <li><a class="dropdown-item" href="~/CadUsuarios">Programador</a></li>
+                    </ul>
+                </li>
 
-            
-            <li class="nav-item dropdown">
-                <a href="#" id="menu" data-bs-toggle="dropdown" class="span_header" data-bs-display="static">Cadastros</a>
-                <ul class="dropdown-menu">
-                    <li><a href="~/CadAgentes" class="dropdown-item">Agente de Campo</a></li>
-                    <li><a href="~/CadUsuarios" class="dropdown-item">Programador</a></li>
-                </ul>
-            </li>
-            <li class="nav-item">
-                <a href="~/Relatorios" class="span_header">Relatórios</a>
-            </li>
+                <li class="nav-item"><a class="nav-link px-4" href="~/Relatorios">Relatórios</a></li>
+            </ul>
         </nav>
 
         <div class="foto_perfil">
             <a href="#"><img src="~/icone_usuario.png" alt="usuario" class="icon_usuario" /></a>
         </div>
     </header>
+
+    <div class="offcanvas offcanvas-start offcanvas-custom d-md-none" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel" data-bs-scroll="true" data-bs-backdrop="true">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasSidebarLabel">Menu</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="sidebar-nav">
+                <li class="nav-item"><a class="nav-link" href="~/home">Home</a></li>
+
+                <li class="nav-item dropend">
+                    <a class="nav-link dropdown-toggle" href="#" id="off_importar" aria-expanded="false">Importar</a>
+                    <ul class="dropdown-menu" aria-labelledby="off_importar">
+                        <li><a class="dropdown-item" href="~/impexpservicos/">Arquivo de Texto</a></li>
+                        <li><a class="dropdown-item" href="~/CadOS">Inserir Manualmente</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropend">
+                    <a class="nav-link dropdown-toggle" href="#" id="off_prog" aria-expanded="false">Programação</a>
+                    <ul class="dropdown-menu" aria-labelledby="off_prog">
+                        <li><a class="dropdown-item" href="~/progservicos/progservicos">Programar OS</a></li>
+                        <li><a class="dropdown-item" href="~/progservicos/progmanutencao">Alterar OS</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropend">
+                    <a class="nav-link dropdown-toggle" href="#" id="off_ger" aria-expanded="false">Gerenciamento</a>
+                    <ul class="dropdown-menu" aria-labelledby="off_ger">
+                        <li><a class="dropdown-item" href="~/gerenciamento/funcionarios">Funcionários</a></li>
+                        <li><a class="dropdown-item" href="~/gerenciamento/os">Ordens de Serviço</a></li>
+                        <li><a class="dropdown-item" href="~/gerenciamento/analiseservicos">Análise de Serviços</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropend">
+                    <a class="nav-link dropdown-toggle" href="#" id="off_cad" aria-expanded="false">Cadastros</a>
+                    <ul class="dropdown-menu" aria-labelledby="off_cad">
+                        <li><a class="dropdown-item" href="~/CadAgentes">Agente de Campo</a></li>
+                        <li><a class="dropdown-item" href="~/CadUsuarios">Programador</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item"><a class="nav-link" href="~/Relatorios">Relatórios</a></li>
+            </ul>
+        </div>
+    </div>
+
     <main class="container-fluid">
         <div role="main" class="pb-3">
-            @RenderBody()
+            <div class="content">
+                @RenderBody()
+            </div>
         </div>
     </main>
 
-    @* <footer class="border-top footer text-muted"> *@
     <footer>
-        <div class="container-fluid">
-            &copy; Serviços NexOs
-        </div>
+        <div class="container-fluid">&copy; Serviços NexOs</div>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        (function () {
+            var offcanvasEl = document.getElementById('offcanvasSidebar');
+            var contentEls = document.querySelectorAll('.content');
+            if (!offcanvasEl) return;
+
+            var offInstance = bootstrap.Offcanvas.getOrCreateInstance(offcanvasEl);
+
+            offcanvasEl.addEventListener('show.bs.offcanvas', function () {
+                contentEls.forEach(function (c) { c.classList.add('blur'); });
+            });
+
+            offcanvasEl.addEventListener('hidden.bs.offcanvas', function () {
+                contentEls.forEach(function (c) { c.classList.remove('blur'); });
+                document.querySelectorAll('#offcanvasSidebar .dropdown-menu').forEach(function (d) {
+                    d.classList.remove('show');
+                    d.style.top = '';
+                    d.style.left = '';
+                    d.style.position = '';
+                    d.style.maxHeight = '';
+                });
+                document.querySelectorAll('#offcanvasSidebar .dropdown-toggle').forEach(function(t){
+                    t.setAttribute('aria-expanded', 'false');
+                });
+            });
+
+            offcanvasEl.addEventListener('shown.bs.offcanvas', function () {
+                document.querySelectorAll('#offcanvasSidebar .dropdown-menu.show').forEach(function (m) {
+                    var t = m.previousElementSibling;
+                    repositionMenu(m, t);
+                });
+            });
+
+            function closeAllOffDropdowns(except) {
+                document.querySelectorAll('#offcanvasSidebar .dropdown-menu.show').forEach(function (d) {
+                    if (d !== except) {
+                        d.classList.remove('show');
+                        d.style.top = '';
+                        d.style.left = '';
+                        d.style.position = '';
+                        d.style.maxHeight = '';
+                        var togg = d.previousElementSibling;
+                        if (togg && togg.classList.contains('dropdown-toggle')) togg.setAttribute('aria-expanded','false');
+                    }
+                });
+            }
+
+            function repositionMenu(menu, toggle) {
+                if (!menu || !toggle) return;
+
+                menu.style.position = 'fixed';
+                menu.style.zIndex = '1060';
+                menu.style.maxHeight = '';
+
+                var toggleRect = toggle.getBoundingClientRect();
+                var sidebarRect = offcanvasEl.getBoundingClientRect();
+
+                var menuW = Math.max(menu.offsetWidth || 180, 180);
+                var availableRight = window.innerWidth - sidebarRect.right;
+                var preferLeft = availableRight < (menuW + 16);
+
+                var top = toggleRect.top;
+                var maxTop = window.innerHeight - menu.offsetHeight - 8;
+                if (top > maxTop) top = Math.max(8, maxTop);
+                if (top < 8) top = 8;
+
+                var left;
+                if (!preferLeft) {
+                    left = sidebarRect.right + 8;
+                    if (left + menuW > window.innerWidth - 8) preferLeft = true;
+                }
+                if (preferLeft) {
+                    left = sidebarRect.left - menuW - 8;
+                    if (left < 8) left = Math.max(8, sidebarRect.right + 8 - menuW);
+                }
+
+                menu.style.top = top + 'px';
+                menu.style.left = left + 'px';
+                menu.style.position = 'fixed';
+                menu.style.minWidth = Math.max(180, offcanvasEl.clientWidth - 12) + 'px';
+                menu.style.maxHeight = (window.innerHeight - 16) + 'px';
+                menu.style.overflowY = 'auto';
+            }
+
+            document.querySelectorAll('#offcanvasSidebar .dropdown-toggle').forEach(function (toggle) {
+                toggle.addEventListener('click', function (ev) {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+
+                    var menu = toggle.nextElementSibling;
+                    if (!menu) return;
+
+                    var willShow = !menu.classList.contains('show');
+
+                    closeAllOffDropdowns(willShow ? menu : null);
+
+                    if (willShow) {
+                        try { toggle.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'auto' }); } catch (e) {}
+
+                        menu.classList.add('show');
+                        toggle.setAttribute('aria-expanded','true');
+
+                        requestAnimationFrame(function () {
+                            requestAnimationFrame(function () {
+                                repositionMenu(menu, toggle);
+                            });
+                        });
+                    } else {
+                        menu.classList.remove('show');
+                        toggle.setAttribute('aria-expanded','false');
+                        menu.style.top = '';
+                        menu.style.left = '';
+                        menu.style.position = '';
+                        menu.style.maxHeight = '';
+                    }
+                }, { passive: false });
+            });
+
+            offcanvasEl.addEventListener('click', function (e) {
+                if (e.target.classList.contains('dropdown-item')) {
+                    closeAllOffDropdowns();
+                }
+            });
+
+            document.addEventListener('click', function (e) {
+                if (offcanvasEl.classList.contains('show')) {
+                    if (!offcanvasEl.contains(e.target)) {
+                        closeAllOffDropdowns();
+                    }
+                }
+            });
+
+            document.addEventListener('keydown', function (ev) {
+                if (ev.key === 'Escape' && offcanvasEl.classList.contains('show')) {
+                    closeAllOffDropdowns();
+                }
+            });
+
+            window.addEventListener('resize', function () {
+                document.querySelectorAll('#offcanvasSidebar .dropdown-menu.show').forEach(function (m) {
+                    var t = m.previousElementSibling;
+                    repositionMenu(m, t);
+                });
+            });
+
+            var bodyInner = offcanvasEl.querySelector('.offcanvas-body');
+            if (bodyInner) {
+                bodyInner.addEventListener('scroll', function () {
+                    document.querySelectorAll('#offcanvasSidebar .dropdown-menu.show').forEach(function (m) {
+                        var t = m.previousElementSibling;
+                        repositionMenu(m, t);
+                    });
+                });
+            }
+        })();
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
