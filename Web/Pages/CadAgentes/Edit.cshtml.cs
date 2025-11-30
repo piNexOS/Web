@@ -27,6 +27,7 @@ namespace Web.Pages.CadAgentes
             }
 
             var tabagentes =  await _context.TabAgentes.FirstOrDefaultAsync(m => m.IdTabAgente == id);
+
             if (tabagentes == null)
             {
                 return NotFound();
@@ -44,6 +45,30 @@ namespace Web.Pages.CadAgentes
                 return Page();
             }
 
+            // 1. Pega o agente atual do BD (com valor antigo)
+            var agenteAtual = await _context.TabAgentes
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.IdTabAgente == TabAgentes.IdTabAgente);
+
+            if (agenteAtual == null)
+                return NotFound();
+
+            // 2. Se a matrícula mudou, atualiza no usuário
+            if (agenteAtual.Matricula != TabAgentes.Matricula)
+            {
+                var usuario = await _context.TabUsuarios
+                    .FirstOrDefaultAsync(u => u.Matricula == agenteAtual.Matricula);
+
+                if (usuario != null)
+                {
+                    usuario.Matricula = TabAgentes.Matricula;
+                    _context.TabUsuarios.Update(usuario);
+                }
+            }
+
+            // 3. Atualiza o agente
+            
+            TabAgentes.Status = "Inativo";
             _context.Attach(TabAgentes).State = EntityState.Modified;
 
             try

@@ -39,12 +39,46 @@ namespace Web.Pages.CadUsuarios
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+
             if (!ModelState.IsValid)
             {
-                return Page();
+                var erros = new List<string>();
+
+                foreach (var e in ModelState)
+                {
+                    foreach (var err in e.Value.Errors)
+                    {
+                        erros.Add($"{e.Key}: {err.ErrorMessage}");
+                    }
+                }
+
+                throw new Exception(string.Join(" | ", erros));
             }
 
-            _context.Attach(TabUsuarios).State = EntityState.Modified;
+            var usuarioAtual = await _context.TabUsuarios
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.IdTabUsuarios == TabUsuarios.IdTabUsuarios);
+
+            if (usuarioAtual == null)
+                return NotFound();
+
+            // 2. Se a matrícula mudou, atualiza no agente
+            if (usuarioAtual.Matricula != TabUsuarios.Matricula)
+            {
+                var agente = await _context.TabAgentes
+                    .FirstOrDefaultAsync(u => u.Matricula == usuarioAtual.Matricula);
+
+                if (agente != null)
+                {
+                    agente.Matricula = TabUsuarios.Matricula;
+                    _context.TabAgentes.Update(agente);
+                }
+            }
+
+            // 3. Atualiza o agente
+
+            _context.TabUsuarios.Update(TabUsuarios);
+
 
             try
             {
