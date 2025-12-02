@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Collections.Immutable;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Pages.ImpExpServicos
 {
+    [Authorize(Roles = "Gerente,Administrador, Programador")]
     public class IndexModel : PageModel
     {
         private IWebHostEnvironment _webHostEnvironment;

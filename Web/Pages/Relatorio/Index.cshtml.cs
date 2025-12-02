@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Web.Pages.Home
+namespace Web.Pages.Relatorio
 {
-    [Authorize]
+    [Authorize(Roles = "Administrador, Gerente, Programador")]
     public class IndexModel : PageModel
     {
         public void OnGet()

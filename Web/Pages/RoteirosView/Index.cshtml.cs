@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Pages.Roteiros
 {
+    [Authorize(Roles = "Administrador, Gerente, Programador")]
     public class IndexModel : PageModel
     {
         public SelectList ListAgentes { get; set; }

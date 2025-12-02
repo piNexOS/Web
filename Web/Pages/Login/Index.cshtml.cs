@@ -3,8 +3,11 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
-namespace Web.Pages.NovaPasta
+using Microsoft.AspNetCore.Authorization;
+
+namespace Web.Pages.Login
 {
+    [AllowAnonymous]
     public class IndexModel : PageModel
     {
         public void OnGet()
@@ -42,7 +45,7 @@ namespace Web.Pages.NovaPasta
                 // gera cookie e autenticação de cargo
                 // redireciona ou seta sessão
 
-                await SignInUser(usuario, false);
+                await SignInUser(usuario);
 
                 return RedirectToPage("/Home/Index");
             }
@@ -53,7 +56,7 @@ namespace Web.Pages.NovaPasta
             }
         }
 
-        private async Task SignInUser(TabUsuarios user, bool rememberMe)
+        private async Task SignInUser(TabUsuarios user)
         {
             var claims = new List<Claim>
             {
@@ -65,8 +68,8 @@ namespace Web.Pages.NovaPasta
 
             var props = new AuthenticationProperties
             {
-                IsPersistent = rememberMe,
-                ExpiresUtc = rememberMe
+                IsPersistent = false,
+                ExpiresUtc = false
                     ? DateTimeOffset.UtcNow.AddDays(5)
                     : DateTimeOffset.UtcNow.AddHours(1)
             };

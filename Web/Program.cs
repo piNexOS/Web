@@ -5,17 +5,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<STC_Context>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("")));
-builder.Services.AddRazorPages();
-builder.Services.AddMvc().AddRazorPagesOptions(options =>
+builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AddPageRoute("/Login/Index", "");
+    options.Conventions.AllowAnonymousToPage("/Login/Index");
 });
+
 builder.Services.AddAuthentication("Cookies")
     .AddCookie("Cookies", options =>
     {
         options.LoginPath = "/Login/Index";
         options.AccessDeniedPath = "/AccessDenied";
-        options.ExpireTimeSpan = TimeSpan.FromDays(5);
+        options.ExpireTimeSpan = TimeSpan.FromDays(1);
     });
 
 builder.Services.AddAuthorization();
@@ -27,6 +28,7 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
 }
+
 app.UseStaticFiles();
 
 app.UseRouting();
