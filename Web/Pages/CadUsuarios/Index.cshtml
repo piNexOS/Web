@@ -1,54 +1,180 @@
-﻿@page 
+﻿@page
 @model Web.Pages.CadUsuarios.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
-}
+    <!DOCTYPE html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Usuários - NexOS</title>
 
-<h1>Index</h1>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TabUsuarios[0].Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TabUsuarios[0].Matricula)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TabUsuarios[0].Cargo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TabUsuarios[0].Senha)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.TabUsuarios) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Matricula)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cargo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Senha)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.IdTabUsuarios">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.IdTabUsuarios">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.IdTabUsuarios">Delete</a>
-            </td>
-        </tr>
+        <style>
+
+            :root {
+                --cor-fundo: #373F46;
+                --cor-header: #272C2F;
+                --cor-nexos: #26a5ee;
+                --cor-nexosdark: rgb(17, 136, 206);
+                --cor-texto: #fff;
+                --cor-card: #2E343A;
+                --cor-card-dark: #23282E;
+            }
+
+            main {
+                background: linear-gradient(15deg, rgba(41,41,41,1) -100%, rgba(58,66,72,1) 70%);
+                font-family: "Poppins", sans-serif;
+                color: var(--cor-texto);
+                margin: 0;
+                padding: 1em;
+                min-height: 100vh;
+                display: flex;
+                flex-flow: column nowrap;
+                width: 100%;
+                align-items: center;
+            }
+
+            h1 {
+                text-align: center;
+                font-size: 2.5rem;
+                margin-bottom: 1.5rem;
+                font-weight: 600;
+                color: var(--cor-texto);
+                text-shadow: 0 0 6px rgba(38,165,238,0.3);
+            }
+
+            .btn-create {
+                text-decoration: none;
+                color: white;
+                background: var(--cor-nexos);
+                padding: .6em 1.2em;
+                border-radius: 8px;
+                font-size: 1.1rem;
+                font-weight: 600;
+                transition: .2s;
+            }
+
+                .btn-create:hover {
+                    background: var(--cor-nexosdark);
+                }
+
+            .btn-container {
+                margin-top: 2em;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 1.5rem;
+                background: var(--cor-card);
+                border-radius: 10px;
+                overflow: hidden;
+                box-shadow: 0 0 12px rgba(0,0,0,0.35);
+            }
+
+            thead {
+                background: var(--cor-header);
+            }
+
+            th {
+                padding: 1rem;
+                text-align: center;
+                font-size: 1.1rem;
+                font-weight: 600;
+                color: var(--cor-nexos);
+                border-bottom: 2px solid rgba(255,255,255,0.08);
+            }
+
+            td {
+                padding: 1rem;
+                border-bottom: 1px solid rgba(255,255,255,0.06);
+                font-size: 1.1rem;
+                color: var(--cor-texto);
+                text-align: center;
+            }
+
+            tr:hover td {
+                background: rgba(38,165,238,0.07);
+            }
+
+            tbody tr:last-child td {
+                border-bottom: none;
+            }
+
+            .actions a {
+                color: var(--cor-nexos);
+                text-decoration: none;
+                font-weight: 600;
+                margin: 0 .3rem;
+            }
+
+                .actions a:hover {
+                    color: var(--cor-nexosdark);
+                }
+
+            @@media (max-width: 768px) {
+                table {
+                    font-size: 0.95rem;
+                }
+
+                th, td {
+                    padding: 0.7rem;
+                }
+
+                h1 {
+                    font-size: 2rem;
+                }
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <main>
+
+            <div style="width: 100%; display:flex; justify-content:center;">
+                <h1>Cadastro de Usuários</h1>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.TabUsuarios[0].Nome)</th>
+                        <th>@Html.DisplayNameFor(model => model.TabUsuarios[0].Matricula)</th>
+                        <th>@Html.DisplayNameFor(model => model.TabUsuarios[0].Cargo)</th>
+                        <th>@Html.DisplayNameFor(model => model.TabUsuarios[0].Senha)</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model.TabUsuarios)
+                    {
+                        <tr>
+                            <td>@item.Nome</td>
+                            <td>@item.Matricula</td>
+                            <td>@item.Cargo</td>
+                            <td>@item.Senha</td>
+
+                            <td class="actions">
+                                <a asp-page="./Edit" asp-route-id="@item.IdTabUsuarios">Editar</a> |
+                                <a asp-page="./Details" asp-route-id="@item.IdTabUsuarios">Detalhes</a> |
+                                <a asp-page="./Delete" asp-route-id="@item.IdTabUsuarios">Excluir</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <p class="btn-container">
+                <a class="btn-create" asp-page="Create">Criar Novo</a>
+            </p>
+
+        </main>
+    </body>
+    </html>
 }
-    </tbody>
-</table>
