@@ -50,5 +50,53 @@ namespace Infra.Repositories
             ordensServico = ordensServico.OrderBy(x => x.IdTabBairroNavigation.IdTabMunicipioNavigation.Descricao);
             return ordensServico.ToList();
         }
+
+        public IList<DataBase.OrdensServicos> GetOrdensServicosParaGerenciar(
+    int idMunicipio, int idBairro, int idServico, string status, DateTime? dataVencimento)
+        {
+            var query = ctx.OrdensServicos
+                .Include(o => o.IdTabBairroNavigation)
+                    .ThenInclude(b => b.IdTabMunicipioNavigation)
+                .Include(o => o.IdTabServicoNavigation)
+                .AsQueryable();
+
+            // Filtra OS não baixadas
+            query = query.Where(o => o.DataBaixa == null);
+
+            // Filtra status, se informado
+            if (!string.IsNullOrEmpty(status))
+            {
+                query = query.Where(o => o.Status == status);
+            }
+
+            // Filtra município, se informado
+            if (idMunicipio != 0)
+            {
+                query = query.Where(o => o.IdTabBairroNavigation.IdTabMunicipio == idMunicipio);
+            }
+
+            // Filtra bairro, se informado
+            if (idBairro != 0)
+            {
+                query = query.Where(o => o.IdTabBairro == idBairro);
+            }
+
+            // Filtra serviço, se informado
+            if (idServico != 0)
+            {
+                query = query.Where(o => o.IdTabServico == idServico);
+            }
+
+            // Filtra data de vencimento, se informada
+            if (dataVencimento.HasValue && dataVencimento.Value != DateTime.MinValue)
+            {
+                query = query.Where(o => o.DataLimite.HasValue && o.DataLimite.Value.Date == dataVencimento.Value.Date);
+            }
+
+            // Ordena pelo nome do município
+            query = query.OrderBy(o => o.IdTabBairroNavigation.IdTabMunicipioNavigation.Descricao);
+
+            return query.ToList();
+        }
     }
 }

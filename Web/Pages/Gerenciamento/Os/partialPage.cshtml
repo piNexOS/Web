@@ -1,0 +1,141 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Gerenciamento.Os.OsModel.PartialViewModelType
+
+@{
+    Layout = null;
+}
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<style>
+    .wrapper {
+        width: auto;
+        height: 100vh;
+        overflow: auto;
+        position: relative;
+    }
+
+    table {
+        /* table-layout: fixed; */
+    }
+
+    thead,
+    tr > th {
+        position: sticky;
+        background: #fff;
+    }
+
+    thead {
+        top: 0;
+        z-index: 2;
+    }
+
+    tr > th {
+        left: 0;
+        z-index: 1;
+    }
+
+    thead tr > th:first-child {
+        z-index: 3;
+    }
+</style>
+<div class="wrapper" style="margin-top:10px;">
+    <table id="tabSelecao" class="table" style="font-size:small">
+        <thead>
+            <tr>
+                <th style="width:0px;visibility:hidden;display:none">0</th>
+                <th style="text-align:center">
+                    @if (Model.OrdensServico != null)
+                    {
+                        @Model.OrdensServico.Count()
+                    }
+                </th>
+                <th style="text-align:center">
+                    <input id="chkAll" type="checkbox" onclick="checkAll(this)">
+                </th>
+                <th style="text-align:center">
+                    Matricula
+                </th>
+                <th style="text-align:center">
+                    HD
+                </th>
+                
+                <th style="text-align:center">
+                    Ciclo
+                </th>
+        
+                <th>
+                    Cliente
+                </th>
+                
+                <th>
+                    Serviço
+                </th>
+                
+                <th>
+                    Bairro
+                </th>
+                <th>
+                    Endereço
+                </th>
+                <th>
+                    Seq.
+                </th>
+                <th>
+                    Dup.
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.OrdensServico == null) return;
+            @{
+                int Count = 0;
+            }
+            @foreach (var item in Model.OrdensServico)
+            {
+                Count++;
+                <tr>
+                    <td style="width:0px; visibility:hidden;display:none">
+                        @item.IdOrdemServico
+                    </td>
+                    <td style="text-align:center">
+                        @Count
+                    </td>
+                    <td style="text-align:center">
+                        <input name="chkSel" type="checkbox">
+                    </td>
+                    <td style="text-align:center">
+                        @string.Format("{0:00000000}", item.Matricula)
+                    </td>
+                    <td style="text-align:center">
+                        @item.NumHD
+                    </td>
+                    
+                    <td style="text-align:center">
+                        @item.Ciclo
+                    </td>
+                    
+               
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NomeCliente)
+                    </td>
+
+                    <td>
+                        @item.IdTabServicoNavigation.Descricao
+                    </td>
+
+                    <td>
+                        @item.IdTabBairroNavigation.Descricao
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Endereco)
+                    </td>
+                    
+                
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
