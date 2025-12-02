@@ -18,6 +18,7 @@
             <th>@Html.DisplayNameFor(model => model.TabAgentes[0].Status)</th>
             <th>@Html.DisplayNameFor(model => model.TabAgentes[0].Matricula)</th>
             <th>Programadas</th>
+            <th>Atendidas</th>
         </tr>
     </thead>
     <tbody>
@@ -38,7 +39,19 @@
                         d.IdOrdemServicoNavigation.DataLimite.HasValue &&
                         d.IdOrdemServicoNavigation.DataLimite.Value.Date == hoje) ?? 0
                         )
-            </td>
+                </td>
+
+                <td>
+                    @(
+                        item.Roteiros?
+                        .SelectMany(r => r.RoteiroDetalhes)
+                        .Count(d =>
+                        d.IdOrdemServicoNavigation != null &&
+                        d.IdOrdemServicoNavigation.DataBaixa.HasValue &&
+                        d.IdOrdemServicoNavigation.DataBaixa.Value.Date == hoje) ?? 0
+                        )
+                </td>
+
             </tr>
         }
     </tbody>
