@@ -1,6 +1,10 @@
 ﻿@page
 @model Web.Pages.Gerenciamento.Agentes
 
+@{
+    var hoje = DateTime.Today;
+}
+
 <h1>Gerenciar Agentes</h1>
 
 <p>
@@ -26,8 +30,15 @@
 
                 <!-- Contando todos os RoteiroDetalhes (OS) do agente -->
                 <td>
-                    @(item.Roteiros?.Sum(r => r.RoteiroDetalhes.Count) ?? 0)
-                </td>
+                    @(
+                        item.Roteiros?
+                        .SelectMany(r => r.RoteiroDetalhes)
+                        .Count(d =>
+                        d.IdOrdemServicoNavigation != null &&
+                        d.IdOrdemServicoNavigation.DataLimite.HasValue &&
+                        d.IdOrdemServicoNavigation.DataLimite.Value.Date == hoje) ?? 0
+                        )
+            </td>
             </tr>
         }
     </tbody>

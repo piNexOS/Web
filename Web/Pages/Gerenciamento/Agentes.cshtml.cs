@@ -23,9 +23,10 @@ namespace Web.Pages.Gerenciamento
         public async Task OnGetAsync()
         {
             TabAgentes = await _context.TabAgentes
-                .Include(a => a.Roteiros)
-                    .ThenInclude(r => r.RoteiroDetalhes)
-                .ToListAsync();
+            .Include(a => a.Roteiros)
+                .ThenInclude(r => r.RoteiroDetalhes)
+                    .ThenInclude(d => d.IdOrdemServicoNavigation)
+            .ToListAsync();
         }
     }
 }
