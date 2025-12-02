@@ -45,46 +45,7 @@
                 color: var(--cor-texto);
                 text-shadow: 0 0 6px rgba(38,165,238,0.3);
             }
-            p {
-                margin-top: 0;
-                margin-bottom: 0rem;
-                width: fit-content;
-                padding: 0.55em 0.4em 0.4em 0.4em;
-                background-color: var(--cor-card-dark);
-                border: 1px solid transparent;
-                border-radius: 0.75em;
-            }
-            a {
-                color: var(--cor-nexos);
 
-                text-decoration: none;
-                font-weight: bold;
-                transition: 0.2s;
-            }
-
-                a:hover {
-                    color: var(--cor-nexosdark);
-                    text-shadow: 0 0 4px rgba(38,165,238,0.5);
-                }
-
-            /* Botão CREATE NEW */
-            .btn-create {
-                display: inline-block;
-                background: var(--cor-nexos);
-                color: #fff !important;
-                padding: .6rem 1.2rem;
-                border-radius: 6px;
-                font-size: 1.1rem;
-                margin-bottom: 1rem;
-                transition: .2s;
-            }
-
-                .btn-create:hover {
-                    background: var(--cor-nexosdark);
-                    transform: translateY(-2px);
-                }
-
-            /* TABELA */
             table {
                 width: 100%;
                 border-collapse: collapse;
@@ -124,7 +85,6 @@
                 border-bottom: none;
             }
 
-            /* Adaptando para telas pequenas */
             @@media (max-width: 768px) {
                 main {
     
@@ -153,10 +113,6 @@
         <main>
             <div style="margin-left: -5%;width: 100%;display:flex;flex-flow:column;align-items: center">
                 <h1>Gerenciar Agentes</h1>
-
-                <p>
-                    <a asp-page="Create">Create New</a>
-                </p>
         </div>
         
 
