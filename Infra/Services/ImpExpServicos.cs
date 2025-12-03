@@ -108,6 +108,9 @@ namespace Infra.Services
                         ordemServico.IdTabBairro = repBairro.GetByDescricao(dcrBairro).IdTabBairro;
                         ordemServico.IdTabMunicipio = repMunicipio.GetByDescricao(dcrMunicipio).IdTabMunicipio;
                         ordemServico.IdTabServico = repServico.GetByDescricao(dcrServico).IdTabServico;
+
+                        // ← Aqui é que você adiciona o status
+                        ordemServico.Status = "NÃO PROGRAMADA";
                         repOrdemServico.Add(ordemServico);
                     }
 
