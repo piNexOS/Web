@@ -14,15 +14,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
-
         :root {
             --cor-fundo: #373F46;
-            --cor-header: #272C2F;
             --cor-nexos: #26a5ee;
             --cor-nexosdark: rgb(17, 136, 206);
             --cor-texto: #fff;
             --cor-card: #2E343A;
             --cor-input: #1f2429;
+            --cor-danger: #ff6b6b;
             --radius: 12px;
         }
 
@@ -135,8 +134,10 @@
             font-size: .88rem;
         }
 
+        .form-group {
+            margin-bottom: 1rem;
+        }
     </style>
-
 </head>
 
 <body>
@@ -151,23 +152,33 @@
 
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                <label asp-for="TabUsuarios.Nome"></label>
-                <input asp-for="TabUsuarios.Nome" class="form-control" />
-                <span asp-validation-for="TabUsuarios.Nome" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="TabUsuarios.Nome"></label>
+                    <input asp-for="TabUsuarios.Nome" class="form-control" />
+                    <span asp-validation-for="TabUsuarios.Nome" class="text-danger"></span>
+                </div>
 
-                <label asp-for="TabUsuarios.Matricula"></label>
-                <input asp-for="TabUsuarios.Matricula" class="form-control" />
-                <span asp-validation-for="TabUsuarios.Matricula" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="TabUsuarios.Matricula"></label>
+                    <input asp-for="TabUsuarios.Matricula" class="form-control" />
+                    <span asp-validation-for="TabUsuarios.Matricula" class="text-danger"></span>
+                </div>
 
-                <label asp-for="TabUsuarios.Cargo"></label>
-                <input asp-for="TabUsuarios.Cargo" class="form-control" />
-                <span asp-validation-for="TabUsuarios.Cargo" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="TabUsuarios.Cargo"></label>
+                    <input asp-for="TabUsuarios.Cargo" class="form-control" />
+                    <span asp-validation-for="TabUsuarios.Cargo" class="text-danger"></span>
+                </div>
 
-                <label asp-for="TabUsuarios.Senha"></label>
-                <input asp-for="TabUsuarios.Senha" type="password" class="form-control" />
-                <span asp-validation-for="TabUsuarios.Senha" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="TabUsuarios.Senha"></label>
+                    <input asp-for="TabUsuarios.Senha" type="password" class="form-control" />
+                    <span asp-validation-for="TabUsuarios.Senha" class="text-danger"></span>
+                </div>
 
-                <button type="submit" class="btn-primary">Criar Usuário</button>
+                <div class="form-group">
+                    <button type="submit" class="btn-primary">Criar Usuário</button>
+                </div>
 
             </form>
 

@@ -1,4 +1,4 @@
-using Infra.DataBase;
+Ôªøusing Infra.DataBase;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,16 +10,15 @@ namespace Web.Pages.Login
     [AllowAnonymous]
     public class IndexModel : PageModel
     {
-        public void OnGet()
-        {
-        }
+        private readonly STC_Context _context;
 
-        private readonly Infra.DataBase.STC_Context _context;
-
-        public IndexModel(Infra.DataBase.STC_Context context)
+        public IndexModel(STC_Context context)
         {
             _context = context;
         }
+
+        public void OnGet() { }
+
         public class LoginViewModel
         {
             public string Matricula { get; set; }
@@ -29,11 +28,9 @@ namespace Web.Pages.Login
         [BindProperty]
         public LoginViewModel Usuario { get; set; }
 
-
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-                return Page();
+            if (!ModelState.IsValid) return Page();
 
             var usuario = _context.TabUsuarios
                 .FirstOrDefault(u => u.Matricula == Usuario.Matricula
@@ -41,19 +38,12 @@ namespace Web.Pages.Login
 
             if (usuario != null)
             {
-                // Login OK
-                // gera cookie e autenticaÁ„o de cargo
-                // redireciona ou seta sess„o
-
                 await SignInUser(usuario);
-
                 return RedirectToPage("/Home/Index");
             }
-            else
-            {
-                ModelState.AddModelError("", "MatrÌcula ou senha inv·lida.");
-                return Page();
-            }
+
+            ModelState.AddModelError("", "Matr√≠cula ou senha inv√°lida.");
+            return Page();
         }
 
         private async Task SignInUser(TabUsuarios user)
@@ -61,7 +51,7 @@ namespace Web.Pages.Login
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Matricula),
-                new Claim(ClaimTypes.Role, user.Cargo) 
+                new Claim(ClaimTypes.Role, user.Cargo)
             };
 
             var identity = new ClaimsIdentity(claims, "Cookies");
@@ -69,13 +59,23 @@ namespace Web.Pages.Login
             var props = new AuthenticationProperties
             {
                 IsPersistent = false,
-                ExpiresUtc = false
-                    ? DateTimeOffset.UtcNow.AddDays(5)
-                    : DateTimeOffset.UtcNow.AddHours(1)
+                ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1)
             };
 
-            await HttpContext.SignInAsync("Cookies", new ClaimsPrincipal(identity));
+            await HttpContext.SignInAsync("Cookies", new ClaimsPrincipal(identity), props);
         }
 
+        // ---- handler de logout ----
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> OnPostLogoutAsync()
+        {
+            // remove cookie do esquema "Cookies" (mesmo nome usado no SignIn)
+            await HttpContext.SignOutAsync("Cookies");
+
+        
+
+            // redireciona para a p√°gina raiz (login)
+            return Redirect("~/");
+        }
     }
 }
