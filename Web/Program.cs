@@ -21,6 +21,8 @@ builder.Services.AddAuthentication("Cookies")
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddControllers();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,6 +34,8 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.MapControllers();
 
 app.UseAuthentication();
 
