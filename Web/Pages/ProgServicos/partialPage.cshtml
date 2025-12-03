@@ -67,7 +67,7 @@
                 </th>
 
                 <th style="text-align:center">
-                    <input id="chkAll" type="checkbox" onclick="checkAll(this)">
+                    <input id="chkSelectAll" type="checkbox" />
                 </th>
 
                 <th style="text-align:center">Matricula</th>
@@ -100,7 +100,7 @@
                     </td>
 
                     <td style="text-align:center">
-                        <input name="chkSel" type="checkbox">
+                        <input class="chkItem" type="checkbox" />
                     </td>
 
                     <td style="text-align:center">
@@ -135,3 +135,17 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    $(document).on("change", "#chkSelectAll", function () {
+        let marcado = $(this).is(":checked");
+        $("#tabSelecao .chkItem").prop("checked", marcado);
+    });
+
+    $(document).on("change", "#tabSelecao .chkItem", function () {
+        let total = $("#tabSelecao .chkItem").length;
+        let marcados = $("#tabSelecao .chkItem:checked").length;
+
+        $("#chkSelectAll").prop("checked", total === marcados);
+    });
+</script>

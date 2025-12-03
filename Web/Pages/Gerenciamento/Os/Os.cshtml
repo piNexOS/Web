@@ -134,13 +134,14 @@
             justify-content: flex-start;
             margin-top: 1.5rem;
         }
-
     </style>
 
     <script type="text/javascript">
+
         function atualizarBairros() {
             var idMunicipio = $("#ddlMunicipios").val();
             $("#ddlBairros").empty();
+
             $.getJSON(`?handler=ListBairros&id=${idMunicipio}`, (data) => {
                 $("#ddlBairros").append(`<option value="">Selecione</option>`);
                 $.each(data, function (i, item) {
@@ -167,31 +168,6 @@
             );
         }
 
-        function programar() {
-            var list = '';
-            $("#tabSelecao input[type=checkbox]:checked").each(function () {
-                var row = $(this).closest("tr")[0];
-                if (parseInt(row.cells[0].innerText) != 0) {
-                    list += parseInt(row.cells[0].innerText) + ',';
-                }
-            });
-
-            var data = $("#txtDataRoteiro").val();
-            var idAgente = $("#ddlAgentes").val();
-
-            $.getJSON(`?handler=Programar&dataRoteiro=${data}&idAgente=${idAgente}&idLista=${list}`, () => {
-                $("#btnFiltrar").click();
-            });
-
-            atualizaPartialView();
-        }
-
-        function checkAll(elem) {
-            checkboxes = document.getElementsByName('chkSel');
-            for (var i = 0; i < checkboxes.length; i++) {
-                checkboxes[i].checked = elem.checked;
-            }
-        }
     </script>
 
 </head>
@@ -252,6 +228,6 @@
         <div id="divPartialView"></div>
 
     </main>
-   
+
 </body>
 </html>

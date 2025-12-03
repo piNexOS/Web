@@ -7,6 +7,7 @@
     Layout = null;
 }
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 <style>
     .wrapper {
         width: auto;
@@ -39,81 +40,62 @@
         z-index: 3;
     }
 </style>
+
 <div class="wrapper" style="margin-top:10px;">
     <table id="tabSelecao" class="table" style="font-size:small">
         <thead>
             <tr>
-                <th style="width:0px;visibility:hidden;display:none">0</th>
+                <th style="width:0px; visibility:hidden; display:none">0</th>
+
                 <th style="text-align:center">
                     @if (Model.OrdensServico != null)
                     {
                         @Model.OrdensServico.Count()
                     }
                 </th>
-                <th style="text-align:center">
-                    <input id="chkAll" type="checkbox" onclick="checkAll(this)">
-                </th>
-                <th style="text-align:center">
-                    Matricula
-                </th>
-                <th style="text-align:center">
-                    HD
-                </th>
-                
-                <th style="text-align:center">
-                    Ciclo
-                </th>
-        
-                <th>
-                    Cliente
-                </th>
-                
-                <th>
-                    Serviço
-                </th>
-                
-                <th>
-                    Bairro
-                </th>
-                <th>
-                    Endereço
-                </th>
-                <th>
-                    Status
-                </th>
 
+                <th style="text-align:center">Matricula</th>
+                <th style="text-align:center">HD</th>
+                <th style="text-align:center">Ciclo</th>
+                <th>Cliente</th>
+                <th>Serviço</th>
+                <th>Bairro</th>
+                <th>Endereço</th>
+                <th>Status</th>
             </tr>
         </thead>
+
         <tbody>
             @if (Model.OrdensServico == null) return;
+
             @{
                 int Count = 0;
             }
+
             @foreach (var item in Model.OrdensServico)
             {
                 Count++;
                 <tr>
-                    <td style="width:0px; visibility:hidden;display:none">
+                    <td style="width:0px; visibility:hidden; display:none">
                         @item.IdOrdemServico
                     </td>
+
                     <td style="text-align:center">
                         @Count
                     </td>
-                    <td style="text-align:center">
-                        <input name="chkSel" type="checkbox">
-                    </td>
+
                     <td style="text-align:center">
                         @string.Format("{0:00000000}", item.Matricula)
                     </td>
+
                     <td style="text-align:center">
                         @item.NumHD
                     </td>
-                    
+
                     <td style="text-align:center">
                         @item.Ciclo
                     </td>
-                    
-               
+
                     <td>
                         @Html.DisplayFor(modelItem => item.NomeCliente)
                     </td>
@@ -129,8 +111,6 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Endereco)
                     </td>
-                    
-                
                 </tr>
             }
         </tbody>
