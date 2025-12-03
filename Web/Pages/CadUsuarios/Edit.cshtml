@@ -1,153 +1,149 @@
 ﻿@page
 @model Web.Pages.CadUsuarios.EditModel
 
-@{
-    <!DOCTYPE html>
-    <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Editar Usuário - NexOS</title>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Usuário - NexOS</title>
 
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
-        <style>
+    <style>
+        :root {
+            --cor-fundo: #373F46;
+            --cor-header: #272C2F;
+            --cor-nexos: #26a5ee;
+            --cor-nexosdark: rgb(17,136,206);
+            --cor-texto: #fff;
+            --cor-card: #2E343A;
+            --cor-card-dark: #23282E;
+            --cor-input: #1f2429;
+        }
 
-            :root {
-                --cor-fundo: #373F46;
-                --cor-header: #272C2F;
-                --cor-nexos: #26a5ee;
-                --cor-nexosdark: rgb(17,136,206);
-                --cor-texto: #fff;
-                --cor-card: #2E343A;
-                --cor-card-dark: #23282E;
-                --cor-input: #1f2429;
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        main {
+            background: linear-gradient(15deg, rgba(41,41,41,1) -100%, rgba(58,66,72,1) 70%);
+            font-family: "Poppins", sans-serif;
+            color: var(--cor-texto);
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .card-edit {
+            background: var(--cor-card);
+            padding: 2rem;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.4);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            color: var(--cor-texto);
+            text-shadow: 0 0 6px rgba(38,165,238,0.3);
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: .3rem;
+            display: block;
+            color: var(--cor-nexos);
+        }
+
+        input.form-control {
+            width: 100%;
+            padding: .7rem;
+            margin-bottom: 1rem;
+            border-radius: 6px;
+            border: none;
+            outline: none;
+            background: var(--cor-input);
+            color: var(--cor-texto);
+            font-size: 1rem;
+        }
+
+            input.form-control:focus {
+                box-shadow: 0 0 5px var(--cor-nexos);
             }
 
-            body {
-                margin: 0;
-                padding: 0;
+        .btn-primary {
+            background: var(--cor-nexos);
+            color: #fff;
+            border: none;
+            padding: .8rem 1.4rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: .2s;
+        }
+
+            .btn-primary:hover {
+                background: var(--cor-nexosdark);
             }
 
-            main {
-                background: linear-gradient(15deg, rgba(41,41,41,1) -100%, rgba(58,66,72,1) 70%);
-                font-family: "Poppins", sans-serif;
-                color: var(--cor-texto);
-                min-height: 100vh;
-                padding: 2rem;
-                display: flex;
-                justify-content: center;
-                align-items: flex-start;
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--cor-nexos);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+            .back-link:hover {
+                color: var(--cor-nexosdark);
             }
+    </style>
+</head>
 
-            .card-edit {
-                background: var(--cor-card);
-                padding: 2rem;
-                width: 100%;
-                max-width: 600px;
-                border-radius: 12px;
-                box-shadow: 0 0 15px rgba(0,0,0,0.4);
-            }
+<body>
+    <main>
 
-            h1 {
-                text-align: center;
-                font-size: 2.3rem;
-                margin-bottom: 1.5rem;
-                font-weight: 600;
-                color: var(--cor-texto);
-                text-shadow: 0 0 6px rgba(38,165,238,0.3);
-            }
+        <div class="card-edit">
 
-            label {
-                font-weight: 600;
-                margin-bottom: .3rem;
-                display: block;
-                color: var(--cor-nexos);
-            }
+            <h1>Editar Usuário</h1>
 
-            input.form-control {
-                width: 100%;
-                padding: .7rem;
-                margin-bottom: 1rem;
-                border-radius: 6px;
-                border: none;
-                outline: none;
-                background: var(--cor-input);
-                color: var(--cor-texto);
-                font-size: 1rem;
-            }
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                input.form-control:focus {
-                    box-shadow: 0 0 5px var(--cor-nexos);
-                }
+                <input type="hidden" asp-for="TabUsuarios.IdTabUsuarios" />
 
-            .btn-primary {
-                background: var(--cor-nexos);
-                color: #fff;
-                border: none;
-                padding: .8rem 1.4rem;
-                font-size: 1.1rem;
-                font-weight: 600;
-                border-radius: 8px;
-                cursor: pointer;
-                width: 100%;
-                transition: .2s;
-            }
+                <label asp-for="TabUsuarios.Nome"></label>
+                <input asp-for="TabUsuarios.Nome" class="form-control" />
 
-                .btn-primary:hover {
-                    background: var(--cor-nexosdark);
-                }
+                <label asp-for="TabUsuarios.Matricula"></label>
+                <input asp-for="TabUsuarios.Matricula" class="form-control" />
 
-            .back-link {
-                display: block;
-                text-align: center;
-                margin-top: 1.5rem;
-                color: var(--cor-nexos);
-                font-weight: 600;
-                text-decoration: none;
-            }
+                <label asp-for="TabUsuarios.Cargo"></label>
+                <input asp-for="TabUsuarios.Cargo" class="form-control" />
 
-                .back-link:hover {
-                    color: var(--cor-nexosdark);
-                }
+                <label asp-for="TabUsuarios.Senha"></label>
+                <input asp-for="TabUsuarios.Senha" type="text" class="form-control" />
 
-        </style>
-    </head>
+                <input type="submit" value="Salvar" class="btn-primary" />
+            </form>
 
-    <body>
-        <main>
+            <a asp-page="./Index" class="back-link">Voltar à Lista</a>
 
-            <div class="card-edit">
+        </div>
 
-                <h1>Editar Usuário</h1>
-
-                <form method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                    <input type="hidden" asp-for="TabUsuarios.IdTabUsuarios" />
-
-                    <label asp-for="TabUsuarios.Nome"></label>
-                    <input asp-for="TabUsuarios.Nome" class="form-control" />
-
-                    <label asp-for="TabUsuarios.Matricula"></label>
-                    <input asp-for="TabUsuarios.Matricula" class="form-control" />
-
-                    <label asp-for="TabUsuarios.Cargo"></label>
-                    <input asp-for="TabUsuarios.Cargo" class="form-control" />
-
-                    <label asp-for="TabUsuarios.Senha"></label>
-                    <input asp-for="TabUsuarios.Senha" type="text" class="form-control" />
-
-                    <input type="submit" value="Salvar" class="btn-primary" />
-                </form>
-
-                <a asp-page="./Index" class="back-link">Voltar à Lista</a>
-
-            </div>
-
-        </main>
-    </body>
-    </html>
-}
+    </main>
+</body>
+</html>

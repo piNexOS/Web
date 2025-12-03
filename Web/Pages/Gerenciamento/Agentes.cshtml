@@ -2,7 +2,8 @@
 @model Web.Pages.Gerenciamento.Agentes
 
 @{
-    var hoje = DateTime.Today;
+    var hoje = DateOnly.FromDateTime(DateTime.Today);
+
     <!DOCTYPE html>
     <html lang="pt-br">
     <head>
@@ -134,28 +135,27 @@
                         <td>@item.Status</td>
                         <td>@item.Matricula</td>
 
-                        <!-- Contando todos os RoteiroDetalhes (OS) do agente -->
-                        <td>
-                            @(
+                            <!-- Programadas para hoje -->
+                            <!-- Programadas para hoje -->
+                            <td>
+                                @(
+                                item.Roteiros?
+                                .Where(r => r.Data == hoje) // pega apenas roteiros de hoje
+                                .Sum(r => r.RoteiroDetalhes?.Count() ?? 0) // soma todos os detalhes desses roteiros
+                                ?? 0
+                                )
+                            </td>
+
+                            <!-- Atendidas para hoje -->
+                            <td>
+                                @(
                                 item.Roteiros?
                                 .SelectMany(r => r.RoteiroDetalhes)
-                                .Count(d =>
-                                d.IdOrdemServicoNavigation != null &&
-                                d.IdOrdemServicoNavigation.DataLimite.HasValue &&
-                                d.IdOrdemServicoNavigation.DataLimite.Value.Date == hoje) ?? 0
+                                .Count(d => d.IdOrdemServicoNavigation != null &&
+                                d.IdOrdemServicoNavigation.DataBaixa.HasValue &&
+                                d.IdOrdemServicoNavigation.DataBaixa.Value.Date == DateTime.Today) ?? 0
                                 )
                         </td>
-
-                        <td>
-                            @(
-                                item.Roteiros?
-                                .SelectMany(r => r.RoteiroDetalhes)
-                                .Count(d =>
-                                d.IdOrdemServicoNavigation != null &&
-                                d.IdOrdemServicoNavigation.DataBaixa.HasValue &&
-                                d.IdOrdemServicoNavigation.DataBaixa.Value.Date == hoje) ?? 0
-                                )
-                    </td>
 
                     </tr>
                         }
