@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -74,33 +75,62 @@ namespace Infra.Services
 
         public static void Desprogramar(DateTime pData, int pIdAgente, string[] pLista)
         {
-            int idOS, idRoteiro = 0;
             using (var ctx = new DataBase.STC_Context())
             {
+                var roteirosParaVerificar = new List<int>();
+                var dataSelecionada = DateOnly.FromDateTime(pData); // converte DateTime para DateOnly
+
                 foreach (var item in pLista)
                 {
-                    var det = ctx.RoteiroDetalhes.Where(x => x.IdRoteiroDetalhe == int.Parse(item) && x.Status == "" && x.DataIniAtendimento == null).FirstOrDefault();
+                    if (!int.TryParse(item, out int idRoteiroDet))
+                        continue;
+
+                    // Pega o detalhe junto com o roteiro
+                    var det = ctx.RoteiroDetalhes
+                                .Include(d => d.IdRoteiroNavigation)
+                                .Where(d => d.IdRoteiroDetalhe == idRoteiroDet
+                                            && d.Status == ""
+                                            && d.DataIniAtendimento == null
+                                            && d.IdRoteiroNavigation.IdTabAgente == pIdAgente
+                                            && d.IdRoteiroNavigation.Data == dataSelecionada) // comparação DateOnly
+                                .FirstOrDefault();
+
                     if (det == null) continue;
-                    idOS = (int)det.IdOrdemServico;
-                    idRoteiro = (int)det.IdRoteiro;
-                    var os = ctx.OrdensServicos.Where(x => x.IdOrdemServico == idOS && x.Status == "PROGRAMADA").FirstOrDefault();
+
+                    int idOS = det.IdOrdemServico ?? 0;
+                    int idRoteiro = det.IdRoteiro ?? 0;
+                    roteirosParaVerificar.Add(idRoteiro);
+
+                    var os = ctx.OrdensServicos
+                                .Where(x => x.IdOrdemServico == idOS && x.Status == "PROGRAMADA")
+                                .FirstOrDefault();
+
                     if (os != null)
                     {
                         os.Status = "NÃO PROGRAMADA";
                         ctx.OrdensServicos.Update(os);
-                        ctx.RoteiroDetalhes.Remove(det);
                     }
-                    ctx.SaveChanges();
+
+                    ctx.RoteiroDetalhes.Remove(det);
                 }
 
-                var qtd = ctx.RoteiroDetalhes.Where(x => x.IdRoteiro == idRoteiro).Count();
-                if (qtd == 0)
+                ctx.SaveChanges(); // salva tudo de uma vez
+
+                // Remove roteiros que ficaram vazios
+                foreach (var idRoteiro in roteirosParaVerificar.Distinct())
                 {
-                    var rot = ctx.Roteiros.Where(x => x.IdRoteiro == idRoteiro).FirstOrDefault();
-                    ctx.Roteiros.Remove(rot);
-                    ctx.SaveChanges();
+                    var qtd = ctx.RoteiroDetalhes.Count(x => x.IdRoteiro == idRoteiro);
+                    if (qtd == 0)
+                    {
+                        var rot = ctx.Roteiros.FirstOrDefault(x => x.IdRoteiro == idRoteiro);
+                        if (rot != null)
+                            ctx.Roteiros.Remove(rot);
+                    }
                 }
+
+                ctx.SaveChanges();
             }
         }
+
     }
 }

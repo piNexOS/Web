@@ -2,40 +2,141 @@
 @model Web.Pages.CadAgentes.DeleteModel
 
 @{
-    ViewData["Title"] = "Delete";
+    <!DOCTYPE html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Excluir Agente - NexOS</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+        <style>
+            :root {
+                --cor-fundo: #373F46;
+                --cor-nexos: #26a5ee;
+                --cor-nexosdark: rgb(17, 136, 206);
+                --cor-texto: #fff;
+                --cor-card: #2E343A;
+                --cor-card-dark: #23282E;
+                --cor-input: #1f2429;
+                --cor-danger: #ff6b6b;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            main {
+                background: linear-gradient(15deg, rgba(41,41,41,1) -100%, rgba(58,66,72,1) 70%);
+                font-family: "Poppins", sans-serif;
+                color: var(--cor-texto);
+                min-height: 100vh;
+                padding: 2rem;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+            }
+
+            .card-delete {
+                background: var(--cor-card);
+                padding: 2rem;
+                width: 100%;
+                max-width: 650px;
+                border-radius: 12px;
+                box-shadow: 0 0 15px rgba(0,0,0,0.4);
+            }
+
+            h1 {
+                text-align: center;
+                font-size: 2.3rem;
+                margin-bottom: 1rem;
+                font-weight: 600;
+                color: var(--cor-danger);
+                text-shadow: 0 0 6px rgba(255, 80, 80, 0.3);
+            }
+
+            h3 {
+                text-align: center;
+                margin-bottom: 2rem;
+                color: var(--cor-texto);
+                font-weight: 600;
+            }
+
+            dt {
+                color: var(--cor-nexos);
+                font-weight: 600;
+            }
+
+            dd {
+                margin-bottom: 1rem;
+            }
+
+            .btn-danger {
+                width: 100%;
+                background: var(--cor-danger);
+                color: #fff;
+                border: none;
+                padding: .8rem;
+                border-radius: 8px;
+                font-size: 1.1rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: .2s;
+                margin-top: 1rem;
+            }
+
+                .btn-danger:hover {
+                    background: #ff4c4c;
+                }
+
+            .back-link {
+                display: block;
+                text-align: center;
+                margin-top: 1.5rem;
+                color: var(--cor-nexos);
+                font-weight: 600;
+                text-decoration: none;
+            }
+
+                .back-link:hover {
+                    color: var(--cor-nexosdark);
+                }
+        </style>
+    </head>
+
+    <body>
+        <main>
+
+            <div class="card-delete">
+
+                <h1>Excluir Agente</h1>
+                <h3>Tem certeza que deseja excluir este agente?</h3>
+
+                <dl class="row">
+                    <dt>Nome</dt>
+                    <dd>@Html.DisplayFor(model => model.TabAgentes.Nome)</dd>
+
+                    <dt>Matrícula</dt>
+                    <dd>@Html.DisplayFor(model => model.TabAgentes.Matricula)</dd>
+
+                    <dt>Status</dt>
+                    <dd>@Html.DisplayFor(model => model.TabAgentes.Status)</dd>
+                </dl>
+
+                <form method="post">
+                    <input type="hidden" asp-for="TabAgentes.IdTabAgente" />
+                    <button type="submit" class="btn-danger">Excluir Definitivamente</button>
+                </form>
+
+                <a asp-page="./Index" class="back-link">Cancelar e Voltar</a>
+
+            </div>
+
+        </main>
+    </body>
+    </html>
 }
-
-<h1>Delete</h1>
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>TabAgentes</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TabAgentes.Nome)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TabAgentes.Nome)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TabAgentes.Status)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TabAgentes.Status)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TabAgentes.Matricula)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TabAgentes.Matricula)
-        </dd>
-       
-    </dl>
-    
-    <form method="post">
-        <input type="hidden" asp-for="TabAgentes.IdTabAgente" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-page="./Index">Back to List</a>
-    </form>
-</div>

@@ -19,6 +19,8 @@ namespace Web.Pages.CadUsuarios
         [BindProperty]
         public TabUsuarios TabUsuarios { get; set; } = default!;
 
+        public TabAgentes TabAgentes { get; set; }
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -46,13 +48,46 @@ namespace Web.Pages.CadUsuarios
                 return NotFound();
             }
 
+            // 1️⃣ Buscar usuário
             var tabusuarios = await _context.TabUsuarios.FindAsync(id);
-            if (tabusuarios != null)
+            if (tabusuarios == null)
+                return NotFound();
+
+            TabUsuarios = tabusuarios;
+
+            // 2️⃣ Verificar se existe um agente com a mesma matrícula
+            var agente = await _context.TabAgentes
+                .FirstOrDefaultAsync(a => a.Matricula == tabusuarios.Matricula);
+
+            if (agente != null)
             {
-                TabUsuarios = tabusuarios;
-                _context.TabUsuarios.Remove(TabUsuarios);
-                await _context.SaveChangesAsync();
+                // 3️⃣ Atualizar todas as OS programadas do agente
+                var roteirosDoAgente = await _context.Roteiros
+                    .Include(r => r.RoteiroDetalhes)
+                    .ThenInclude(rd => rd.IdOrdemServicoNavigation)
+                    .Where(r => r.IdTabAgente == agente.IdTabAgente)
+                    .ToListAsync();
+
+                foreach (var roteiro in roteirosDoAgente)
+                {
+                    foreach (var detalhe in roteiro.RoteiroDetalhes)
+                    {
+                        if (detalhe.IdOrdemServicoNavigation != null)
+                        {
+                            detalhe.IdOrdemServicoNavigation.Status = "NÃO PROGRAMADA";
+                        }
+                    }
+                }
+
+                // 4️⃣ Remover o agente
+                _context.TabAgentes.Remove(agente);
             }
+
+            // 5️⃣ Remover o usuário
+            _context.TabUsuarios.Remove(tabusuarios);
+
+            // 6️⃣ Salvar tudo
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }

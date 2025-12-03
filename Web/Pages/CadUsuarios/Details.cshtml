@@ -2,42 +2,119 @@
 @model Web.Pages.CadUsuarios.DetailsModel
 
 @{
-    ViewData["Title"] = "Details";
+    <!DOCTYPE html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Detalhes do Usuário - NexOS</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+        <style>
+
+            :root {
+                --cor-fundo: #373F46;
+                --cor-nexos: #26a5ee;
+                --cor-nexosdark: rgb(17, 136, 206);
+                --cor-texto: #fff;
+                --cor-card: #2E343A;
+                --cor-input: #1f2429;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            main {
+                background: linear-gradient(15deg, rgba(41,41,41,1) -100%, rgba(58,66,72,1) 70%);
+                font-family: "Poppins", sans-serif;
+                color: var(--cor-texto);
+                min-height: 100vh;
+                padding: 2rem;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+            }
+
+            .card-details {
+                background: var(--cor-card);
+                padding: 2rem;
+                width: 100%;
+                max-width: 650px;
+                border-radius: 12px;
+                box-shadow: 0 0 15px rgba(0,0,0,0.4);
+            }
+
+            h1 {
+                text-align: center;
+                font-size: 2.3rem;
+                margin-bottom: 1.5rem;
+                font-weight: 600;
+                color: var(--cor-texto);
+                text-shadow: 0 0 6px rgba(38,165,238,0.3);
+            }
+
+            dt {
+                color: var(--cor-nexos);
+                font-weight: 600;
+            }
+
+            dd {
+                margin-bottom: 1rem;
+            }
+
+            .link-actions {
+                text-align: center;
+                margin-top: 1.8rem;
+            }
+
+            .action-link {
+                color: var(--cor-nexos);
+                font-weight: 600;
+                text-decoration: none;
+                margin: 0 .6rem;
+            }
+
+                .action-link:hover {
+                    color: var(--cor-nexosdark);
+                }
+
+        </style>
+    </head>
+
+    <body>
+        <main>
+
+            <div class="card-details">
+
+                <h1>Detalhes do Usuário</h1>
+
+                <dl class="row">
+                    <dt>Nome</dt>
+                    <dd>@Html.DisplayFor(model => model.TabUsuarios.Nome)</dd>
+
+                    <dt>Matrícula</dt>
+                    <dd>@Html.DisplayFor(model => model.TabUsuarios.Matricula)</dd>
+
+                    <dt>Cargo</dt>
+                    <dd>@Html.DisplayFor(model => model.TabUsuarios.Cargo)</dd>
+
+                    <dt>Senha</dt>
+                    <dd>@Html.DisplayFor(model => model.TabUsuarios.Senha)</dd>
+                </dl>
+
+                <div class="link-actions">
+                    <a class="action-link" asp-page="./Edit" asp-route-id="@Model.TabUsuarios.IdTabUsuarios">Editar</a>
+                    <a class="action-link" asp-page="./Index">Voltar</a>
+                </div>
+
+            </div>
+
+        </main>
+    </body>
+    </html>
 }
-
-<h1>Details</h1>
-
-<div>
-    <h4>TabUsuarios</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TabUsuarios.Nome)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TabUsuarios.Nome)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TabUsuarios.Matricula)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TabUsuarios.Matricula)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TabUsuarios.Cargo)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TabUsuarios.Cargo)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TabUsuarios.Senha)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TabUsuarios.Senha)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.TabUsuarios.IdTabUsuarios">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
-</div>
