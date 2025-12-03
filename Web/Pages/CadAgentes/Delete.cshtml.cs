@@ -19,6 +19,10 @@ namespace Web.Pages.CadAgentes
         [BindProperty]
         public TabAgentes TabAgentes { get; set; } = default!;
 
+        public TabUsuarios TabUsuarios { get; set; } = default!;
+
+        
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -47,13 +51,41 @@ namespace Web.Pages.CadAgentes
             }
 
             var tabagentes = await _context.TabAgentes.FindAsync(id);
-            if (tabagentes != null)
+            if (tabagentes == null)
             {
-                TabAgentes = tabagentes;
-                _context.TabAgentes.Remove(TabAgentes);
-                await _context.SaveChangesAsync();
-
+                return NotFound();
             }
+
+            var tabusuarios = await _context.TabUsuarios.FirstOrDefaultAsync(m => m.Matricula == tabagentes.Matricula);
+
+            // 1️⃣ Atualizar todas as OS do agente
+            var roteirosDoAgente = await _context.Roteiros
+                .Include(r => r.RoteiroDetalhes)
+                .ThenInclude(rd => rd.IdOrdemServicoNavigation)
+                .Where(r => r.IdTabAgente == tabagentes.IdTabAgente)
+                .ToListAsync();
+
+            foreach (var roteiro in roteirosDoAgente)
+            {
+                foreach (var detalhe in roteiro.RoteiroDetalhes)
+                {
+                    if (detalhe.IdOrdemServicoNavigation != null)
+                    {
+                        detalhe.IdOrdemServicoNavigation.Status = "NÃO PROGRAMADA";
+                    }
+                }
+            }
+
+            // 2️⃣ Remover agente e usuário
+            _context.TabAgentes.Remove(tabagentes);
+
+            if (tabusuarios != null)
+            {
+                _context.TabUsuarios.Remove(tabusuarios);
+            }
+
+            // 3️⃣ Salvar tudo de uma vez
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }
