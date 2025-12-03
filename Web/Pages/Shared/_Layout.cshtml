@@ -11,7 +11,7 @@
 
     <style>
         @@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;500&display=swap');
-
+            
         :root {
             --cor-fundo: #373F46;
             --cor-header: #272C2F;
@@ -109,7 +109,7 @@
                     color: var(--cor-nexos);
                 }
 
-        @@media (min-width: 768px) {
+        @@media (min-width: 950px) {
             .comandos {
                 display: flex;
             }
@@ -288,6 +288,11 @@
         .nav-link:hover, .nav-link:focus {
             color: var(--cor-nexos);
         }
+
+        .foto_perfil .dropdown-menu {
+            z-index: 2000;
+            margin-top: 1em !important; 
+        }
     </style>
 </head>
 <body>
@@ -345,11 +350,19 @@
             </ul>
         </nav>
 
-        <div class="foto_perfil">
-            <a href="#"><img src="~/icone_usuario.png" alt="usuario" class="icon_usuario" /></a>
+        <div class="foto_perfil dropdown">
+            <a class="dropdown-toggle" href="#" id="AccountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="~/icone_usuario.png" alt="usuario" class="icon_usuario" />
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="AccountDropdown">
+                <li><a class="dropdown-item" href="#" id="logoutLink">Desconectar-se</a></li>
+            </ul>
         </div>
     </header>
-
+    <form id="logoutForm" method="post" asp-page="/Login/Index" asp-page-handler="Logout" style="display:none;">
+        @Html.AntiForgeryToken()
+    </form>
     <div class="offcanvas offcanvas-start offcanvas-custom d-md-none" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel" data-bs-scroll="true" data-bs-backdrop="true">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasSidebarLabel">Menu</h5>
@@ -414,6 +427,17 @@
 
     <script>
         (function () {
+
+             var logoutLink = document.getElementById('logoutLink');
+             var logoutForm = document.getElementById('logoutForm');
+
+            if (logoutLink && logoutForm) {
+                logoutLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    // opcional: fechar dropdowns/offcanvas aqui antes de enviar
+                    logoutForm.submit();
+                });
+            }
             var offcanvasEl = document.getElementById('offcanvasSidebar');
             var contentEls = document.querySelectorAll('.content');
             if (!offcanvasEl) return;
