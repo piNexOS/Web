@@ -1,4 +1,156 @@
 ﻿@page
 @model Web.Pages.Home.IndexModel
 @{
+    var hoje = DateOnly.FromDateTime(DateTime.Today);
+
+    <!DOCTYPE html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login - NexOS</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+        <style>
+
+            :root {
+                --cor-fundo: #373F46;
+                --cor-header: #272C2F;
+                --cor-nexos: #26a5ee;
+                --cor-nexosdark: rgb(17, 136, 206);
+                --cor-texto: #fff;
+                --cor-card: #2E343A;
+                --cor-card-dark: #23282E;
+            }
+
+            main {
+                background: linear-gradient(15deg, rgba(41,41,41,1) -100%, rgba(58,66,72,1) 70%);
+                font-family: "League Spartan", sans-serif;
+                color: var(--cor-texto);
+                margin: 0;
+                padding: 1em;
+                min-height: 100vh;
+                align-items: center;
+                display: flex;
+                flex-flow: column nowrap;
+                width: 100%;
+            }
+
+            h1 {
+                text-align: center;
+                font-size: 2.5rem;
+                margin-bottom: 1.5rem;
+                font-weight: 600;
+                color: var(--cor-texto);
+                text-shadow: 0 0 6px rgba(38,165,238,0.3);
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 1.5rem;
+                background: var(--cor-card);
+                border-radius: 10px;
+                overflow: hidden;
+                box-shadow: 0 0 12px rgba(0,0,0,0.35);
+            }
+
+            thead {
+                background: var(--cor-header);
+            }
+
+            th {
+                padding: 1rem;
+                text-align: center;
+                font-size: 1.1rem;
+                font-weight: 600;
+                color: var(--cor-nexos);
+                border-bottom: 2px solid rgba(255,255,255,0.08);
+            }
+
+            td {
+                padding: 1rem;
+                border-bottom: 1px solid rgba(255,255,255,0.06);
+                font-size: 1.1rem;
+                color: var(--cor-texto);
+                text-align: center;
+            }
+
+            tr:hover td {
+                background: rgba(38,165,238,0.07);
+            }
+
+            tbody tr:last-child td {
+                border-bottom: none;
+            }
+
+            @@media (max-width: 768px) {
+                main {
+                    padding: 1em;
+                }
+
+
+                table {
+                    font-size: .95rem;
+                }
+
+                th, td {
+                    padding: .7rem;
+                }
+
+                h1 {
+                    font-size: 2rem;
+                }
+            }
+        </style>
+
+    </head>
+    <body>
+        <main>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.TabAgentes[0].Nome)</th>
+                        <th>@Html.DisplayNameFor(model => model.TabAgentes[0].Matricula)</th>
+                        <th>Programadas</th>
+                        <th>Atendidas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.TabAgentes)
+                    {
+                        <tr>
+                            <td>@item.Nome</td>
+                            <td>@item.Matricula</td>
+
+                            <!-- Programadas para hoje -->
+                            <td>
+                                @(
+                                item.Roteiros?
+                                .Where(r => r.Data == hoje) // pega apenas roteiros de hoje
+                                .Sum(r => r.RoteiroDetalhes?.Count() ?? 0) // soma todos os detalhes desses roteiros
+                                ?? 0
+                                )
+                            </td>
+
+                            <!-- Atendidas para hoje -->
+                            <td>
+                                @(
+                                item.Roteiros?
+                                .SelectMany(r => r.RoteiroDetalhes)
+                                .Count(d => d.IdOrdemServicoNavigation != null &&
+                                d.IdOrdemServicoNavigation.DataBaixa.HasValue &&
+                                d.IdOrdemServicoNavigation.DataBaixa.Value.Date == DateTime.Today) ?? 0
+                                )
+                        </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </main>
+    </body>
+    </html>
 }
