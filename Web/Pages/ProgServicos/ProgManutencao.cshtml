@@ -1,25 +1,20 @@
 ﻿@page
 @model Web.Pages.ProgServicos.ProgManutencaoModel
 @{
-    var exibirTabela = Model.OrdensServico != null;
+    var exibirTabela = Model?.OrdensServico != null && Model.OrdensServico.Any();
 }
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
-
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Manutenção de Programação - NexOS</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <style>
-
         :root {
             --cor-fundo: #373F46;
             --cor-header: #272C2F;
@@ -106,6 +101,9 @@
             box-shadow: 0 0 12px rgba(0,0,0,0.35);
         }
 
+
+
+
         thead {
             background: var(--cor-header);
         }
@@ -131,93 +129,52 @@
             background: rgba(38,165,238,0.07);
         }
 
-        tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        .modal-content {
-            background: var(--cor-card);
-            border-radius: 12px;
-            color: white;
-        }
-
-        .modal-header {
-            background: var(--cor-header);
-            border-bottom: 1px solid rgba(255,255,255,0.15);
-        }
-
-        .btn-dark {
-            background: var(--cor-card-dark);
-            border: none;
-            padding: .55rem 1.2rem;
-            border-radius: 10px;
-            color: white;
-            font-weight: 600;
-            transition: .2s;
-        }
-
-            .btn-dark:hover {
-                background: #3a4248;
-            }
-
     </style>
 
     <script>
-
         function checkAll(elem) {
-            document.getElementsByName('chkSel')
-                .forEach(c => c.checked = elem.checked);
+            Array.from(document.getElementsByName('chkSel')).forEach(c => c.checked = elem.checked);
         }
 
         function desprogramar() {
-            if ($("#txtData").val() !== $("#txtDataConfirma").val()) return;
-            if ($("#ddlAgentes").val() !== $("#ddlAgenteConfirma").val()) return;
-
-            var list = '';
-            $("#tabSelecao input[type=checkbox]:checked").each(function () {
-                var row = $(this).closest("tr")[0];
-                list += parseInt(row.cells[0].innerText) + ',';
+            var list = [];
+            $("#tabSelecao input[name='chkSel']:checked").each(function () {
+                var row = $(this).closest("tr");
+                var id = row.data("id");
+                if (id !== undefined) list.push(id);
             });
+            if (list.length === 0) { alert("Selecione pelo menos uma OS."); return; }
 
-            $.getJSON(`?handler=Desprogramar&pData=${$("#txtData").val()}&pIdAgente=${$("#ddlAgentes").val()}&pIdLista=${list}`,
-                () => { });
-
-            $("#txtDataConfirma").val("");
-            $("#ddlAgenteConfirma").prop("selectedIndex", 0);
+            $.getJSON(`?handler=Desprogramar&pData=${$("#txtData").val()}&pIdAgente=${$("#ddlAgentes").val()}&pIdLista=${list.join(",")}`, function (res) {
+                alert("Desprogramado com sucesso!");
+                location.reload();
+            });
         }
 
         function transferir() {
-
-            var list = '';
-            $("#tabSelecao input[type=checkbox]:checked").each(function () {
-                var row = $(this).closest("tr")[0];
-                list += parseInt(row.cells[0].innerText) + ',';
+            var list = [];
+            $("#tabSelecao input[name='chkSel']:checked").each(function () {
+                var row = $(this).closest("tr");
+                var id = row.data("id");
+                if (id !== undefined) list.push(id);
             });
+            if (list.length === 0) { alert("Selecione pelo menos uma OS."); return; }
 
-            $.getJSON(
-                `?handler=Transferir&pData=${$("#txtDataTransf").val()}&pIdAgente=${$("#ddlAgenteTransf").val()}&pIdLista=${list}`,
-                () => { }
-            );
-
-            $("#txtDataTransf").val("");
-            $("#ddlAgenteTransf").prop("selectedIndex", 0);
+            $.getJSON(`?handler=Transferir&pData=${$("#txtDataTransf").val()}&pIdAgente=${$("#ddlAgenteTransf").val()}&pIdLista=${list.join(",")}`, function () {
+                alert("Ordens transferidas com sucesso!");
+                location.reload();
+            });
         }
-
     </script>
-
 </head>
 
 <body>
-
     <main>
-
         <h1>Manutenção de Programação</h1>
 
         <!-- CARD DE FILTRO -->
         <div class="card">
-
             <form method="post">
-
                 <div class="row">
 
                     <div class="col-md-3">
@@ -227,37 +184,32 @@
 
                     <div class="col-md-4">
                         <label class="form-label">Agente</label>
-                        @Html.DropDownListFor(x => Model.Agente, Model.ListAgentes, "",
-                        new { @class = "form-control", id = "ddlAgentes" })
+                        @Html.DropDownListFor(
+                        x => x.Agente,
+                        Model.ListAgentes ?? new SelectList(Enumerable.Empty<SelectListItem>()),
+                        "",
+                        new { @class = "form-control", id = "ddlAgentes" }
+                        )
                     </div>
 
                     <div class="col-md-2 mt-4">
-                        <button type="submit" id="btnVer" asp-page-handler="GetRoteiro" class="btn-nexos">
-                            Ver
-                        </button>
+                        <button type="submit" asp-page-handler="GetRoteiro" class="btn-nexos">Ver</button>
                     </div>
 
                     <div class="col-md-2 mt-4">
-                        <button type="button" class="btn-nexos" data-bs-toggle="modal" data-bs-target="#myModal">
-                            Apagar
-                        </button>
+                        <button type="button" class="btn-nexos" onclick="desprogramar()">Desprogramar</button>
                     </div>
 
                     <div class="col-md-2 mt-4">
-                        <button type="button" class="btn-nexos" data-bs-toggle="modal" data-bs-target="#myModalTransf">
-                            Transferir
-                        </button>
+                        <button type="button" class="btn-nexos" onclick="transferir()">Transferir</button>
                     </div>
 
                 </div>
-
             </form>
-
         </div>
 
-        <!-- TABELA - controle feito pelo Razor -->
+        <!-- TABELA -->
         <div id="cardTabela" class="card" style="@(exibirTabela ? "" : "display:none")">
-
             <table id="tabSelecao">
                 <thead>
                     <tr>
@@ -275,26 +227,24 @@
                         <th>Bairro</th>
                     </tr>
                 </thead>
-
                 <tbody>
-                    @if (Model.OrdensServico != null)
+                    @if (Model?.OrdensServico != null)
                     {
                         int Count = 0;
-
                         foreach (var item in Model.OrdensServico)
                         {
                             Count++;
-                            <tr>
+                            <tr data-id="@item.IdRoteiroDet">
                                 <td style="display:none">@item.IdRoteiroDet</td>
                                 <td>@Count</td>
                                 <td><input type="checkbox" name="chkSel" /></td>
                                 <td>@item.Matricula</td>
                                 <td>@item.NumHidrometro</td>
                                 <td>@item.Ciclo</td>
-                                <td>@string.Format("{0:dd/MM/yy}", item.DataVencimento)</td>
-                                <td>@item.Servico</td>
+                                <td>@(item.DataVencimento.HasValue? item.DataVencimento.Value.ToString("dd/MM/yy"): "-")</td>
+                                <td>@item.Servico </td>
                                 <td>@item.Status</td>
-                                <td>@string.Format("{0:HH:mm}", item.DataIniAtendimento)</td>
+                                <td>@(item.DataIniAtendimento.HasValue? item.DataIniAtendimento.Value.ToString("HH:mm") : "-")</td>
                                 <td>@item.Cidade</td>
                                 <td>@item.Bairro</td>
                             </tr>
@@ -302,11 +252,9 @@
                     }
                 </tbody>
             </table>
-
         </div>
 
     </main>
-
 </body>
 
 </html>

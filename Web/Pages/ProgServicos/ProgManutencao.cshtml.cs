@@ -45,10 +45,25 @@ namespace Web.Pages.ProgServicos
 
         public JsonResult OnGetDesprogramar(string pData, int pIdAgente, string pIdLista)
         {
-            pIdLista = pIdLista.Substring(0, pIdLista.Count() - 1);
-            var lista = pIdLista.Split(",");
-            Infra.Services.ProgServicos.Desprogramar(DateTime.Parse(pData), pIdAgente, lista);
-            return new JsonResult(true);
+            if (string.IsNullOrEmpty(pData) || string.IsNullOrEmpty(pIdLista))
+                return new JsonResult(false);
+
+            // Remove a última vírgula, se houver
+            if (pIdLista.EndsWith(","))
+                pIdLista = pIdLista.Substring(0, pIdLista.Length - 1);
+
+            var lista = pIdLista.Split(',', StringSplitOptions.RemoveEmptyEntries);
+
+            // Converte a data da string para DateTime
+            if (!DateTime.TryParse(pData, out DateTime dataSelecionada))
+                return new JsonResult(false);
+
+            // Chama o serviço Desprogramar
+            // dataSelecionada -> DateTime
+            // dentro da função Desprogramar vai converter para DateOnly para comparar
+            Infra.Services.ProgServicos.Desprogramar(dataSelecionada, pIdAgente, lista);
+
+            return new JsonResult(new { success = true });
         }
 
         public JsonResult OnGetTransferir(string pData, int pIdAgente, string pIdLista)
