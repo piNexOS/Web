@@ -1,49 +1,199 @@
 ﻿@page
 @model Web.Pages.CadUsuarios.CreateModel
 
-@{
-    ViewData["Title"] = "Create";
-}
+<!DOCTYPE html>
+<html lang="pt-br">
 
-<h1>Create</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Usuário - NexOS</title>
 
-<h4>TabUsuarios</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="TabUsuarios.Nome" class="control-label"></label>
-                <input asp-for="TabUsuarios.Nome" class="form-control" />
-                <span asp-validation-for="TabUsuarios.Nome" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TabUsuarios.Matricula" class="control-label"></label>
-                <input asp-for="TabUsuarios.Matricula" class="form-control" />
-                <span asp-validation-for="TabUsuarios.Matricula" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TabUsuarios.Cargo" class="control-label"></label>
-                <input asp-for="TabUsuarios.Cargo" class="form-control" />
-                <span asp-validation-for="TabUsuarios.Cargo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TabUsuarios.Senha" class="control-label"></label>
-                <input asp-for="TabUsuarios.Senha" class="form-control" />
-                <span asp-validation-for="TabUsuarios.Senha" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
-<div>
-    <a asp-page="Index">Back to List</a>
-</div>
+    <style>
+        :root {
+            --cor-fundo: #373F46;
+            --cor-nexos: #26a5ee;
+            --cor-nexosdark: rgb(17, 136, 206);
+            --cor-texto: #fff;
+            --cor-card: #2E343A;
+            --cor-input: #1f2429;
+            --cor-danger: #ff6b6b;
+            --radius: 12px;
+        }
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(15deg, #292929 -100%, #3a4248 70%);
+            font-family: "Poppins", sans-serif;
+            color: var(--cor-texto);
+            min-height: 100vh;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            padding: 2rem;
+            margin-top: 40px;
+        }
+
+        .card-form {
+            background: var(--cor-card);
+            padding: 2rem;
+            width: 100%;
+            max-width: 600px;
+            border-radius: var(--radius);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.45);
+            animation: fadeIn .4s ease-in-out;
+        }
+
+        @@keyframes fadeIn {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.3rem;
+            margin-bottom: 1.8rem;
+            font-weight: 600;
+            text-shadow: 0 0 6px rgba(38, 165, 238, .3);
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: .3rem;
+            display: block;
+            color: var(--cor-nexos);
+        }
+
+        input.form-control {
+            width: 100%;
+            padding: .7rem;
+            margin-bottom: 1rem;
+            border-radius: 6px;
+            border: none;
+            background: var(--cor-input);
+            color: var(--cor-texto);
+            font-size: 1rem;
+            outline: none;
+            transition: .2s;
+        }
+
+            input.form-control:focus {
+                box-shadow: 0 0 6px var(--cor-nexos);
+            }
+
+        .btn-primary {
+            background: var(--cor-nexos);
+            color: #fff;
+            border: none;
+            padding: .9rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: .5rem;
+            transition: .2s;
+        }
+
+            .btn-primary:hover {
+                background: var(--cor-nexosdark);
+            }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--cor-nexos);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+            .back-link:hover {
+                color: var(--cor-nexosdark);
+            }
+
+        .text-danger {
+            color: #ff6b6b !important;
+            font-size: .88rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main>
+
+        <div class="card-form">
+
+            <h1>Criar Usuário</h1>
+
+            <form method="post">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="TabUsuarios.Nome"></label>
+                    <input asp-for="TabUsuarios.Nome" class="form-control" />
+                    <span asp-validation-for="TabUsuarios.Nome" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="TabUsuarios.Matricula"></label>
+                    <input asp-for="TabUsuarios.Matricula" class="form-control" />
+                    <span asp-validation-for="TabUsuarios.Matricula" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="TabUsuarios.Cargo"></label>
+                    <input asp-for="TabUsuarios.Cargo" class="form-control" />
+                    <span asp-validation-for="TabUsuarios.Cargo" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="TabUsuarios.Senha"></label>
+                    <input asp-for="TabUsuarios.Senha" type="password" class="form-control" />
+                    <span asp-validation-for="TabUsuarios.Senha" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn-primary">Criar Usuário</button>
+                </div>
+
+            </form>
+
+            <a asp-page="./Index" class="back-link">Voltar à Lista</a>
+
+        </div>
+
+    </main>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+
+</body>
+
+</html>
