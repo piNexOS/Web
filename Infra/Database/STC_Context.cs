@@ -34,16 +34,9 @@ public partial class STC_Context : DbContext
     public virtual DbSet<TabUsuarios> TabUsuarios { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-<<<<<<< HEAD
-<<<<<<< HEAD
-        => optionsBuilder.UseSqlServer("Server=vixmobile.com.br;Initial Catalog=Darwin_STC_2025;Integrated Security=false;User ID=sa;Password=@And#Siller;Persist Security Info=True;Encrypt=True;TrustServerCertificate=yes");
-=======
-        => optionsBuilder.UseSqlServer("Server=www.vixmobile.com.br;Initial Catalog=Darwin_STC_2025;Integrated Security=false;User ID=sa;Password=@And#Siller;Persist Security Info=True;Encrypt=True;TrustServerCertificate=yes");
->>>>>>> 22cd369e2ac7b7423503060858f98f12b7bb4739
-=======
-        => optionsBuilder.UseSqlServer("Server=192.168.0.2;Initial Catalog=Darwin_STC_2025;Integrated Security=false;User ID=sa;Password=@And#Siller;Persist Security Info=True;Encrypt=True;TrustServerCertificate=yes");
->>>>>>> fe2f592b4dfce165550c8a84d959e10f00a75290
+    {
+        optionsBuilder.UseSqlServer("Server=vixmobile.com.br;Initial Catalog=Darwin_STC_2025;Integrated Security=false;User ID=sa;Password=@And#Siller;Persist Security Info=True;Encrypt=True;TrustServerCertificate=yes");
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
