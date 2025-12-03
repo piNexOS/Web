@@ -1,5 +1,5 @@
 ﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+    Partial de seleção de OS
 *@
 @model ProgServicos.ProgServicosModel.PartialViewModelType
 
@@ -7,118 +7,116 @@
     Layout = null;
 }
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 <style>
     .wrapper {
-        width: auto;
-        height: 100vh;
-        overflow: auto;
+        width: 100%;
+        max-height: calc(100vh - 180px);
+        overflow-y: auto;
+        overflow-x: hidden;
         position: relative;
+        background-color: transparent;
     }
 
     table {
-        /* table-layout: fixed; */
+        width: 100%;
+        border-collapse: collapse;
     }
 
-    thead,
-    tr > th {
+    thead, tr > th {
         position: sticky;
-        background: #fff;
+        background: #ffffff;
     }
 
     thead {
         top: 0;
-        z-index: 2;
+        z-index: 3;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
     tr > th {
-        left: 0;
-        z-index: 1;
+        z-index: 2;
     }
 
     thead tr > th:first-child {
-        z-index: 3;
+        z-index: 4;
+    }
+
+    tbody tr td {
+        background: #fff;
+    }
+
+    .wrapper::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .wrapper::-webkit-scrollbar-thumb {
+        background: #cfd1d2;
+        border-radius: 4px;
     }
 </style>
+
 <div class="wrapper" style="margin-top:10px;">
-    <table id="tabSelecao" class="table" style="font-size:small">
+    <table id="tabSelecao" class="table table-sm" style="font-size: small;">
         <thead>
             <tr>
-                <th style="width:0px;visibility:hidden;display:none">0</th>
+                <th style="width:0px; visibility:hidden; display:none">0</th>
+
                 <th style="text-align:center">
-                    @if (Model.OrdensServico != null)
-                    {
-                        @Model.OrdensServico.Count()
-                    }
+                    @Model.OrdensServico?.Count()
                 </th>
+
                 <th style="text-align:center">
                     <input id="chkAll" type="checkbox" onclick="checkAll(this)">
                 </th>
-                <th style="text-align:center">
-                    Matricula
-                </th>
-                <th style="text-align:center">
-                    HD
-                </th>
-                
-                <th style="text-align:center">
-                    Ciclo
-                </th>
-        
-                <th>
-                    Cliente
-                </th>
-                
-                <th>
-                    Serviço
-                </th>
-                
-                <th>
-                    Bairro
-                </th>
-                <th>
-                    Endereço
-                </th>
-                <th>
-                    Seq.
-                </th>
-                <th>
-                    Dup.
-                </th>
 
+                <th style="text-align:center">Matricula</th>
+                <th style="text-align:center">HD</th>
+                <th style="text-align:center">Ciclo</th>
+                <th>Cliente</th>
+                <th>Serviço</th>
+                <th>Bairro</th>
+                <th>Endereço</th>
             </tr>
         </thead>
+
         <tbody>
-            @if (Model.OrdensServico == null) return;
+            @if (Model.OrdensServico == null) { return; }
+
             @{
                 int Count = 0;
             }
+
             @foreach (var item in Model.OrdensServico)
             {
                 Count++;
                 <tr>
-                    <td style="width:0px; visibility:hidden;display:none">
+                    <td style="width:0px; visibility:hidden; display:none">
                         @item.IdOrdemServico
                     </td>
+
                     <td style="text-align:center">
                         @Count
                     </td>
+
                     <td style="text-align:center">
                         <input name="chkSel" type="checkbox">
                     </td>
+
                     <td style="text-align:center">
                         @string.Format("{0:00000000}", item.Matricula)
                     </td>
+
                     <td style="text-align:center">
                         @item.NumHD
                     </td>
-                    
+
                     <td style="text-align:center">
                         @item.Ciclo
                     </td>
-                    
-               
+
                     <td>
-                        @Html.DisplayFor(modelItem => item.NomeCliente)
+                        @item.NomeCliente
                     </td>
 
                     <td>
@@ -130,10 +128,8 @@
                     </td>
 
                     <td>
-                        @Html.DisplayFor(modelItem => item.Endereco)
+                        @item.Endereco
                     </td>
-                    
-                
                 </tr>
             }
         </tbody>
