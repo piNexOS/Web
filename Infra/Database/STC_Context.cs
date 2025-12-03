@@ -17,6 +17,8 @@ public partial class STC_Context : DbContext
 
     public virtual DbSet<OrdensServicos> OrdensServicos { get; set; }
 
+    public virtual DbSet<OrdensServicosRej> OrdensServicosRej { get; set; }
+
     public virtual DbSet<RoteiroDetalhes> RoteiroDetalhes { get; set; }
 
     public virtual DbSet<Roteiros> Roteiros { get; set; }
@@ -34,10 +36,8 @@ public partial class STC_Context : DbContext
     public virtual DbSet<TabUsuarios> TabUsuarios { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=192.168.0.2;Initial Catalog=Darwin_STC_2025;Integrated Security=false;User ID=sa;Password=@And#Siller;Persist Security Info=True;Encrypt=True;TrustServerCertificate=yes");
-
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -52,8 +52,6 @@ public partial class STC_Context : DbContext
             entity.HasIndex(e => e.Endereco, "IX_OrdensServicoes_2");
 
             entity.HasIndex(e => e.Matricula, "IX_OrdensServicoes_3");
-
-           
 
             entity.Property(e => e.CNPJ)
                 .HasMaxLength(20)
@@ -78,7 +76,6 @@ public partial class STC_Context : DbContext
             entity.Property(e => e.Endereco)
                 .HasMaxLength(100)
                 .IsUnicode(false);
-           
             entity.Property(e => e.Informacoes)
                 .HasMaxLength(200)
                 .IsUnicode(false);
@@ -135,6 +132,21 @@ public partial class STC_Context : DbContext
                 .HasConstraintName("FK_OrdensServicos_TabServicos");
         });
 
+        modelBuilder.Entity<OrdensServicosRej>(entity =>
+        {
+            entity.HasKey(e => e.IdOrdemServicoRej);
+
+            entity.Property(e => e.IdOrdemServicoRej).ValueGeneratedNever();
+            entity.Property(e => e.Motivo)
+                .HasMaxLength(150)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.IdOrdemServicoNavigation).WithMany(p => p.OrdensServicosRej)
+                .HasForeignKey(d => d.IdOrdemServico)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_OrdensServicosRej_OrdensServicos");
+        });
+
         modelBuilder.Entity<RoteiroDetalhes>(entity =>
         {
             entity.HasKey(e => e.IdRoteiroDetalhe);
@@ -178,10 +190,7 @@ public partial class STC_Context : DbContext
 
             entity.HasIndex(e => e.IdTabAgente, "IX_Roteiros_1");
 
-        
-
             entity.Property(e => e.DataUltComunicacao).HasColumnType("datetime");
-            
 
             entity.HasOne(d => d.IdTabAgenteNavigation).WithMany(p => p.Roteiros)
                 .HasForeignKey(d => d.IdTabAgente)
@@ -197,7 +206,6 @@ public partial class STC_Context : DbContext
 
             entity.HasIndex(e => e.Matricula, "IX_TabAgentes_1");
 
-     
             entity.Property(e => e.Matricula)
                 .HasMaxLength(10)
                 .IsUnicode(false);
@@ -246,7 +254,6 @@ public partial class STC_Context : DbContext
                 .IsUnicode(false);
         });
 
-
         modelBuilder.Entity<TabMunicipios>(entity =>
         {
             entity.HasKey(e => e.IdTabMunicipio);
@@ -282,6 +289,9 @@ public partial class STC_Context : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.Matricula)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Nome)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Senha)

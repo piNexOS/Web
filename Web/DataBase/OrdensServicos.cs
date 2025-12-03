@@ -69,5 +69,7 @@ public partial class OrdensServicos
 
     public virtual TabServicos? IdTabServicoNavigation { get; set; }
 
+    public virtual ICollection<OrdensServicosRej> OrdensServicosRej { get; set; } = new List<OrdensServicosRej>();
+
     public virtual ICollection<RoteiroDetalhes> RoteiroDetalhes { get; set; } = new List<RoteiroDetalhes>();
 }
