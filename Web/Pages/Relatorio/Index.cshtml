@@ -3,19 +3,133 @@
 @{
 }
 
-<h3>Generate Script Detail Report</h3>
+<!--====================================================================================================================-->
+<!--========================================================CSS=========================================================-->
+<!--====================================================================================================================-->
 
-<form method="post">
-    <div class="row">
-        <div class="col-md-4">
-            <label asp-for="StartDate"></label>
-            <input asp-for="StartDate" type="date" class="form-control" />
+<style>
+    :root {
+        --cor-fundo: #373F46;
+        --cor-header: #272C2F;
+        --cor-nexos: #26a5ee;
+        --cor-nexosdark: rgb(17, 136, 206);
+        --cor-texto: #fff;
+        --cor-card: #2E343A;
+        --cor-card-dark: #23282E;
+    }
+
+    main {
+        background: linear-gradient(15deg, rgba(41,41,41,1) -100%, rgba(58,66,72,1) 70%);
+        font-family: "Poppins", sans-serif;
+        color: var(--cor-texto);
+        margin: 0;
+        padding: 1.5rem;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 2.4rem;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+        text-shadow: 0 0 6px rgba(38,165,238,0.35);
+    }
+
+    .filtro-card {
+        width: 95%;
+        max-width: 1100px;
+        background: rgba(255,255,255,0.05);
+        padding: 1.5rem;
+        border-radius: 14px;
+        box-shadow: 0 0 18px rgba(0,0,0,0.35);
+        backdrop-filter: blur(4px);
+        margin-bottom: 2rem;
+    }
+
+    .row{
+        align-items: center;
+    }
+
+    .form-label {
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+    }
+
+    .form-control {
+        background: var(--cor-card-dark);
+        border: 1px solid rgba(255,255,255,0.18);
+        color: var(--cor-texto);
+        border-radius: 10px;
+        padding: 0.6rem;
+    }
+
+    .btn-nexos {
+        background: var(--cor-nexosdark);
+        border: none;
+        padding: 0.8rem 1.4rem;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 1rem;
+        cursor: pointer;
+        font-weight: 600;
+        transition: .2s;
+        width: 100%;
+    }
+
+        .btn-nexos:hover {
+            background: var(--cor-nexos);
+        }
+
+    .btn-submit-container {
+        display: flex;
+        align-items: end;
+        justify-content: flex-start;
+        margin-top: 1.5rem;
+    }
+</style>
+
+<!--====================================================================================================================-->
+<!--========================================================HTML========================================================-->
+<!--====================================================================================================================-->
+
+
+<body>
+    <main>
+
+        <h1>Gerenciamento de OS</h1>
+
+        <div class="filtro-card">
+
+            <form method="post">
+
+                <div class="row">
+
+                    <div class="col-6 col-md-2">
+                        <label asp-for="StartDate" class="form-label">Data Venc.</label>
+                        <input asp-for="StartDate" id="txtDataVencimento" class="form-control" type="date" />
+                    </div>
+
+                    <div class="col-6 col-md-2">
+                        <label asp-for="EndDate" class="form-label">Data Venc.</label>
+                        <input asp-for="EndDate" id="txtDataVencimento" class="form-control" type="date" />
+                    </div>
+
+                    <div class="col-12 col-md-2 btn-submit-container">
+                        <button type="submit" id="btnSubmit" class="btn-nexos">
+                            Exportar
+                        </button>
+                    </div>
+
+
+                </div>
+
+            </form>
+
         </div>
-        <div class="col-md-4">
-            <label asp-for="EndDate"></label>
-            <input asp-for="EndDate" type="date" class="form-control" />
-        </div>
-    </div>
-    <br />
-    <button type="submit" class="btn btn-primary">Download Report</button>
-</form>
+
+    </main>
+</body>
