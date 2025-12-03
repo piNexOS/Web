@@ -1,181 +1,255 @@
 ﻿@page
 @model Web.Pages.Roteiros.IndexModel
-@{
-    <script type="text/javascript">
-        // const { each } = require("jquery");
+<!DOCTYPE html>
+<html lang="pt-br">
 
-        // function selectAll(ele) {
-        //     var cbs = document.getElementsByTagName('input');
-        //     for (var i = 0; i < cbs.length; i++) {
-        //         if (cbs[i].type == 'checkbox') {
-        //             cbs[i].checked = ele.checked;
-        //         }
-        //     }
-        // }
-        function checkAll(elem) {
-            checkboxes = document.getElementsByName('chkSel');
-            for (var i = 0, n = checkboxes.length; i < n; i++) {
-                checkboxes[i].checked = elem.checked;
+<head>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Roteiros - NexOS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+
+        :root {
+            --cor-fundo: #373F46;
+            --cor-header: #272C2F;
+            --cor-nexos: #26a5ee;
+            --cor-nexosdark: rgb(17, 136, 206);
+            --cor-texto: #fff;
+            --cor-card: #2E343A;
+            --cor-card-dark: #23282E;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(15deg, rgba(41,41,41,1) -100%, rgba(58,66,72,1) 70%);
+            font-family: "Poppins", sans-serif;
+            color: var(--cor-texto);
+        }
+
+        main {
+            width: 100%;
+            min-height: 100vh;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            color: var(--cor-texto);
+            text-shadow: 0 0 6px rgba(38,165,238,0.3);
+        }
+
+        .card {
+            width: 100%;
+            max-width: 1100px;
+            background: rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            border-radius: 14px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.35);
+            backdrop-filter: blur(4px);
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+        }
+
+        .form-control {
+            background: var(--cor-card-dark);
+            border: 1px solid rgba(255,255,255,0.18);
+            color: var(--cor-texto);
+            border-radius: 10px;
+            padding: .6rem;
+        }
+
+        .btn-nexos {
+            text-decoration: none;
+            color: white;
+            background: var(--cor-nexos);
+            padding: .7rem 1.4rem;
+            border-radius: 10px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            transition: .2s;
+            width: 100%;
+            border: none;
+        }
+
+            .btn-nexos:hover {
+                background: var(--cor-nexosdark);
             }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background: var(--cor-card);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 12px rgba(0,0,0,0.35);
         }
+
+        thead {
+            background: var(--cor-header);
+        }
+
+        th {
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--cor-nexos);
+            border-bottom: 2px solid rgba(255,255,255,0.08);
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            font-size: 1rem;
+            color: var(--cor-texto);
+            text-align: center;
+        }
+
+        tr:hover td {
+            background: rgba(38,165,238,0.07);
+        }
+
+    </style>
+
+    <script>
+
+        function checkAll(elem) {
+            document.getElementsByName('chkSel')
+                .forEach(c => c.checked = elem.checked);
+        }
+
         function desprogramar() {
-            if ($("#txtData").val() != $("#txtDataConfirma").val()) return;
-            if ($("#ddlAgentes").val() != $("#ddlAgenteConfirma").val()) return;
+            if ($("#txtData").val() !== $("#txtDataConfirma").val()) return;
+            if ($("#ddlAgentes").val() !== $("#ddlAgenteConfirma").val()) return;
 
-            var list = '';
+            var list = "";
             $("#tabSelecao input[type=checkbox]:checked").each(function () {
                 var row = $(this).closest("tr")[0];
-                if (parseInt(row.cells[0].innerText) != 0) {
-                    list += parseInt(row.cells[0].innerText) + ',';
-                }
-            });
-            var data = $("#txtData").val();
-            var idAgente = $("#ddlAgentes").val();
-            $.getJSON(`?handler=Desprogramar&pData=${data}&pIdAgente=${idAgente}&pIdLista=${list}`, (data) => {
-                $("#btnVer").click();
+                list += parseInt(row.cells[0].innerText) + ",";
             });
 
-            $('#ddlAgenteConfirma').prop('selectedIndex', 0);
-            $("#txtDataConfirma").val("");
-            $('#myModal').modal('toggle');
+            $.getJSON(`?handler=Desprogramar&pData=${$("#txtData").val()}&pIdAgente=${$("#ddlAgentes").val()}&pIdLista=${list}`,
+                () => $("#btnVer").click());
         }
-        function transferir() {
-            var list = '';
-            $("#tabSelecao input[type=checkbox]:checked").each(function () {
-                var row = $(this).closest("tr")[0];
-                if (parseInt(row.cells[0].innerText) != 0) {
-                    list += parseInt(row.cells[0].innerText) + ',';
-                }
-            });
-            var data = $("#txtDataTransf").val();
-            var idAgente = $("#ddlAgenteTransf").val();
-            $.getJSON(`?handler=Transferir&pData=${data}&pIdAgente=${idAgente}&pIdLista=${list}`, (data) => {
-                $("#btnVer").click();
-            });
-            $('#ddlAgenteTransf').prop('selectedIndex', 0);
-            $("#txtDataTransf").val("");
-            $('#myModal').modal('toggle');
-        }
+
     </script>
 
-    <form method="post" enctype="multipart/form-data">
-        <div class="row">
-            <div class="col-2">
-                Agente
-                @*@Html.DropDownListFor(x => Model.AgenteSelected, new SelectList(Model.ListAgentes,"Value","Text"), htmlAttributes: new { @class = "form-control", id = "ddlAgentes" })*@
-                @Html.DropDownListFor(x => Model.Agente, Model.ListAgentes, "", htmlAttributes: new { @class = "form-control", id = "ddlAgentes" })
-            </div>
-            <div class="col-md-auto">
-                Data
-                <input id="txtData" asp-for="Data" class="form-control" type="date" />
-            </div>
-            <div class="col-1 align-baseline">
-                <br />
-                <input type="submit" id="btnVer" class="btn-dark" style="width:100%;" asp-page-handler="GetRoteiro" value="Ver" />
-            </div>
-            
+</head>
+
+<body>
+
+    <main>
+
+        <h1>Roteiros</h1>
+
+        <!-- CARD DE FILTRO -->
+        <div class="card">
+
+            <form method="post">
+
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <label class="form-label">Agente</label>
+                        @Html.DropDownListFor(x => Model.Agente, Model.ListAgentes, "",
+                        new { @class = "form-control", id = "ddlAgentes" })
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Data</label>
+                        <input id="txtData" asp-for="Data" type="date" class="form-control" />
+                    </div>
+
+                    <div class="col-md-2 mt-4">
+                        <button id="btnVer" type="submit" asp-page-handler="GetRoteiro" class="btn-nexos">
+                            Ver
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>
+
         </div>
-        <div class="row" style="margin-top:10px;">
-            <table id="tabSelecao" class="table">
+
+        @* CONTROLE PARA EXIBIR A TABELA APÓS O VER *@
+        @{
+            var exibirTabela = Model.OrdensServico != null;
+        }
+
+        <!-- TABELA -->
+        <div id="cardTabela" class="card" style="@(exibirTabela ? "" : "display:none")">
+
+            <table id="tabSelecao">
                 <thead>
                     <tr>
-                        <th style="width:0px;visibility:hidden;display:none">0</th>
-                        <th style="text-align:center">
-                            @if (Model.OrdensServico != null)
-                            {
-                                @Model.OrdensServico.Count()
-                            }
-                        </th>
-                        <th style="text-align:center">
-                            <input type="checkbox" id="chkCheckAll" onclick="checkAll(this)">
-                        </th>
-                        <th style="text-align:center">
-                            Matricula
-                        </th>
-                        <th style="text-align:center">
-                            HD
-                        </th>
-
-                        <th style="text-align:center">
-                            Ciclo
-                        </th>
-
-                        <th style="text-align:center">
-                            Venc.
-                        </th>
-                        <th style="text-align:center">
-                            Serviço
-                        </th>
-
-                        <th style="text-align:center">
-                            Status
-                        </th>
-                        <th style="text-align:center">
-                            Hora
-                        </th>
-                        <th style="text-align:center">
-                            Cidade
-                        </th>
-                        <th style="text-align:center">
-                            Bairro
-                        </th>
+                        <th style="display:none">ID</th>
+                        <th>Qtd</th>
+                        <th><input type="checkbox" onclick="checkAll(this)" /></th>
+                        <th>Matrícula</th>
+                        <th>HD</th>
+                        <th>Ciclo</th>
+                        <th>Venc.</th>
+                        <th>Serviço</th>
+                        <th>Status</th>
+                        <th>Hora</th>
+                        <th>Cidade</th>
+                        <th>Bairro</th>
                     </tr>
                 </thead>
+
                 <tbody>
-                    @{
-                        int Count = 0;
-                    }
-                    @if (Model.OrdensServico == null) return;
-                    @foreach (var item in Model.OrdensServico)
+                    @if (Model.OrdensServico != null)
                     {
-                        Count++;
-                        <tr>
-                            <td style="width:0px; visibility:hidden;display:none">
-                                @item.IdRoteiroDet
-                            </td>
-                            <td style="text-align:center">
-                                @Count
-                            </td>
-                            <td style="text-align:center">
-                                <input type="checkbox" name="chkSel">
-                            </td>
+                        int Count = 0;
 
-                            <td style="text-align:center">
-                                @item.Matricula
-                            </td>
-                            <td style="text-align:center">
-                                @item.NumHidrometro
-                            </td>
+                        foreach (var item in Model.OrdensServico)
+                        {
+                            Count++;
 
-                            <td style="text-align:center">
-                                @item.Ciclo
-                            </td>
-
-                            <td style="text-align:center">
-                                @string.Format("{0:dd/MM/yy}", item.DataVencimento)
-                            </td>
-                            <td style="text-align:center">
-                                @item.Servico
-                            </td>
-
-                            <td style="text-align:center">
-                                @item.Status
-                            </td>
-                            <td style="text-align:center">
-                                @string.Format("{0:HH:mm}", item.DataIniAtendimento)
-                            </td>
-                            <td style="text-align:center">
-                                @item.Cidade
-                            </td>
-                            <td style="text-align:center">
-                                @item.Bairro
-                            </td>
-                        </tr>
+                            <tr>
+                                <td style="display:none">@item.IdRoteiroDet</td>
+                                <td>@Count</td>
+                                <td><input type="checkbox" name="chkSel" /></td>
+                                <td>@item.Matricula</td>
+                                <td>@item.NumHidrometro</td>
+                                <td>@item.Ciclo</td>
+                                <td>@string.Format("{0:dd/MM/yy}", item.DataVencimento)</td>
+                                <td>@item.Servico</td>
+                                <td>@item.Status</td>
+                                <td>@string.Format("{0:HH:mm}", item.DataIniAtendimento)</td>
+                                <td>@item.Cidade</td>
+                                <td>@item.Bairro</td>
+                            </tr>
+                        }
                     }
                 </tbody>
+
             </table>
+
         </div>
-    </form>
 
+    </main>
 
-}
+</body>
+
+</html>
