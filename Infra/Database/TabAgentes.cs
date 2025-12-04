@@ -13,6 +13,5 @@ public partial class TabAgentes
 
     public string? Matricula { get; set; }
 
-
     public virtual ICollection<Roteiros> Roteiros { get; set; } = new List<Roteiros>();
 }

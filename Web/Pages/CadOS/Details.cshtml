@@ -1,182 +1,194 @@
 ﻿@page
 @model Web.Pages.CadOS.DetailsModel
 
-<div>
-    <h4>OrdensServicos</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.NumeroOS)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.NumeroOS)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.Matricula)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.Matricula)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.Informacoes)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.Informacoes)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.Referencia)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.Referencia)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.Endereco)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.Endereco)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.NumeroCasa)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.NumeroCasa)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.Complemento)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.Complemento)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.NomeSolicitante)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.NomeSolicitante)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.TelSolicitante)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.TelSolicitante)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.NomeCliente)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.NomeCliente)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.CPF)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.CPF)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.CNPJ)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.CNPJ)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.TelCliente)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.TelCliente)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.NumHD)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.NumHD)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.UltimaLeitura)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.UltimaLeitura)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.TipoPadrao)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.TipoPadrao)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.LocalizacaoPadrao)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.LocalizacaoPadrao)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.Ciclo)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.Ciclo)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.Classificacao)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.Classificacao)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.DataRegistro)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.DataRegistro)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.DataRecepcao)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.DataRecepcao)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.DataLimite)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.DataLimite)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.DataImportacao)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.DataImportacao)
-        </dd>
-       
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.Status)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.Status)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrdensServicos.DataBaixa)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.DataBaixa)
-        </dd>
-        <dt class="col-sm-2">
-            Bairro:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.IdTabBairroNavigation.Descricao)
-        </dd>
-        <dt class="col-sm-2">
-            Municipio
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.IdTabMunicipioNavigation.Descricao)
-        </dd>
-        <dt class="col-sm-2">
-            Serviço
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrdensServicos.IdTabServicoNavigation.Descricao)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.OrdensServicos.IdOrdemServico">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
-</div>
+@{
+    <!DOCTYPE html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Detalhes da OS - NexOS</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+        <style>
+
+            :root {
+                --cor-fundo: #373F46;
+                --cor-nexos: #26a5ee;
+                --cor-nexosdark: rgb(17, 136, 206);
+                --cor-texto: #fff;
+                --cor-card: #2E343A;
+                --cor-input: #1f2429;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            main {
+                background: linear-gradient(15deg, rgba(41,41,41,1) -100%, rgba(58,66,72,1) 70%);
+                font-family: "Poppins", sans-serif;
+                color: var(--cor-texto);
+                min-height: 100vh;
+                padding: 2rem;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+            }
+
+            .card-details {
+                background: var(--cor-card);
+                padding: 2rem;
+                width: 100%;
+                max-width: 850px;
+                border-radius: 12px;
+                box-shadow: 0 0 15px rgba(0,0,0,0.4);
+            }
+
+            h1 {
+                text-align: center;
+                font-size: 2.3rem;
+                margin-bottom: 1.5rem;
+                font-weight: 600;
+                color: var(--cor-texto);
+                text-shadow: 0 0 6px rgba(38,165,238,0.3);
+            }
+
+            dt {
+                color: var(--cor-nexos);
+                font-weight: 600;
+            }
+
+            dd {
+                margin-bottom: 1rem;
+            }
+
+            .link-actions {
+                text-align: center;
+                margin-top: 1.8rem;
+            }
+
+            .action-link {
+                color: var(--cor-nexos);
+                font-weight: 600;
+                text-decoration: none;
+                margin: 0 .6rem;
+            }
+
+                .action-link:hover {
+                    color: var(--cor-nexosdark);
+                }
+
+        </style>
+    </head>
+
+    <body>
+        <main>
+
+            <div class="card-details">
+
+                <h1>Detalhes da Ordem de Serviço</h1>
+
+                <dl class="row">
+
+                    <dt>Número da OS</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.NumeroOS)</dd>
+
+                    <dt>Matrícula</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.Matricula)</dd>
+
+                    <dt>Informações</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.Informacoes)</dd>
+
+                    <dt>Referência</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.Referencia)</dd>
+
+                    <dt>Endereço</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.Endereco)</dd>
+
+                    <dt>Número</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.NumeroCasa)</dd>
+
+                    <dt>Complemento</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.Complemento)</dd>
+
+                    <dt>Solicitante</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.NomeSolicitante)</dd>
+
+                    <dt>Telefone do Solicitante</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.TelSolicitante)</dd>
+
+                    <dt>Cliente</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.NomeCliente)</dd>
+
+                    <dt>CPF</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.CPF)</dd>
+
+                    <dt>CNPJ</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.CNPJ)</dd>
+
+                    <dt>Telefone Cliente</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.TelCliente)</dd>
+
+                    <dt>Número HD</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.NumHD)</dd>
+
+                    <dt>Última Leitura</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.UltimaLeitura)</dd>
+
+                    <dt>Tipo de Padrão</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.TipoPadrao)</dd>
+
+                    <dt>Localização do Padrão</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.LocalizacaoPadrao)</dd>
+
+                    <dt>Ciclo</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.Ciclo)</dd>
+
+                    <dt>Classificação</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.Classificacao)</dd>
+
+                    <dt>Data de Registro</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.DataRegistro)</dd>
+
+                    <dt>Data de Recepção</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.DataRecepcao)</dd>
+
+                    <dt>Data Limite</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.DataLimite)</dd>
+
+                    <dt>Data Importação</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.DataImportacao)</dd>
+
+                    <dt>Status</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.Status)</dd>
+
+                    <dt>Data Baixa</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.DataBaixa)</dd>
+
+                    <dt>Bairro</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.IdTabBairroNavigation.Descricao)</dd>
+
+                    <dt>Município</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.IdTabMunicipioNavigation.Descricao)</dd>
+
+                    <dt>Serviço</dt>
+                    <dd>@Html.DisplayFor(model => model.OrdensServicos.IdTabServicoNavigation.Descricao)</dd>
+
+                </dl>
+
+                <div class="link-actions">
+                    <a class="action-link" asp-page="./Edit" asp-route-id="@Model.OrdensServicos.IdOrdemServico">Editar</a>
+                    <a class="action-link" asp-page="./Index">Voltar</a>
+                </div>
+
+            </div>
+
+        </main>
+    </body>
+    </html>
+}
