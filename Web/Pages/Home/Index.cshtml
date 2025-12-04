@@ -2,218 +2,277 @@
 @model Web.Pages.Home.IndexModel
 @{
     var hoje = DateOnly.FromDateTime(DateTime.Today);
+}
 
-    <!DOCTYPE html>
-    <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login - NexOS</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-        <style>
+<!DOCTYPE html>
+<html lang="pt-br">
 
-            :root {
-                --cor-fundo: #373F46;
-                --cor-header: #272C2F;
-                --cor-nexos: #26a5ee;
-                --cor-nexosdark: rgb(17, 136, 206);
-                --cor-texto: #fff;
-                --cor-card: #2E343A;
-                --cor-card-dark: #23282E;
-            }
+<head>
+    <meta charset="UTF-8">
+    <title>NexOS - Dashboard</title>
 
-            main {
-                background: linear-gradient(15deg, rgba(41,41,41,1) -100%, rgba(58,66,72,1) 70%);
-                font-family: "League Spartan", sans-serif;
-                color: var(--cor-texto);
-                margin: 0;
-                padding: 1em;
-                min-height: 100vh;
-                align-items: center;
-                display: flex;
-                flex-flow: column nowrap;
-                width: 100%;
-            }
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-            h1 {
-                text-align: center;
-                font-size: 2.5rem;
-                margin-bottom: 1.5rem;
-                font-weight: 600;
-                color: var(--cor-texto);
-                text-shadow: 0 0 6px rgba(38,165,238,0.3);
-            }
+    <style>
+        :root {
+            --cor-fundo: #373F46;
+            --cor-card: #2E343A;
+            --cor-header: #272C2F;
+            --cor-texto: #fff;
+            --realizadas: #43B0F1;
+            --rejeitadas: #1B4965;
+            --pendentes: #6A4C93;
+        }
 
-            table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 1.5rem;
-                background: var(--cor-card);
-                border-radius: 10px;
-                overflow: hidden;
-                box-shadow: 0 0 12px rgba(0,0,0,0.35);
-            }
+        body {
+            margin: 0;
+            background: var(--cor-fundo);
+            color: var(--cor-texto);
+            font-family: "Poppins", sans-serif;
+        }
 
-            thead {
-                background: var(--cor-header);
-            }
+        main {
+            padding: 3em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2.5em;
+        }
 
-            th {
-                padding: 1rem;
-                text-align: center;
-                font-size: 1.1rem;
-                font-weight: 600;
-                color: var(--cor-nexos);
-                border-bottom: 2px solid rgba(255,255,255,0.08);
-            }
+        .linha-graficos {
+            display: flex;
+            width: 100%;
+            max-width: 1300px;
+            justify-content: center;
+            gap: 2em;
+        }
 
-            td {
-                padding: 1rem;
-                border-bottom: 1px solid rgba(255,255,255,0.06);
-                font-size: 1.1rem;
-                color: var(--cor-texto);
-                text-align: center;
-            }
+        .card-grafico {
+            flex: 1;
+            background: var(--cor-card);
+            padding: 2em;
+            border-radius: 12px;
+            min-height: 380px;
+        }
 
-            tr:hover td {
-                background: rgba(38,165,238,0.07);
-            }
+        h2 {
+            margin-bottom: 1em;
+        }
 
-            tbody tr:last-child td {
-                border-bottom: none;
-            }
+        .legenda-os {
+            margin-top: 1.5em;
+            display: flex;
+            justify-content: space-around;
+        }
 
-            .tabelas-container {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 3rem; 
-                width: 100%;
-                max-width: 1500px;
-            }
+        .legenda-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6em;
+            font-size: 1.1em;
+        }
 
-            .tabela-box {
-                background: var(--cor-card);
-                padding: 1rem;
-                border-radius: 10px;
-                box-shadow: 0 0 12px rgba(0,0,0,0.35);
-            }
+        .cor-box {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+        }
 
-            @@media (max-width: 900px) {
-                .tabelas-container
+        /* ESTILOS DAS TABELAS (restaurados) */
+        .tabela-card {
+            width: 100%;
+            max-width: 1300px;
+            background: var(--cor-card);
+            padding: 1.5em;
+            border-radius: 12px;
+        }
 
-            {
-                grid-template-columns: 1fr;
-            }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            border-radius: 10px;
+            overflow: hidden;
+        }
 
-            }
+        thead {
+            background: var(--cor-header);
+        }
 
-            @@media (max-width: 768px) {
-                main {
-                    padding: 1em;
-                }
+        th, td {
+            padding: 0.9rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
 
+        tr:hover td {
+            background: rgba(255,255,255,0.08);
+        }
+    </style>
+</head>
 
-                table {
-                    font-size: .95rem;
-                }
+<body>
 
-                th, td {
-                    padding: .7rem;
-                }
+    <main>
 
-                h1 {
-                    font-size: 2rem;
-                }
-            }
-        </style>
+        <div class="linha-graficos">
 
-    </head>
-    <body>
-        <main>
+            <!-- GRÁFICO DE OS'S -->
+            <div class="card-grafico">
+                <h2>Gráfico de OS's</h2>
+                <canvas id="graficoOS"></canvas>
 
-            <div class="tabelas-container">
+                <div class="legenda-os">
+                    <div class="legenda-item">
+                        <div class="cor-box" style="background: var(--realizadas)"></div>
+                        Realizadas — @Model.PctRealizadas% (@Model.TotalRealizadas)
+                    </div>
 
-                <div class="tabela-box">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>@Html.DisplayNameFor(model => model.TabAgentes[0].Nome)</th>
-                                <th>@Html.DisplayNameFor(model => model.TabAgentes[0].Matricula)</th>
-                                <th>Programadas</th>
-                                <th>Atendidas</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.TabAgentes)
-                            {
-                                <tr>
-                                    <td>@item.Nome</td>
-                                    <td>@item.Matricula</td>
+                    <div class="legenda-item">
+                        <div class="cor-box" style="background: var(--rejeitadas)"></div>
+                        Rejeitadas — @Model.PctRejeitadas% (@Model.TotalRejeitadas)
+                    </div>
 
-                                    <td>
-                                        @(
-                                                                        item.Roteiros?
-                                                                        .Where(r => r.Data == hoje)
-                                                                        .Sum(r => r.RoteiroDetalhes?.Count() ?? 0)
-                                                                        ?? 0
-                                                                        )
-                                    </td>
-
-                                    <td>
-                                        @(
-                                                                        item.Roteiros?
-                                                                        .SelectMany(r => r.RoteiroDetalhes)
-                                                                        .Count(d => d.IdOrdemServicoNavigation != null &&
-                                                                        d.IdOrdemServicoNavigation.DataBaixa.HasValue &&
-                                                                        d.IdOrdemServicoNavigation.DataBaixa.Value.Date == DateTime.Today) ?? 0
-                                                                        )
-                                </td>
-
-                                </tr>
-                                                }
-                        </tbody>
-                    </table>
+                    <div class="legenda-item">
+                        <div class="cor-box" style="background: var(--pendentes)"></div>
+                        Pendentes — @Model.PctPendentes% (@Model.TotalPendentes)
+                    </div>
                 </div>
-
-                <div class="tabela-box">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Serviço</th>
-                                <th>Id OS</th>
-                                <th>Bairro</th>
-                                <th>Endereço</th>
-                                <th>Motivo</th>
-                                <th>Agente</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @foreach (var item in Model.OrdensServicosRejs)
-                            {
-                                <tr>
-                                    <td>@(item.IdRoteiroDetalhesNavigation.IdOrdemServicoNavigation.IdTabServicoNavigation.Descricao)</td>
-
-                                    <td>@(item.IdRoteiroDetalhesNavigation?.IdOrdemServico)</td>
-
-                                    <td>@(item.IdRoteiroDetalhesNavigation.IdOrdemServicoNavigation.IdTabBairroNavigation.Descricao)</td>
-
-                                    <td>@(item.IdRoteiroDetalhesNavigation.IdOrdemServicoNavigation.Endereco)</td>
-
-                                    <td>@item.Motivo</td>
-
-                                    <td>@(item.IdRoteiroDetalhesNavigation.IdRoteiroNavigation.IdTabAgenteNavigation.Nome)</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-
             </div>
 
-        </main>
-    </body>
-    </html>
-}
+            <!-- GRÁFICO DE REGIÕES -->
+            <div class="card-grafico">
+                <h2>Gráfico de Regiões</h2>
+                <canvas id="graficoRegiao"></canvas>
+            </div>
+
+        </div>
+
+        <!-- ========== TABELAS RESTAURADAS ========== -->
+
+        <div class="tabela-card">
+            <h2>Agentes em atividade</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>ID</th>
+                        <th>Programadas</th>
+                        <th>Atendidas</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model.TabAgentes)
+                    {
+                        <tr>
+                            <td>@item.Nome</td>
+                            <td>@item.Matricula</td>
+                            <td>
+                                @(item.Roteiros?
+                                                            .Where(r => r.Data == hoje)
+                                                            .Sum(r => r.RoteiroDetalhes?.Count() ?? 0) ?? 0)
+                                                                                                        </td>
+
+                            <td>
+                                @(item.Roteiros?
+                                                            .SelectMany(r => r.RoteiroDetalhes)
+                                                            .Count(d => d.IdOrdemServicoNavigation != null &&
+                                                            d.IdOrdemServicoNavigation.DataBaixa.HasValue &&
+                                                            d.IdOrdemServicoNavigation.DataBaixa.Value.Date == DateTime.Today)
+                                                            ?? 0)
+                        </td>
+                    </tr>
+                                        }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tabela-card">
+            <h2>Ordens Rejeitadas</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Serviço</th>
+                        <th>ID OS</th>
+                        <th>Bairro</th>
+                        <th>Endereço</th>
+                        <th>Motivo</th>
+                        <th>Agente</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model.OrdensServicosRejs)
+                    {
+                        <tr>
+                            <td>@item.IdRoteiroDetalhesNavigation.IdOrdemServicoNavigation.IdTabServicoNavigation.Descricao</td>
+                            <td>@item.IdRoteiroDetalhesNavigation.IdOrdemServico</td>
+                            <td>@item.IdRoteiroDetalhesNavigation.IdOrdemServicoNavigation.IdTabBairroNavigation.Descricao</td>
+                            <td>@item.IdRoteiroDetalhesNavigation.IdOrdemServicoNavigation.Endereco</td>
+                            <td>@item.Motivo</td>
+                            <td>@item.IdRoteiroDetalhesNavigation.IdRoteiroNavigation.IdTabAgenteNavigation.Nome</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- FIM DAS TABELAS -->
+
+    </main>
+
+    <script>
+
+        const r = @Model.TotalRealizadas == 0 ? 0.0001 : @Model.TotalRealizadas;
+        const j = @Model.TotalRejeitadas == 0 ? 0.0001 : @Model.TotalRejeitadas;
+        const p = @Model.TotalPendentes == 0 ? 0.0001 : @Model.TotalPendentes;
+
+        new Chart(document.getElementById("graficoOS"), {
+            type: "doughnut",
+            data: {
+                labels: ["Realizadas", "Rejeitadas", "Pendentes"],
+                datasets: [{
+                    data: [r, j, p],
+                    backgroundColor: [
+                        getComputedStyle(document.documentElement).getPropertyValue("--realizadas").trim(),
+                        getComputedStyle(document.documentElement).getPropertyValue("--rejeitadas").trim(),
+                        getComputedStyle(document.documentElement).getPropertyValue("--pendentes").trim()
+                    ],
+                    borderWidth: 0,
+                    spacing: 5
+                }]
+            },
+            options: {
+                cutout: "65%",
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        const regioes = @Html.Raw(Model.RegioesJSON);
+        const quantidades = @Html.Raw(Model.QuantidadesRegioesJSON);
+
+        new Chart(document.getElementById("graficoRegiao"), {
+            type: "bar",
+            data: {
+                labels: regioes,
+                datasets: [{
+                    label: "Quantidade",
+                    data: quantidades,
+                    backgroundColor: "#26a5ee"
+                }]
+            },
+            options: {
+                plugins: { legend: { labels: { color: "white" } } },
+                scales: {
+                    x: { ticks: { color: "white" } },
+                    y: { ticks: { color: "white" } }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
