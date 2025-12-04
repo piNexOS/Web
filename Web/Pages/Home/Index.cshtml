@@ -85,6 +85,30 @@
                 border-bottom: none;
             }
 
+            .tabelas-container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 3rem; 
+                width: 100%;
+                max-width: 1500px;
+            }
+
+            .tabela-box {
+                background: var(--cor-card);
+                padding: 1rem;
+                border-radius: 10px;
+                box-shadow: 0 0 12px rgba(0,0,0,0.35);
+            }
+
+            @@media (max-width: 900px) {
+                .tabelas-container
+
+            {
+                grid-template-columns: 1fr;
+            }
+
+            }
+
             @@media (max-width: 768px) {
                 main {
                     padding: 1em;
@@ -109,119 +133,86 @@
     <body>
         <main>
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.TabAgentes[0].Nome)</th>
-                        <th>@Html.DisplayNameFor(model => model.TabAgentes[0].Matricula)</th>
-                        <th>Programadas</th>
-                        <th>Atendidas</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.TabAgentes)
-                    {
-                        <tr>
-                            <td>@item.Nome</td>
-                            <td>@item.Matricula</td>
+            <div class="tabelas-container">
 
-                            <!-- Programadas para hoje -->
-                            <td>
-                                @(
-                                item.Roteiros?
-                                .Where(r => r.Data == hoje) // pega apenas roteiros de hoje
-                                .Sum(r => r.RoteiroDetalhes?.Count() ?? 0) // soma todos os detalhes desses roteiros
-                                ?? 0
-                                )
-                            </td>
+                <div class="tabela-box">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.TabAgentes[0].Nome)</th>
+                                <th>@Html.DisplayNameFor(model => model.TabAgentes[0].Matricula)</th>
+                                <th>Programadas</th>
+                                <th>Atendidas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.TabAgentes)
+                            {
+                                <tr>
+                                    <td>@item.Nome</td>
+                                    <td>@item.Matricula</td>
 
-                            <!-- Atendidas para hoje -->
-                            <td>
-                                @(
-                                item.Roteiros?
-                                .SelectMany(r => r.RoteiroDetalhes)
-                                .Count(d => d.IdOrdemServicoNavigation != null &&
-                                d.IdOrdemServicoNavigation.DataBaixa.HasValue &&
-                                d.IdOrdemServicoNavigation.DataBaixa.Value.Date == DateTime.Today) ?? 0
-                                )
-                        </td>
+                                    <td>
+                                        @(
+                                                                        item.Roteiros?
+                                                                        .Where(r => r.Data == hoje)
+                                                                        .Sum(r => r.RoteiroDetalhes?.Count() ?? 0)
+                                                                        ?? 0
+                                                                        )
+                                    </td>
 
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        Serviço
-                    </th>
+                                    <td>
+                                        @(
+                                                                        item.Roteiros?
+                                                                        .SelectMany(r => r.RoteiroDetalhes)
+                                                                        .Count(d => d.IdOrdemServicoNavigation != null &&
+                                                                        d.IdOrdemServicoNavigation.DataBaixa.HasValue &&
+                                                                        d.IdOrdemServicoNavigation.DataBaixa.Value.Date == DateTime.Today) ?? 0
+                                                                        )
+                                </td>
 
-                    <th>
-                        Id OS
-                    </th>
+                                </tr>
+                                                }
+                        </tbody>
+                    </table>
+                </div>
 
-                    <th>
-                        Bairro
-                    </th>
+                <div class="tabela-box">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Serviço</th>
+                                <th>Id OS</th>
+                                <th>Bairro</th>
+                                <th>Endereço</th>
+                                <th>Motivo</th>
+                                <th>Agente</th>
+                            </tr>
+                        </thead>
 
-                    <th>
-                        Endereço
-                    </th>
+                        <tbody>
+                            @foreach (var item in Model.OrdensServicosRejs)
+                            {
+                                <tr>
+                                    <td>@(item.IdRoteiroDetalhesNavigation.IdOrdemServicoNavigation.IdTabServicoNavigation.Descricao)</td>
 
-                    <th>
-                        Motivo
-                    </th>
+                                    <td>@(item.IdRoteiroDetalhesNavigation?.IdOrdemServico)</td>
 
-                    <th>
-                        Agente
-                    </th>
-                </tr>
-            </thead>
+                                    <td>@(item.IdRoteiroDetalhesNavigation.IdOrdemServicoNavigation.IdTabBairroNavigation.Descricao)</td>
 
-            <tbody>
-                @foreach (var item in Model.OrdensServicosRejs)
-                    {
-                        <tr>
-                            <td>
-                                @(item.IdRoteiroDetalhesNavigation
-                                                        .IdOrdemServicoNavigation
-                                                        .IdTabServicoNavigation
-                                                        .Descricao)
-                                                               </td>
+                                    <td>@(item.IdRoteiroDetalhesNavigation.IdOrdemServicoNavigation.Endereco)</td>
 
-                            <td>
-                                @(item.IdRoteiroDetalhesNavigation?
-                                                        .IdOrdemServico)
-                                                                    </td>
+                                    <td>@item.Motivo</td>
 
-                            <td>
-                                @(item.IdRoteiroDetalhesNavigation
-                                                        .IdOrdemServicoNavigation
-                                                        .IdTabBairroNavigation
-                                                        .Descricao)
-                                                               </td>
+                                    <td>@(item.IdRoteiroDetalhesNavigation.IdRoteiroNavigation.IdTabAgenteNavigation.Nome)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
 
-                            <td>
-                                @(item.IdRoteiroDetalhesNavigation
-                                                        .IdOrdemServicoNavigation
-                                                        .Endereco)
-                                                              </td>
+            </div>
 
-                            <td>
-                                @item.Motivo
-                            </td>
-
-                            <td>
-                                @(item.IdRoteiroDetalhesNavigation
-                                                        .IdRoteiroNavigation
-                                                        .IdTabAgenteNavigation
-                                                        .Nome)
-                    </td>
-                </tr>
-                                }
-                </tbody>
-            </table>
         </main>
     </body>
     </html>
