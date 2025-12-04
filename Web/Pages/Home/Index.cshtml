@@ -22,6 +22,7 @@
             --realizadas: #43B0F1;
             --rejeitadas: #1B4965;
             --pendentes: #6A4C93;
+            --naoprogramadas: #43B0F1;
         }
 
         body {
@@ -135,7 +136,12 @@
 
                     <div class="legenda-item">
                         <div class="cor-box" style="background: var(--pendentes)"></div>
-                        Pendentes — @Model.PctPendentes% (@Model.TotalPendentes)
+                        Programadas — @Model.PctPendentes% (@Model.TotalPendentes)
+                    </div>
+
+                    <div class="legenda-item">
+                        <div class="cor-box" style="background: var(--naoprogramadas)"></div>
+                        Não Programadas — @Model.PctNaoProgramadas% (@Model.TotalNaoProgramadas)
                     </div>
                 </div>
             </div>
@@ -229,17 +235,20 @@
         const r = @Model.TotalRealizadas == 0 ? 0.0001 : @Model.TotalRealizadas;
         const j = @Model.TotalRejeitadas == 0 ? 0.0001 : @Model.TotalRejeitadas;
         const p = @Model.TotalPendentes == 0 ? 0.0001 : @Model.TotalPendentes;
+        const n = @Model.TotalNaoProgramadas == 0 ? 0.0001 : @Model.TotalNaoProgramadas;
 
         new Chart(document.getElementById("graficoOS"), {
             type: "doughnut",
             data: {
-                labels: ["Realizadas", "Rejeitadas", "Pendentes"],
+                labels: ["Realizadas", "Rejeitadas", "Programadas", "Não programadas"],
                 datasets: [{
-                    data: [r, j, p],
+                    data: [r, j, p, n],
                     backgroundColor: [
                         getComputedStyle(document.documentElement).getPropertyValue("--realizadas").trim(),
                         getComputedStyle(document.documentElement).getPropertyValue("--rejeitadas").trim(),
-                        getComputedStyle(document.documentElement).getPropertyValue("--pendentes").trim()
+                        getComputedStyle(document.documentElement).getPropertyValue("--pendentes").trim(),
+                        getComputedStyle(document.documentElement).getPropertyValue("--naoprogramadas").trim()
+
                     ],
                     borderWidth: 0,
                     spacing: 5

@@ -21,10 +21,12 @@ namespace Web.Pages.Home
         public int TotalRealizadas { get; set; }
         public int TotalPendentes { get; set; }
         public int TotalRejeitadas { get; set; }
+        public int TotalNaoProgramadas { get; set; }
 
         public int PctRealizadas { get; set; }
         public int PctPendentes { get; set; }
         public int PctRejeitadas { get; set; }
+        public int PctNaoProgramadas { get; set; }
 
         public List<string> Regioes { get; set; } = new();
         public List<int> QuantidadesRegioes { get; set; } = new();
@@ -69,22 +71,27 @@ namespace Web.Pages.Home
             // ============================================================
 
             // REJEITADAS
-            TotalRejeitadas = await _context.OrdensServicos
-                .CountAsync(o => o.Status != null && o.Status.ToUpper() == "REJEITADA");
+            TotalRejeitadas = await _context.OrdensServicosRej
+                .CountAsync();
 
             // REALIZADAS NÃO EXISTEM NO SEU BANCO
             TotalRealizadas = 0;
 
             // PENDENTES = NULL ou ""
             TotalPendentes = await _context.OrdensServicos
-                .CountAsync(o => o.Status == null || o.Status == "");
+                .CountAsync(o => o.Status == "PROGRAMADA");
+
+            TotalNaoProgramadas = await _context.OrdensServicos
+                .CountAsync(o => o.Status == "NÃO PROGRAMADA");
 
             // Cálculo dos percentuais
-            int total = TotalRealizadas + TotalPendentes + TotalRejeitadas;
+            int total = TotalRealizadas + TotalPendentes + TotalRejeitadas + TotalNaoProgramadas;
 
             PctRealizadas = total > 0 ? (int)Math.Round((double)TotalRealizadas / total * 100) : 0;
             PctPendentes = total > 0 ? (int)Math.Round((double)TotalPendentes / total * 100) : 0;
             PctRejeitadas = total > 0 ? (int)Math.Round((double)TotalRejeitadas / total * 100) : 0;
+            PctNaoProgramadas = total > 0 ? (int)Math.Round((double)TotalNaoProgramadas / total * 100) : 0;
+
 
             // === GRÁFICO POR REGIÃO ===
             var regioesDB = await _context.OrdensServicos
