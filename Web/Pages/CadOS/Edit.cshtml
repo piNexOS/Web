@@ -1,164 +1,221 @@
 ﻿@page
 @model Web.Pages.CadOS.EditModel
 
-<h4>OrdensServicos</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="OrdensServicos.IdOrdemServico" />
-            <div class="form-group">
-                <label asp-for="OrdensServicos.NumeroOS" class="control-label"></label>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Ordem de Serviço - NexOS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --cor-fundo: #373F46;
+            --cor-header: #272C2F;
+            --cor-nexos: #26a5ee;
+            --cor-nexosdark: rgb(17,136,206);
+            --cor-texto: #fff;
+            --cor-card: #2E343A;
+            --cor-card-dark: #23282E;
+            --cor-input: #1f2429;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        main {
+            background: linear-gradient(15deg, rgba(41,41,41,1) -100%, rgba(58,66,72,1) 70%);
+            font-family: "Poppins", sans-serif;
+            color: var(--cor-texto);
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .card-edit {
+            background: var(--cor-card);
+            padding: 2rem;
+            width: 100%;
+            max-width: 700px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.4);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            color: var(--cor-texto);
+            text-shadow: 0 0 6px rgba(38,165,238,0.3);
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: .3rem;
+            display: block;
+            color: var(--cor-nexos);
+        }
+
+        input.form-control, select.form-control {
+            width: 100%;
+            padding: .7rem;
+            margin-bottom: 1rem;
+            border-radius: 6px;
+            border: none;
+            outline: none;
+            background: var(--cor-input);
+            color: var(--cor-texto);
+            font-size: 1rem;
+        }
+
+            input.form-control:focus, select.form-control:focus {
+                box-shadow: 0 0 5px var(--cor-nexos);
+            }
+
+        .btn-primary {
+            background: var(--cor-nexos);
+            color: #fff;
+            border: none;
+            padding: .8rem 1.4rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: .2s;
+        }
+
+            .btn-primary:hover {
+                background: var(--cor-nexosdark);
+            }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--cor-nexos);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+            .back-link:hover {
+                color: var(--cor-nexosdark);
+            }
+    </style>
+</head>
+
+<body>
+    <main>
+
+        <div class="card-edit">
+
+            <h1>Editar Ordem de Serviço</h1>
+
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <input type="hidden" asp-for="OrdensServicos.IdOrdemServico" />
+
+                <label asp-for="OrdensServicos.NumeroOS"></label>
                 <input asp-for="OrdensServicos.NumeroOS" class="form-control" />
-                <span asp-validation-for="OrdensServicos.NumeroOS" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.Matricula" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.Matricula"></label>
                 <input asp-for="OrdensServicos.Matricula" class="form-control" />
-                <span asp-validation-for="OrdensServicos.Matricula" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.IdTabServico" class="control-label">Serviço</label>
+
+                <label asp-for="OrdensServicos.IdTabServico">Serviço</label>
                 <select asp-for="OrdensServicos.IdTabServico" class="form-control" asp-items="ViewBag.IdTabServico"></select>
-                <span asp-validation-for="OrdensServicos.IdTabServicoNavigation.Descricao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.IdTabBairro" class="control-label">Bairro</label>
+
+                <label asp-for="OrdensServicos.IdTabBairro">Bairro</label>
                 <select asp-for="OrdensServicos.IdTabBairro" class="form-control" asp-items="ViewBag.IdTabBairro"></select>
-                <span asp-validation-for="OrdensServicos.IdTabBairro" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.IdTabMunicipio" class="control-label">Municipio</label>
+
+                <label asp-for="OrdensServicos.IdTabMunicipio">Município</label>
                 <select asp-for="OrdensServicos.IdTabMunicipio" class="form-control" asp-items="ViewBag.IdTabMunicipio"></select>
-                <span asp-validation-for="OrdensServicos.IdTabMunicipio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.Informacoes" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.Informacoes"></label>
                 <input asp-for="OrdensServicos.Informacoes" class="form-control" />
-                <span asp-validation-for="OrdensServicos.Informacoes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.Referencia" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.Referencia"></label>
                 <input asp-for="OrdensServicos.Referencia" class="form-control" />
-                <span asp-validation-for="OrdensServicos.Referencia" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.Endereco" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.Endereco"></label>
                 <input asp-for="OrdensServicos.Endereco" class="form-control" />
-                <span asp-validation-for="OrdensServicos.Endereco" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.NumeroCasa" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.NumeroCasa"></label>
                 <input asp-for="OrdensServicos.NumeroCasa" class="form-control" />
-                <span asp-validation-for="OrdensServicos.NumeroCasa" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.Complemento" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.Complemento"></label>
                 <input asp-for="OrdensServicos.Complemento" class="form-control" />
-                <span asp-validation-for="OrdensServicos.Complemento" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.NomeSolicitante" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.NomeSolicitante"></label>
                 <input asp-for="OrdensServicos.NomeSolicitante" class="form-control" />
-                <span asp-validation-for="OrdensServicos.NomeSolicitante" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.TelSolicitante" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.TelSolicitante"></label>
                 <input asp-for="OrdensServicos.TelSolicitante" class="form-control" />
-                <span asp-validation-for="OrdensServicos.TelSolicitante" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.NomeCliente" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.NomeCliente"></label>
                 <input asp-for="OrdensServicos.NomeCliente" class="form-control" />
-                <span asp-validation-for="OrdensServicos.NomeCliente" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.CPF" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.CPF"></label>
                 <input asp-for="OrdensServicos.CPF" class="form-control" />
-                <span asp-validation-for="OrdensServicos.CPF" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.CNPJ" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.CNPJ"></label>
                 <input asp-for="OrdensServicos.CNPJ" class="form-control" />
-                <span asp-validation-for="OrdensServicos.CNPJ" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.TelCliente" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.TelCliente"></label>
                 <input asp-for="OrdensServicos.TelCliente" class="form-control" />
-                <span asp-validation-for="OrdensServicos.TelCliente" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.NumHD" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.NumHD"></label>
                 <input asp-for="OrdensServicos.NumHD" class="form-control" />
-                <span asp-validation-for="OrdensServicos.NumHD" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.UltimaLeitura" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.UltimaLeitura"></label>
                 <input asp-for="OrdensServicos.UltimaLeitura" class="form-control" />
-                <span asp-validation-for="OrdensServicos.UltimaLeitura" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.TipoPadrao" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.TipoPadrao"></label>
                 <input asp-for="OrdensServicos.TipoPadrao" class="form-control" />
-                <span asp-validation-for="OrdensServicos.TipoPadrao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.LocalizacaoPadrao" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.LocalizacaoPadrao"></label>
                 <input asp-for="OrdensServicos.LocalizacaoPadrao" class="form-control" />
-                <span asp-validation-for="OrdensServicos.LocalizacaoPadrao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.Ciclo" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.Ciclo"></label>
                 <input asp-for="OrdensServicos.Ciclo" class="form-control" />
-                <span asp-validation-for="OrdensServicos.Ciclo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.Classificacao" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.Classificacao"></label>
                 <input asp-for="OrdensServicos.Classificacao" class="form-control" />
-                <span asp-validation-for="OrdensServicos.Classificacao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.DataRegistro" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.DataRegistro"></label>
                 <input asp-for="OrdensServicos.DataRegistro" class="form-control" />
-                <span asp-validation-for="OrdensServicos.DataRegistro" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.DataRecepcao" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.DataRecepcao"></label>
                 <input asp-for="OrdensServicos.DataRecepcao" class="form-control" />
-                <span asp-validation-for="OrdensServicos.DataRecepcao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.DataLimite" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.DataLimite"></label>
                 <input asp-for="OrdensServicos.DataLimite" class="form-control" />
-                <span asp-validation-for="OrdensServicos.DataLimite" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.DataImportacao" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.DataImportacao"></label>
                 <input asp-for="OrdensServicos.DataImportacao" class="form-control" />
-                <span asp-validation-for="OrdensServicos.DataImportacao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.Status" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.Status"></label>
                 <input asp-for="OrdensServicos.Status" class="form-control" />
-                <span asp-validation-for="OrdensServicos.Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrdensServicos.DataBaixa" class="control-label"></label>
+
+                <label asp-for="OrdensServicos.DataBaixa"></label>
                 <input asp-for="OrdensServicos.DataBaixa" class="form-control" />
-                <span asp-validation-for="OrdensServicos.DataBaixa" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-page="./Index">Back to List</a>
-</div>
+                <input type="submit" value="Salvar" class="btn-primary" />
+            </form>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+            <a asp-page="./Index" class="back-link">Voltar à Lista</a>
+
+        </div>
+
+    </main>
+</body>
+</html>
