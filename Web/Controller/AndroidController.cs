@@ -13,11 +13,11 @@ namespace Web.Controller
             _context = context;
         }
 
-        [HttpGet("usuarioById {id}")]
-        public IActionResult GetById(string id)
+        [HttpGet("usuarioById {matricula}")]
+        public IActionResult GetById(string matricula)
         {
             var usuario = _context.TabUsuarios
-                .Where(x => x.Matricula == id);
+                .Where(x => x.Matricula == matricula);
             if (usuario == null)
             {
                 return NotFound();
@@ -25,7 +25,7 @@ namespace Web.Controller
             return Ok(usuario);
         }
 
-        [HttpGet("roteirosByMatriculaAgente {id}")]
+        [HttpGet("roteirosByMatriculaAgente {idAgente}")]
         public IActionResult GetRoteiroById(int idAgente)
         {
             var roteiros = _context.Roteiros
@@ -39,7 +39,7 @@ namespace Web.Controller
             return Ok(roteiros);
         }
 
-        [HttpGet("roteiroDetalheById {id}")]
+        [HttpGet("roteiroDetalheById {idRoteiro}")]
         public IActionResult GetRoteiroDetalheById(int idRoteiro)
         {
             var roteiroDetalhes = _context.RoteiroDetalhes
