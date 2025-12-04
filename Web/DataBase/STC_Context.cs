@@ -17,6 +17,8 @@ public partial class STC_Context : DbContext
 
     public virtual DbSet<OrdensServicos> OrdensServicos { get; set; }
 
+    public virtual DbSet<OrdensServicosRej> OrdensServicosRej { get; set; }
+
     public virtual DbSet<RoteiroDetalhes> RoteiroDetalhes { get; set; }
 
     public virtual DbSet<Roteiros> Roteiros { get; set; }
@@ -128,6 +130,21 @@ public partial class STC_Context : DbContext
             entity.HasOne(d => d.IdTabServicoNavigation).WithMany(p => p.OrdensServicos)
                 .HasForeignKey(d => d.IdTabServico)
                 .HasConstraintName("FK_OrdensServicos_TabServicos");
+        });
+
+        modelBuilder.Entity<OrdensServicosRej>(entity =>
+        {
+            entity.HasKey(e => e.IdOrdemServicoRej);
+
+            entity.Property(e => e.IdOrdemServicoRej).ValueGeneratedNever();
+            entity.Property(e => e.Motivo)
+                .HasMaxLength(150)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.IdOrdemServicoNavigation).WithMany(p => p.OrdensServicosRej)
+                .HasForeignKey(d => d.IdOrdemServico)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_OrdensServicosRej_OrdensServicos");
         });
 
         modelBuilder.Entity<RoteiroDetalhes>(entity =>
