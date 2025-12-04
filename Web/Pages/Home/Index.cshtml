@@ -150,6 +150,78 @@
                     }
                 </tbody>
             </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Serviço
+                    </th>
+
+                    <th>
+                        Id OS
+                    </th>
+
+                    <th>
+                        Bairro
+                    </th>
+
+                    <th>
+                        Endereço
+                    </th>
+
+                    <th>
+                        Motivo
+                    </th>
+
+                    <th>
+                        Agente
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model.OrdensServicosRejs)
+                    {
+                        <tr>
+                            <td>
+                                @(item.IdRoteiroDetalhesNavigation
+                                                        .IdOrdemServicoNavigation
+                                                        .IdTabServicoNavigation
+                                                        .Descricao)
+                                                               </td>
+
+                            <td>
+                                @(item.IdRoteiroDetalhesNavigation?
+                                                        .IdOrdemServico)
+                                                                    </td>
+
+                            <td>
+                                @(item.IdRoteiroDetalhesNavigation
+                                                        .IdOrdemServicoNavigation
+                                                        .IdTabBairroNavigation
+                                                        .Descricao)
+                                                               </td>
+
+                            <td>
+                                @(item.IdRoteiroDetalhesNavigation
+                                                        .IdOrdemServicoNavigation
+                                                        .Endereco)
+                                                              </td>
+
+                            <td>
+                                @item.Motivo
+                            </td>
+
+                            <td>
+                                @(item.IdRoteiroDetalhesNavigation
+                                                        .IdRoteiroNavigation
+                                                        .IdTabAgenteNavigation
+                                                        .Nome)
+                    </td>
+                </tr>
+                                }
+                </tbody>
+            </table>
         </main>
     </body>
     </html>

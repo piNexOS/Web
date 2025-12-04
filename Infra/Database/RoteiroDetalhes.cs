@@ -28,4 +28,6 @@ public partial class RoteiroDetalhes
     public virtual OrdensServicos? IdOrdemServicoNavigation { get; set; }
 
     public virtual Roteiros? IdRoteiroNavigation { get; set; }
+
+    public virtual ICollection<OrdensServicosRej> OrdensServicosRej { get; set; } = new List<OrdensServicosRej>();
 }

@@ -37,7 +37,7 @@ public partial class STC_Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=vixmobile.com.br;Initial Catalog=Darwin_STC_2025;Integrated Security=false;User ID=sa;Password=@And#Siller;Persist Security Info=True;Encrypt=True;TrustServerCertificate=yes");
+        => optionsBuilder.UseSqlServer("Server=192.168.0.2;Initial Catalog=Darwin_STC_2025;Integrated Security=false;User ID=sa;Password=@And#Siller;Persist Security Info=True;Encrypt=True;TrustServerCertificate=yes");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -136,15 +136,14 @@ public partial class STC_Context : DbContext
         {
             entity.HasKey(e => e.IdOrdemServicoRej);
 
-            entity.Property(e => e.IdOrdemServicoRej).ValueGeneratedNever();
             entity.Property(e => e.Motivo)
                 .HasMaxLength(150)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.IdOrdemServicoNavigation).WithMany(p => p.OrdensServicosRej)
-                .HasForeignKey(d => d.IdOrdemServico)
+            entity.HasOne(d => d.IdRoteiroDetalhesNavigation).WithMany(p => p.OrdensServicosRej)
+                .HasForeignKey(d => d.IdRoteiroDetalhes)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_OrdensServicosRej_OrdensServicos");
+                .HasConstraintName("FK_OrdensServicosRej_RoteiroDetalhes");
         });
 
         modelBuilder.Entity<RoteiroDetalhes>(entity =>

@@ -1,0 +1,268 @@
+﻿@page
+@model Web.Pages.Admin.ProgServicosModel
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programação de Serviços - NexOS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+
+        :root {
+            --cor-fundo: #373F46;
+            --cor-header: #272C2F;
+            --cor-nexos: #26a5ee;
+            --cor-nexosdark: rgb(17, 136, 206);
+            --cor-texto: #fff;
+            --cor-card: #2E343A;
+            --cor-card-dark: #23282E;
+        }
+
+        main {
+            background: linear-gradient(15deg, rgba(41,41,41,1) -100%, rgba(58,66,72,1) 70%);
+            font-family: "Poppins", sans-serif;
+            color: var(--cor-texto);
+            margin: 0;
+            padding: 1.5rem;
+            min-height: 100vh;
+            display: flex;
+            flex-flow: column nowrap;
+            align-items: center;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.4rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            text-shadow: 0 0 6px rgba(38,165,238,0.35);
+        }
+
+        .filtro-card {
+            width: 95%;
+            max-width: 1100px;
+            background: rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            border-radius: 14px;
+            box-shadow: 0 0 18px rgba(0,0,0,0.35);
+            backdrop-filter: blur(4px);
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .form-control {
+            background: var(--cor-card-dark);
+            border: 1px solid rgba(255,255,255,0.18);
+            color: var(--cor-texto);
+            border-radius: 10px;
+            padding: 0.6rem;
+        }
+
+        .btn-nexos {
+            background: var(--cor-nexosdark);
+            border: none;
+            padding: 0.8rem 1.4rem;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: .2s;
+            width: 100%;
+        }
+
+            .btn-nexos:hover {
+                background: var(--cor-nexos);
+            }
+
+
+        #divPartialView {
+            width: 95%;
+            max-width: 1100px;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.25);
+            display: none; 
+        }
+
+            #divPartialView table,
+            #divPartialView table th,
+            #divPartialView table td,
+            #divPartialView table td a,
+            #divPartialView table th a {
+                color: #ffffff !important;
+            }
+
+                #divPartialView table th {
+                    background: #1e2327;
+                    font-weight: 600;
+                    padding: 10px;
+                    border-bottom: 2px solid rgba(255,255,255,0.2);
+                }
+
+                #divPartialView table td {
+                    padding: 10px;
+                    border-bottom: 1px solid rgba(255,255,255,0.12);
+                }
+
+                #divPartialView table tr:nth-child(even) td {
+                    background: rgba(255,255,255,0.04);
+                }
+
+                #divPartialView table tr:hover td {
+                    background: rgba(255,255,255,0.10);
+                    transition: .2s;
+                }
+
+    </style>
+
+    <script type="text/javascript">
+
+        function atualizarBairros() {
+
+            var idMunicipio = $("#ddlMunicipios").val();
+            $("#ddlBairros").empty();
+
+            $.getJSON(`?handler=ListBairros&id=${idMunicipio}`, (data) => {
+                $("#ddlBairros").append(`<option value="">Selecione</option>`);
+                $.each(data, function (i, item) {
+                    $("#ddlBairros").append(`<option value="${item.value}">${item.text}</option>`);
+                });
+            });
+
+        }
+
+        function atualizaPartialView() {
+
+            var idMunicipio = $("#ddlMunicipios").val();
+            var idBairro = $("#ddlBairros").val();
+            var idServico = $("#ddlServicos").val();
+            var numCiclo = $("#txtCiclo").val();
+            var dataVenc = $("#txtDataVencimento").val();
+
+            $('#divPartialView')
+                .load(`?handler=PartialView&idMunicipio=${idMunicipio}&idBairro=${idBairro}&idServico=${idServico}&numCiclo=${numCiclo}&dataVencimento=${dataVenc}`,
+                function () {
+                    $("#divPartialView").fadeIn(200);
+                });
+        };
+
+        function programar() {
+            var list = '';
+
+            $("#tabSelecao input[type=checkbox]:checked").each(function () {
+                var row = $(this).closest("tr")[0];
+                if (parseInt(row.cells[0].innerText) != 0) {
+                    list += parseInt(row.cells[0].innerText) + ',';
+                }
+            });
+
+            var data = $("#txtDataRoteiro").val();
+            var idAgente = $("#ddlAgentes").val();
+
+            $.getJSON(`?handler=Programar&dataRoteiro=${data}&idAgente=${idAgente}&idLista=${list}`, () => {
+                $("#btnFiltrar").click();
+            });
+
+            atualizaPartialView();
+        }
+
+    </script>
+
+</head>
+
+<body>
+
+    <main>
+
+        <h1>Programação de Serviços</h1>
+
+        <div class="filtro-card">
+
+            <form>
+
+                <div class="row mb-3">
+
+                    <div class="col-12 col-md-2">
+                        <label class="form-label">Município</label>
+                        @Html.DropDownListFor(x => Model.MunicipioSelected, Model.ListMunicipios, "",
+                        new { @class = "form-control", id = "ddlMunicipios", onchange = "atualizarBairros()" })
+                    </div>
+
+                    <div class="col-12 col-md-3">
+                        <label class="form-label">Bairro</label>
+                        @Html.DropDownListFor(x => Model.BairroSelected, Model.ListBairros, "",
+                                                new { @class = "form-control", id = "ddlBairros" })
+                    </div>
+
+                    <div class="col-12 col-md-3">
+                        <label class="form-label">Serviço</label>
+                        @Html.DropDownListFor(x => Model.ServicoSelected, Model.ListServicos, "",
+                                                new { @class = "form-control", id = "ddlServicos" })
+                    </div>
+
+                    <div class="col-6 col-md-2">
+                        <label class="form-label">Data Venc.</label>
+                        <input id="txtDataVencimento" class="form-control" type="date" />
+                    </div>
+
+                    <div class="col-6 col-md-1">
+                        <label class="form-label">Ciclo</label>
+                        <input id="txtCiclo" class="form-control" type="text" maxlength="2" />
+                    </div>
+
+                    <div class="col-12 col-md-1 align-self-end mt-3 mt-md-0">
+                        <button type="button" id="btnFiltrar" class="btn-nexos"
+                                onclick="atualizaPartialView()">
+                            Filtrar
+                        </button>
+                    </div>
+
+                </div>
+
+                <hr />
+
+                <div class="row mb-3">
+
+                    <div class="col-6 col-md-2">
+                        <label class="form-label">Data Roteiro</label>
+                        <input id="txtDataRoteiro" class="form-control" type="date" />
+                    </div>
+
+                    <div class="col-6 col-md-3">
+                        <label class="form-label">Agente</label>
+                        @Html.DropDownListFor(x => Model.AgenteSelected, Model.ListAgentes, "",
+                                                new { @class = "form-control", id = "ddlAgentes" })
+                    </div>
+
+                    <div class="col-12 col-md-2 align-self-end mt-3 mt-md-0">
+                        <button type="button" class="btn-nexos" onclick="programar()">Programar</button>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+        <div id="divPartialView"></div>
+
+    </main>
+
+</body>
+</html>
