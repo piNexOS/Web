@@ -20,7 +20,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LoginPath = "/Login/Index";
         options.AccessDeniedPath = "/AccessDenied";
         options.ExpireTimeSpan = TimeSpan.FromDays(1);
-        options.SlidingExpiration = false; // <- IMPORTANTE para logout imediato
+        options.SlidingExpiration = false;
     });
 
 builder.Services.AddAuthorization();
@@ -35,7 +35,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseStaticFiles();
-
+app.UseHostFiltering();
 app.UseRouting();
 
 app.UseCookiePolicy(new CookiePolicyOptions
